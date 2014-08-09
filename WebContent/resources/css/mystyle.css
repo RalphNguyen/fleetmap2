@@ -1,0 +1,87 @@
+body {
+    background-color: #F8F8F8;
+}
+ 
+/** Set the backgrounds for the different sections **/
+.header-area {
+    background-color: #2d465c;
+    min-height: 60px;
+}
+ 
+.navigation-area {
+	background-color: none;
+	background-repeat: repeat-x;
+}
+ 
+.content-area {
+    padding: 50px 0 70px 0;
+}
+ 
+.footer-area {
+    background-color: #484848;  
+    color: #fff;
+    min-height: 80px;
+    padding: 20px 0 0 0;
+}
+ 
+.full-width {
+    min-width:100%;
+    position: relative;
+}
+ 
+h2 {
+    color: #fff;
+    font-weight: normal;
+    margin-top: 50px;
+}
+
+/** Changes background color, height and margin of the border **/
+.top-bar {
+    background: none;
+    height: 58px;
+    line-height: 58px;
+    margin-bottom: 0;
+}
+/** Changes background color of in-active top-bar section **/
+.top-bar-section li a:not(.button) {
+    background: #F8F8F8 !important; 
+    color:   #484848;
+    line-height: 58px;
+}
+
+.top-bar-section ul {
+    text-transform: uppercase;
+}
+/** Changes background color of in-active top-bar section hover **/
+.top-bar-section li a:not(.button):hover {
+    background: #2d465c !important; 
+}
+
+.top-bar-section ul li.active > a {
+    background: red !important;   
+}
+
+.top-bar-section ul li.active > a:hover {
+    background: #2d465c !important;   
+}
+
+/** This fixes the position and the color of the dropdown arrow **/
+.top-bar-section .has-dropdown > a:after {
+    border-color: rgba(0, 0, 0, 1) transparent transparent;
+    margin-top: 2.5px;
+}
+
+/** IMPORTANT fill for the ul dropdown container **/
+.top-bar-section ul.dropdown {
+    background: green !important;
+    color:   #484848;
+}
+
+/** Changes the hover state of dropdown menu items **/
+
+.top-bar-section ul.dropdown li a:hover:not(.button) {
+    background: #2d465c !important;
+
+}
+ 
+

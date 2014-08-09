@@ -6,12 +6,18 @@
 <title>FleetMap Support Tool</title>
 <link type="text/css" rel="stylesheet"
 	href="<c:url value="/resources/css/jquery-ui.css" />" />
+<link type="text/css" rel="stylesheet"
+	href="<c:url value="/resources/css/foundation.css" />" />
 <script type="text/javascript"
 	src="<c:url value="/resources/js/jquery.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/js/jquery-ui.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/js/jquery-ui.min.js" />"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/js/vendor/modernizr.js" />"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/js/foundation.min.js" />"></script>
 <script>
 	$(function() {
 		$('#datepicker').datepicker({
@@ -24,6 +30,19 @@
 </script>
 </head>
 <body>
+	<nav class="row">
+		<div class="large-12 columns">
+			<h2>Fleetmap Management support tool</h2>
+			<ul class="button-group radius even-4">
+				<li><a class="button" href="index.html">Home</a></li>
+				<li><a class="button" href="UCMGenerator.html">UCM Generator</a></li>
+				<li><a class="button" href="UCMUpdate.html">UCM Update</a></li>
+				<li><a class="button" href="UCMExport">UCM Export</a></li>
+				<li><a class="button" href="#">DB Management</a></li>
+				<li><a class="button" href="#">Account Management</a></li>
+			</ul>
+		</div>
+	</nav>
 	<h2>UCM Export</h2>
 	<h3>${search_not_found}</h3>
 	<form:form method="post" action="searchUCMExport.html"

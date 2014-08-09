@@ -1,1 +1,1 @@
-<jsp:forward page="UCMExport.html"></jsp:forward>
+<jsp:forward page="home.html"></jsp:forward>
