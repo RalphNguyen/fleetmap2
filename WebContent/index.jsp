@@ -1,1 +1,1 @@
-<jsp:forward page="home.html"></jsp:forward>
+<jsp:forward page="UCMGeneratorList.html"></jsp:forward>

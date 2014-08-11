@@ -8,8 +8,15 @@ import motorolasolutions.com.DataObject.Remedy;
 import motorolasolutions.com.DataObject.UCMConfiguration;
 import motorolasolutions.com.DataObject.Zone;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,15 +26,29 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @SessionAttributes("UCMConfiguration")
 public class UCMGeneratorController {
 
+	@Autowired
+	@Qualifier("UCMInputValidator")
+	private Validator validator;
+
+	@InitBinder
+	private void initBinder(WebDataBinder binder) {
+		binder.setValidator(validator);
+	}
+
 	@RequestMapping(value = "/generateUCM", method = RequestMethod.POST)
 	public String generateUCM(
-			@ModelAttribute("UCMConfiguration") UCMConfiguration ucm_conf,
-			Model model) {
+			@ModelAttribute("UCMConfiguration") @Validated UCMConfiguration ucm_conf,
+			BindingResult bindingResult, Model model) {
+		
+        if (bindingResult.hasErrors()) {
+            return "UCMGenerator";
+        }
+        
 		String check_alias_message;
 		String check_serial_message;
 		// check radio serial duplicate
 		ucm_conf.setSerialNoAndDate();
-		
+
 		if (ucm_conf.checkRadioSerialDuplicate() == 0) {
 			check_serial_message = "validated";
 		} else {
@@ -42,7 +63,8 @@ public class UCMGeneratorController {
 		}
 		model.addAttribute("check_alias_message", check_alias_message);
 
-		// if there is no duplicate with radio alias & serial number, allocate radio ID and return result
+		// if there is no duplicate with radio alias & serial number, allocate
+		// radio ID and return result
 		if (check_serial_message.equals("validated")
 				&& check_alias_message.equals("validated")) {
 			System.out.println("no radio serial & alias duplicate");
@@ -66,15 +88,17 @@ public class UCMGeneratorController {
 
 			model.addAttribute("UCMConfiguration", ucm_conf);
 			return "UCMGeneratorResult";
-		} 
+		}
 		// if there is duplicate in radio serial number or alias, return it
 		else {
 			System.out.println("radio serial & alias duplicate");
-			if(ucm_conf.getRadio_modulation_type_id()==3){
-				ucm_conf.setRadio_serial_number(ucm_conf.getRadio_serial_number().substring(1, ucm_conf.getRadio_serial_number().length()));
+			if (ucm_conf.getRadio_modulation_type_id() == 3) {
+				ucm_conf.setRadio_serial_number(ucm_conf
+						.getRadio_serial_number().substring(1,
+								ucm_conf.getRadio_serial_number().length()));
 			}
 			return "UCMGenerator";
-		}		
+		}
 	}
 
 	@RequestMapping("/UCMGenerator")
@@ -83,7 +107,7 @@ public class UCMGeneratorController {
 		entityForm.getListEntityForm();
 		CoreAccessPointForm coreAccessPointForm = new CoreAccessPointForm();
 		coreAccessPointForm.getListCoreAccessPointForm();
-		
+
 		UCMConfiguration ucm_conf = new UCMConfiguration();
 		ucm_conf.setEntityForm(entityForm);
 		ucm_conf.setCoreAccessPointForm(coreAccessPointForm);

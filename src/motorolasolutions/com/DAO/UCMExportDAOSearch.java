@@ -33,6 +33,9 @@ public class UCMExportDAOSearch implements DBSearchDAO {
 		if (exportSearchInput.isSearchByIdIssuedDate()) {
 			query+="t1.id_issued_date>='"+startDate+"' AND t1.id_issued_date<='"+endDate+"' ";
 		}
+		else{
+			query+="t1.id_issued_date>='1900/01/01'";
+		}
 		if(exportSearchInput.isSearchByEntity()){
 			query+="AND t2.entity_name=\""+exportSearchInput.getEntity_name()+"\" ";
 		}

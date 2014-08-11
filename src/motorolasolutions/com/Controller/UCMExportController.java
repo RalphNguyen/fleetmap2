@@ -82,7 +82,7 @@ public class UCMExportController {
 		return "UCMExportHome";
 	}
 
-	@RequestMapping(value = "/sendUCMClient", method = RequestMethod.GET, params = { "approve" })
+	@RequestMapping(value = "/sendUCMClient", method = RequestMethod.POST, params = { "approve" })
 	public String sendUCMClientApprove(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws IOException {
 

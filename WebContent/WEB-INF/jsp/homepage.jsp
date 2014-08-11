@@ -15,7 +15,7 @@
 <link type="text/css" rel="stylesheet"
 	href="<c:url value="/resources/css/foundation.css" />" />
 <link type="text/css" rel="stylesheet"
-	href="<c:url value="/resources/css/mystyle.css" />" />
+	href="<c:url value="/resources/css/mystyle1.css" />" />
 <script type="text/javascript"
 	src="<c:url value="/resources/js/jquery.js" />"></script>
 <script type="text/javascript"
@@ -74,13 +74,40 @@
 	<!-- CONTENT AREA -->
 	<div class="full-width content-area">
 		<div class="row">
-			<div class="large-12 columns">
-				<p>Content should be put here</p>
+	
+			
+			<div class="row">
+				<div class="large-9 push-3 columns">
+
+					<h3>
+						Page Title <small>Page subtitle</small>
+					</h3>
+
+					<p>Put the content here</p>
+
+				</div>
+
+				<div class="large-3 pull-9 columns">
+					<ul class="side-nav">
+						<li><a href="#">Section 1</a></li>
+						<li><a href="#">Section 2</a></li>
+						<li><a href="#">Section 3</a></li>
+						<li><a href="#">Section 4</a></li>
+						<li><a href="#">Section 5</a></li>
+						<li><a href="#">Section 6</a></li>
+					</ul>
+					<p>
+						<img
+								style="height: auto; max-height: 60px; vertical-align: center;"
+								class="logo" src="<c:url value="/resources/img/motorola.png"/>">
+					</p>
+
+				</div>
+
 			</div>
 		</div>
+		
 	</div>
-
-
 	<!-- FOOTER AREA -->
 	<div class="full-width footer-area">
 		<div class="row">
