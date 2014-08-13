@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @SessionAttributes("UCMUpdate")
 public class UCMUpdateController {
 
+	// get UCM update page
 	@RequestMapping("/UCMUpdate")
-	public String ucmUpdate(Model model) {
+	public String getUcmUpdate(Model model) {
 		UCMConfiguration ucm_conf = new UCMConfiguration();
 		model.addAttribute("UCMUpdate", ucm_conf);
 		model.addAttribute("search_not_found",
@@ -27,7 +28,7 @@ public class UCMUpdateController {
 		return "UCMUpdate";
 	}
 
-	@RequestMapping(value = "/searchUCM", method = RequestMethod.POST)
+	@RequestMapping(value = "/UCMUpdate", method = RequestMethod.POST)
 	public String searchUCM(
 			@ModelAttribute("UCMUpdate") UCMConfiguration ucm_conf, Model model) {
 		ucm_conf = getUCMData(ucm_conf);
@@ -41,6 +42,7 @@ public class UCMUpdateController {
 			System.out.println("Search result: " + ucm_conf);
 			SecurityGroupForm securityGroupForm = new SecurityGroupForm();
 			securityGroupForm.getListSecurityGroupForm();
+			model.addAttribute("securityGroupForm", securityGroupForm);
 			model.addAttribute("search_not_found", "Input to update");
 			return "UCMSearchResult";
 		}
@@ -92,7 +94,7 @@ public class UCMUpdateController {
 
 	@RequestMapping(value = "/submitUpdatedUCM", method = RequestMethod.POST, params = { "deny" })
 	public String submitUCMDeny(Model model) {	
-		return ucmUpdate(model);
+		return getUcmUpdate(model);
 	}
 
 	private UCMConfiguration getUCMData(UCMConfiguration ucm_conf) {

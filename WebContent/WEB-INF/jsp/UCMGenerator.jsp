@@ -53,8 +53,7 @@
 						<!-- Left Nav Section -->
 						<ul class="left">
 							<li><a href="home.html">Home</a></li>
-							<li class="active"><a href="UCMGenerator/input.html">Generate
-									UCM</a></li>
+							<li class="active"><a href="UCMGenerator.html">Generate UCM</a></li>
 							<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
 							<li><a href="UCMUpdate.html">Update UCM</a></li>
 							<li><a href="UCMExport.html">Export</a></li>
@@ -129,8 +128,8 @@
 							<tr>
 								<td><form:label path="entity_name">Entity Name</form:label></td>
 								<td><form:select path="entity_name">
-									<form:options items="${entityForm.entities}" var="entity"
-										itemValue="entity_name" itemLabel="entity_name"></form:options>
+										<form:options items="${entityForm.entities}" var="entity"
+											itemValue="entity_name" itemLabel="entity_name"></form:options>
 									</form:select></td>
 							</tr>
 							<tr>

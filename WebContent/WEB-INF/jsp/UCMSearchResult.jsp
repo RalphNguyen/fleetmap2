@@ -51,9 +51,10 @@
 
 						<!-- Left Nav Section -->
 						<ul class="left">
-							<li class="active"><a href="home.html">Home</a></li>
+							<li><a href="home.html">Home</a></li>
 							<li><a href="UCMGenerator.html">Generate UCM</a></li>
-							<li><a href="UCMUpdate.html">Update UCM</a></li>
+							<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
+							<li class="active"><a href="UCMUpdate.html">Update UCM</a></li>
 							<li><a href="UCMExport.html">Export</a></li>
 							<li class="has-dropdown"><a href="#">Administration</a>
 								<ul class="dropdown">
@@ -107,7 +108,7 @@
 								<td><form:label path="security_group_id">Security Group</form:label></td>
 								<td><form:select path="security_group_id">
 										<form:options
-											items="${UCMUpdate.securityGroupForm.securityGroups}"
+											items="${securityGroupForm.securityGroups}"
 											var="securitygroup" itemValue="security_group_id"
 											itemLabel="security_group"></form:options>
 									</form:select></td>

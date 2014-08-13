@@ -1,7 +1,6 @@
 package motorolasolutions.com.Controller;
 
 import java.io.File;
-
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import motorolasolutions.com.BusinessLogic.UCMExportLogic;
 import motorolasolutions.com.DataObject.EntityForm;
 import motorolasolutions.com.DataObject.ExportData;
-import motorolasolutions.com.DataObject.UCMExport;
 import motorolasolutions.com.DataObject.UCMExportForm;
 
 import org.springframework.stereotype.Controller;
@@ -23,14 +21,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @Controller
 @SessionAttributes("UCMExport")
 public class UCMExportController {
-
-	private UCMExportForm ucmExportForm1;
-	/**
-	 * Size of a byte buffer to read/write file
-	 */
 	
+	// get UCMExport Home
 	@RequestMapping("/UCMExport")
-	public String ucmExport(Model model) {
+	public String getUCMExport(Model model) {
 		EntityForm entityForm = new EntityForm();
 		entityForm.getListEntityForm();
 
@@ -38,49 +32,45 @@ public class UCMExportController {
 		exportData.setEntityForm(entityForm);
 
 		model.addAttribute("UCMExport", exportData);
-		model.addAttribute("search_not_found",
+		model.addAttribute("message",
 				"Input any one of following fields to search for UCM to export");
-		return "UCMExportHome";
+		return "UCMExport";
 	}
 
-	@RequestMapping(value = "/searchUCMExport", method = RequestMethod.POST)
-	public String searchUCM(@ModelAttribute("UCMExport") ExportData exportData,
+	// get input object, search for a list of UCM
+	@RequestMapping(value = "/UCMExport", method = RequestMethod.POST)
+	public String searchUCMExport(@ModelAttribute("UCMExport") ExportData exportData,
 			Model model) {
 		System.out.println(exportData.getExportSearchInput());
 		UCMExportForm ucmExportForm = new UCMExportForm();
-		// exportData.getUcmExportForm().getListUCMExportForm(exportData.getExportSearchInput());
 		ucmExportForm.getListUCMExportForm(exportData.getExportSearchInput());
+		
+		// if there is no return result
 		if (ucmExportForm.getUcmExports().isEmpty()) {
-			model.addAttribute("search_not_found",
+			model.addAttribute("message",
 					"No UCM found, please check your inputs");
-			return "UCMExportHome";
+			return "UCMExport";
 		} else {
-			for (UCMExport ucmExport : ucmExportForm.getUcmExports()) {
-				System.out.println(ucmExport);
-			}
-			this.ucmExportForm1 = ucmExportForm;
-			// model.addAttribute("UCMExport", exportSearchInput);
+			//this.ucmExportForm1 = ucmExportForm;
 			exportData.setUcmExportForm(ucmExportForm);
 			model.addAttribute("UCMExport", exportData);
-
 			return "UCMExportSearchResult";
 		}
 	}
 
-	/**
-	 * Method for handling file download request from client
-	 */
-	@RequestMapping(value = "/sendUCMClient", method = RequestMethod.POST, params = { "deny" })
-	public String sendUCMClientDeny(
+	//if the user choose back to UCM export
+	@RequestMapping(value = "/UCMExportResult", method = RequestMethod.POST, params = { "deny" })
+	public String returnUCMExport(
 			@ModelAttribute("UCMExport") ExportData exportData, Model model) {
-		return "UCMExportHome";
+		return getUCMExport(model);
 	}
 
-	@RequestMapping(value = "/sendUCMClient", method = RequestMethod.POST, params = { "approve" })
-	public void sendUCMClientApprove(HttpServletRequest request,
-			HttpServletResponse response, Model model) throws IOException {
+	// if the user choose to export the search result
+	@RequestMapping(value = "/UCMExportResult", method = RequestMethod.POST, params = { "approve" })
+	public void sendUCMExport(HttpServletRequest request,
+			HttpServletResponse response, @ModelAttribute("UCMExport") ExportData exportData, Model model) throws IOException {
 
-		File downloadFile = UCMExportLogic.ucmListFileWriter("ucmList", ucmExportForm1);
+		File downloadFile = UCMExportLogic.ucmListFileWriter("ucmList", exportData.getUcmExportForm());
 		UCMExportLogic.generateResponseFile(request, response, downloadFile);
 	}
 

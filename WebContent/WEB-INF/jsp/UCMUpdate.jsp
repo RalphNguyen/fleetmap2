@@ -51,10 +51,10 @@
 
 						<!-- Left Nav Section -->
 						<ul class="left">
-							<li class="active"><a href="home.html">Home</a></li>
+							<li><a href="home.html">Home</a></li>
 							<li><a href="UCMGenerator.html">Generate UCM</a></li>
 							<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
-							<li><a href="UCMUpdate.html">Update UCM</a></li>
+							<li class="active"><a href="UCMUpdate.html">Update UCM</a></li>
 							<li><a href="UCMExport.html">Export</a></li>
 							<li class="has-dropdown"><a href="#">Administration</a>
 								<ul class="dropdown">
@@ -78,7 +78,7 @@
 
 					<h3>UCM Update</h3>
 					<p>${search_not_found}</p>
-					<form:form method="post" action="searchUCM.html"
+					<form:form method="post" action="UCMUpdate.html"
 						modelAttribute="UCMUpdate">
 						<table>
 							<tr>
