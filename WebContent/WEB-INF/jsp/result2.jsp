@@ -7,7 +7,7 @@
 </head>
 <body>
 	<h2>UCM generation result</h2>
-	<form:form method="post" action="save.html"
+	<form:form method="post" action="submitUCMConfigurationList.html"
 		modelAttribute="UCMConfigurationForm">
 		<table>
 			<tr>
@@ -49,6 +49,9 @@
 						</form:select></td>
 				</tr>
 			</c:forEach>
+			<tr>
+				<td colspan="2"><input type="submit" value="Search UCM" /></td>
+			</tr>
 		</table>
 	</form:form>
 </body>

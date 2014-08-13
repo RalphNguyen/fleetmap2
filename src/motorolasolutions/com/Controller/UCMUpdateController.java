@@ -41,7 +41,6 @@ public class UCMUpdateController {
 			System.out.println("Search result: " + ucm_conf);
 			SecurityGroupForm securityGroupForm = new SecurityGroupForm();
 			securityGroupForm.getListSecurityGroupForm();
-			ucm_conf.setSecurityGroupForm(securityGroupForm);
 			model.addAttribute("search_not_found", "Input to update");
 			return "UCMSearchResult";
 		}

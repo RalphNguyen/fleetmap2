@@ -65,6 +65,7 @@
 						<ul class="left">
 							<li class="active"><a href="home.html">Home</a></li>
 							<li><a href="UCMGenerator.html">Generate UCM</a></li>
+							<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
 							<li><a href="UCMUpdate.html">Update UCM</a></li>
 							<li><a href="UCMExport.html">Export</a></li>
 							<li class="has-dropdown"><a href="#">Administration</a>

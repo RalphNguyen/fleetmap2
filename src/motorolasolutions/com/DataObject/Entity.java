@@ -14,11 +14,11 @@ import motorolasolutions.com.DAO.DBManipulationDAO;
  * @author djfp43
  */
 public class Entity {
-    int entity_id;
-    String entity_name;
-    String description;
-    int security_group_id;
-    int agency_id;
+    private int entity_id;
+    private String entity_name;
+    private String description;
+    private int security_group_id;
+    private int agency_id;
     
     public Entity(){
     }

@@ -64,9 +64,7 @@
 						</ul>
 						<!-- Right Nav Section -->
 						<ul class="right">
-
 						</ul>
-
 					</section>
 				</nav>
 			</div>
@@ -75,17 +73,63 @@
 	<!-- CONTENT AREA -->
 	<div class="full-width content-area">
 		<div class="row">
-	
-			
 			<div class="row">
 				<div class="large-9 push-3 columns">
+					<h3>UCM generation result</h3>
+					<form:form method="post" action="submitUCMConfigurationList.html"
+						modelAttribute="UCMConfigurationForm">
+						<table>
+							<tr>
+								<th>No.</th>
+								<th>Activation Status</th>
+								<th>Remedy ID</th>
+								<th>Radio Serial Number</th>
+								<th>Radio User Alias</th>
+								<th>Zone ID</th>
+								<th>Entity Name</th>
+							</tr>
 
-					<h3>
-						Page Title <small>Page subtitle</small>
-					</h3>
-
-					<p>Put the content here</p>
-
+							<c:forEach items="${UCMConfigurationForm.ucmConfigurations}"
+								var="ucmConfiguration" varStatus="status">
+								<tr>
+									<td align="center">${status.count}</td>
+									<td><form:select
+											path="ucmConfigurations[${status.index}].activation_status">
+											<form:option value="Registered and Activated"
+												selected="selected">Registered and Activated</form:option>
+											<form:option value="Registered and Deactivated">Registered and Deactivated</form:option>
+											<form:option value="Deregistered">Deregistered</form:option>
+										</form:select></td>
+									<td><form:input
+											path="ucmConfigurations[${status.index}].remedy_id" /></td>
+									<td><springForm:errors
+											path="ucmConfigurations[${status.index}].remedy_id"
+											cssClass="error" /></td>
+									<td><form:input
+											path="ucmConfigurations[${status.index}].radio_serial_number" /></td>
+									<td><springForm:errors
+											path="ucmConfigurations[${status.index}].radio_serial_number"
+											cssClass="error" /></td>
+									<td><form:input
+											path="ucmConfigurations[${status.index}].radio_user_alias" /></td>
+									<td><form:select
+											path="ucmConfigurations[${status.index}].zone_id">
+											<form:option value="1">Zone 1</form:option>
+											<form:option value="2">Zone 2</form:option>
+											<form:option value="3">Zone 3</form:option>
+										</form:select></td>
+									<td><form:select
+											path="ucmConfigurations[${status.index}].entity_name">
+											<form:options items="${entityList.entities}" var="entity"
+												itemValue="entity_name" itemLabel="entity_name"></form:options>
+										</form:select></td>
+								</tr>
+							</c:forEach>
+							<tr>
+								<td colspan="2"><input type="submit" value="Search UCM" /></td>
+							</tr>
+						</table>
+					</form:form>
 				</div>
 
 				<div class="large-3 pull-9 columns">
@@ -99,15 +143,12 @@
 					</ul>
 					<p>
 						<img
-								style="height: auto; max-height: 60px; vertical-align: center;"
-								class="logo" src="<c:url value="/resources/img/motorola.png"/>">
+							style="height: auto; max-height: 60px; vertical-align: center;"
+							class="logo" src="<c:url value="/resources/img/motorola.png"/>">
 					</p>
-
 				</div>
-
 			</div>
 		</div>
-		
 	</div>
 	<!-- FOOTER AREA -->
 	<div class="full-width footer-area">

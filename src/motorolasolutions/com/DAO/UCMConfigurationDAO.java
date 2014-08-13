@@ -71,7 +71,8 @@ public class UCMConfigurationDAO implements DBManipulationDAO{
         } finally{
             DbUtil.close(statement);
             DbUtil.close(connection);            
-        }       
+        }     
+        // return ucm_id
         return ucm_id;    
     }
 

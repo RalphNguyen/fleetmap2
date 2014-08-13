@@ -73,49 +73,47 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- CONTENT AREA -->
 	<div class="full-width content-area">
 		<div class="row">
 			<div class="row">
 				<div class="large-9 push-3 columns">
 					<h3>UCM generation result</h3>
-					<form:form method="post" action="saveUCM.html"
+					<form:form method="post" action="UCMGeneratorSubmission.html"
 						modelAttribute="UCMConfiguration">
 						<table>
 							<tr>
 								<td><form:label path="remedy_id">Remedy ID</form:label></td>
-								<td><form:input path="remedy_id" disabled="true" /></td>
+								<td><form:input path="remedy_id" readOnly="true"/></td>
 							</tr>
 							<tr>
 								<td><form:label path="id_issued_date">Issued Date</form:label></td>
-								<td><form:input path="id_issued_date" disabled="true" /></td>
+								<td><form:input path="id_issued_date" readOnly="true"/></td>
 							</tr>
 							<tr>
 								<td><form:label path="activation_status">Activation Status</form:label></td>
-								<td><form:input path="activation_status" disabled="true" /></td>
+								<td><form:input path="activation_status" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="radio_id">Radio ID</form:label></td>
-								<td><form:input path="radio_id" disabled="true" /></td>
+								<td><form:input path="radio_id" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="radio_serial_number">Radio Serial Number</form:label></td>
-								<td><form:input path="radio_serial_number" disabled="true" /></td>
-								<td>${check_serial_message}</td>
+								<td><form:input path="radio_serial_number" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="radio_user_alias">Radio User Alias</form:label></td>
-								<td><form:input path="radio_user_alias" disabled="true" /></td>
-								<td>${check_alias_message}</td>
+								<td><form:input path="radio_user_alias" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="zone_id">Zone ID</form:label></td>
-								<td><form:input path="zone_id" disabled="true" /></td>
+								<td><form:input path="zone_id" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="entity_name">Entity Name</form:label></td>
-								<td><form:input path="entity_name" disabled="true" /></td>
+								<td><form:input path="entity_name" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="voice_enabled">Voice Enabled</form:label></td>
@@ -145,17 +143,17 @@
 							</tr>
 							<tr>
 								<td><form:label path="radio_type">Radio Type</form:label></td>
-								<td><form:input path="radio_type" disabled="true" /></td>
+								<td><form:input path="radio_type" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="security_group_id">Security Group ID</form:label></td>
-								<td><form:input path="security_group_id" disabled="true" /></td>
+								<td><form:input path="security_group_id" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="primary_core_access_point_name_id">Primary AP</form:label></td>
 								<td><form:select path="primary_core_access_point_name_id">
 										<form:options
-											items="${UCMConfiguration.coreAccessPointForm.coreAccessPoints}"
+											items="${coreAccessPointForm.coreAccessPoints}"
 											var="coreaccesspoint" itemValue="core_access_point_id"
 											itemLabel="core_access_point_name"></form:options>
 									</form:select></td>
@@ -164,7 +162,7 @@
 								<td><form:label path="backup_core_access_point_name_id">Backup Core AP</form:label></td>
 								<td><form:select path="backup_core_access_point_name_id">
 										<form:options
-											items="${UCMConfiguration.coreAccessPointForm.coreAccessPoints}"
+											items="${coreAccessPointForm.coreAccessPoints}"
 											var="coreaccesspoint" itemValue="core_access_point_id"
 											itemLabel="core_access_point_name"></form:options>
 									</form:select></td>
@@ -189,9 +187,7 @@
 							style="height: auto; max-height: 60px; vertical-align: center;"
 							class="logo" src="<c:url value="/resources/img/motorola.png"/>">
 					</p>
-
 				</div>
-
 			</div>
 		</div>
 	</div>

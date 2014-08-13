@@ -13,7 +13,7 @@ import motorolasolutions.com.DataObject.UCMConfiguration;
  *
  * @author djfp43
  */
-public class UCMUpdate {
+public class UCMUpdateLogic {
     public static void start(){
         System.out.println("UCM update start..\n-----");
         // input data

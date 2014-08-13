@@ -1,7 +1,8 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="springForm"%>
+<%@ taglib uri="http://www.springframework.org/tags/form"
+	prefix="springForm"%>
 <!DOCTYPE html>
 <!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
 <html class="no-js" lang="en">
@@ -46,14 +47,15 @@
 								class="logo" src="<c:url value="/resources/img/motorola.png"/>"></a></li>
 						<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 					</ul>
-
 					<!-- The Section wrap -->
 					<section class="top-bar-section">
 
 						<!-- Left Nav Section -->
 						<ul class="left">
-							<li class="active"><a href="home.html">Home</a></li>
-							<li><a href="UCMGenerator.html">Generate UCM</a></li>
+							<li><a href="home.html">Home</a></li>
+							<li class="active"><a href="UCMGenerator/input.html">Generate
+									UCM</a></li>
+							<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
 							<li><a href="UCMUpdate.html">Update UCM</a></li>
 							<li><a href="UCMExport.html">Export</a></li>
 							<li class="has-dropdown"><a href="#">Administration</a>
@@ -64,24 +66,21 @@
 						</ul>
 						<!-- Right Nav Section -->
 						<ul class="right">
-
 						</ul>
-
 					</section>
 				</nav>
 			</div>
 		</div>
 	</div>
+
 	<!-- CONTENT AREA -->
 	<div class="full-width content-area">
 		<div class="row">
 			<div class="row">
 				<div class="large-9 push-3 columns">
-
-					<h3>
-						UCM Generator
-					</h3>
-					<form:form method="post" action="generateUCM.html"
+					<h3>UCM Generator</h3>
+					<p>Please input to generate a UCM Data</p>
+					<form:form method="post" action="UCMGenerator.html"
 						modelAttribute="UCMConfiguration">
 						<table>
 							<tr>
@@ -106,14 +105,14 @@
 							<tr>
 								<td><form:label path="radio_user_alias">Radio User Alias</form:label></td>
 								<td><form:input path="radio_user_alias" /></td>
-								<td><springForm:errors path="radio_user_alias" cssClass="error" /></td>
-								<td>${check_alias_message}</td>
+								<td><springForm:errors path="radio_user_alias"
+										cssClass="error" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="radio_serial_number">Radio Serial Number</form:label></td>
 								<td><form:input path="radio_serial_number" /></td>
-								<td><springForm:errors path="radio_serial_number" cssClass="error" /></td>
-								<td>${check_serial_message}</td>
+								<td><springForm:errors path="radio_serial_number"
+										cssClass="error" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="ucp">UCP</form:label></td>
@@ -130,8 +129,8 @@
 							<tr>
 								<td><form:label path="entity_name">Entity Name</form:label></td>
 								<td><form:select path="entity_name">
-										<form:options items="${UCMConfiguration.entityForm.entities}"
-											var="entity" itemValue="entity_name" itemLabel="entity_name"></form:options>
+									<form:options items="${entityForm.entities}" var="entity"
+										itemValue="entity_name" itemLabel="entity_name"></form:options>
 									</form:select></td>
 							</tr>
 							<tr>
@@ -177,8 +176,8 @@
 					</ul>
 					<p>
 						<img
-								style="height: auto; max-height: 60px; vertical-align: center;"
-								class="logo" src="<c:url value="/resources/img/motorola.png"/>">
+							style="height: auto; max-height: 60px; vertical-align: center;"
+							class="logo" src="<c:url value="/resources/img/motorola.png"/>">
 					</p>
 
 				</div>

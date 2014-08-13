@@ -76,97 +76,86 @@
 		<div class="row">
 			<div class="row">
 				<div class="large-9 push-3 columns">
-					<h3>UCM generation done!</h3>
-					<p>One UCM record was inserted to the database</p>
-					<form:form method="post" action="UCMGenerator.html"
+					<h3>${message}</h3>
+					<form:form method="post" action="UCMGeneratorExport.html"
 						modelAttribute="UCMConfiguration">
 						<table>
 							<tr>
 								<td><form:label path="remedy_id">Remedy ID</form:label></td>
-								<td><form:input path="remedy_id" disabled="true" /></td>
+								<td><form:input path="remedy_id" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="id_issued_date">Issued Date</form:label></td>
-								<td><form:input path="id_issued_date" disabled="true" /></td>
+								<td><form:input path="id_issued_date" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="activation_status">Activation Status</form:label></td>
-								<td><form:input path="activation_status" disabled="true" /></td>
+								<td><form:input path="activation_status" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="radio_id">Radio ID</form:label></td>
-								<td><form:input path="radio_id" disabled="true" /></td>
+								<td><form:input path="radio_id" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="radio_serial_number">Radio Serial Number</form:label></td>
-								<td><form:input path="radio_serial_number" disabled="true" /></td>
+								<td><form:input path="radio_serial_number" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="radio_user_alias">Radio User Alias</form:label></td>
-								<td><form:input path="radio_user_alias" disabled="true" /></td>
+								<td><form:input path="radio_user_alias" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="zone_id">Zone ID</form:label></td>
-								<td><form:input path="zone_id" disabled="true" /></td>
+								<td><form:input path="zone_id" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="entity_name">Entity Name</form:label></td>
-								<td><form:input path="entity_name" disabled="true" /></td>
+								<td><form:input path="entity_name" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="voice_enabled">Voice Enabled</form:label></td>
-								<td><form:select path="voice_enabled">
-										<form:option value="Yes" selected="selected">Yes</form:option>
-										<form:option value="No">No</form:option>
-									</form:select></td>
+								<td><form:input path="voice_enabled" readOnly="true"></form:input>
 							</tr>
 							<tr>
 								<td><form:label path="interconnect_enabled">Interconnect Enabled</form:label></td>
-								<td><form:select path="interconnect_enabled">
-										<form:option value="Yes">Yes</form:option>
-										<form:option value="No">No</form:option>
-									</form:select></td>
+								<td><form:input path="interconnect_enabled" readOnly="true"></form:input>
 							</tr>
 							<tr>
 								<td><form:label path="secure_comms_mode">Secure Comms Mode</form:label></td>
-								<td><form:input path="secure_comms_mode" /></td>
+								<td><form:input path="secure_comms_mode" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="ucp">UCP</form:label></td>
-								<td><form:input path="ucp" /></td>
+								<td><form:input path="ucp" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="soft_id">Soft ID</form:label></td>
-								<td><form:input path="soft_id" /></td>
+								<td><form:input path="soft_id" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="radio_type">Radio Type</form:label></td>
-								<td><form:input path="radio_type" disabled="true" /></td>
+								<td><form:input path="radio_type" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="security_group_id">Security Group ID</form:label></td>
-								<td><form:input path="security_group_id" disabled="true" /></td>
+								<td><form:input path="security_group_id" readOnly="true" /></td>
 							</tr>
 							<tr>
 								<td><form:label path="primary_core_access_point_name_id">Primary AP</form:label></td>
-								<td><form:select path="primary_core_access_point_name_id">
-										<form:options
-											items="${UCMConfiguration.coreAccessPointForm.coreAccessPoints}"
-											var="coreaccesspoint" itemValue="core_access_point_id"
-											itemLabel="core_access_point_name"></form:options>
-									</form:select></td>
+								<td><form:input path="primary_core_access_point_name_id"
+										readOnly="true"></form:input>
 							</tr>
 							<tr>
 								<td><form:label path="backup_core_access_point_name_id">Backup Core AP</form:label></td>
-								<td><form:select path="backup_core_access_point_name_id">
-										<form:options
-											items="${UCMConfiguration.coreAccessPointForm.coreAccessPoints}"
-											var="coreaccesspoint" itemValue="core_access_point_id"
-											itemLabel="core_access_point_name"></form:options>
-									</form:select></td>
+								<td><form:input path="backup_core_access_point_name_id"
+										readOnly="true"></form:input>
 							</tr>
 							<tr>
-								<td colspan="2"><input type="submit"
+								<td colspan="2"><input type="submit" name="ucm"
+									value="Export UCM" /></td>
+								<td colspan="2"><input type="submit" name="remedy"
+									value="Export Remedy" /></td>
+								<td><input type="submit" name="back"
 									value="Back to UCM Generator" /></td>
 							</tr>
 						</table>

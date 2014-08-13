@@ -12,7 +12,6 @@ import motorolasolutions.com.DAO.DBValidationDAO;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 /**
  *
@@ -60,9 +59,6 @@ public class UCMConfiguration implements UpdateData {
 	private int radio_user_interconnect_profile_id;
 	private int backup_core_access_point_name_id;
 	private int primary_core_access_point_name_id;
-	private EntityForm entityForm;
-	private CoreAccessPointForm coreAccessPointForm;
-	private SecurityGroupForm securityGroupForm;
 
 	// getter and setter methods
 	public String getEmergency_alarm_comments() {
@@ -204,30 +200,6 @@ public class UCMConfiguration implements UpdateData {
 	public void setPrimary_core_access_point_name_id(
 			int primary_core_access_point_name_id) {
 		this.primary_core_access_point_name_id = primary_core_access_point_name_id;
-	}
-
-	public EntityForm getEntityForm() {
-		return entityForm;
-	}
-
-	public void setEntityForm(EntityForm entityForm) {
-		this.entityForm = entityForm;
-	}
-
-	public CoreAccessPointForm getCoreAccessPointForm() {
-		return coreAccessPointForm;
-	}
-
-	public void setCoreAccessPointForm(CoreAccessPointForm coreAccessPointForm) {
-		this.coreAccessPointForm = coreAccessPointForm;
-	}
-
-	public SecurityGroupForm getSecurityGroupForm() {
-		return securityGroupForm;
-	}
-
-	public void setSecurityGroupForm(SecurityGroupForm securityGroupForm) {
-		this.securityGroupForm = securityGroupForm;
 	}
 
 	public String getSub_entity() {
@@ -584,6 +556,29 @@ public class UCMConfiguration implements UpdateData {
 				+ primary_core_access_point_name_id + ")";
 		return s;
 	}
+	
+	// print CSV to export
+	public String getCSV() {
+		// TODO Auto-generated method stub
+		String s;
+		s = ucm_id + "," + radio_user_data_type + "," + activation_status + ","
+				+ radio_id + "," + radio_serial_number + "," + radio_user_alias
+				+ "," + voice_enabled + "," + interconnect_enabled + ","
+				+ emergency_alarm_comments + "," + secure_comms_mode + ","
+				+ data_capabilities + "," + direct_dial_number + ","
+				+ secure_land_to_mobile_start_mode + ","
+				+ interconnect_secure_key_reference + ","
+				+ ip_address_assignment + "," + ip_address + ","
+				+ generate_icmp_message + "," + source_address_checking + ","
+				+ ready_timer + "," + data_agency_group + "," + notes + ","
+				+ id_issued_date + "," + date_modified + "," + ucp + ","
+				+ soft_id + "," + radio_type + "," + security_group_id + ","
+				+ radio_site_access_profile_id + "," + remedy_id + ","
+				+ radio_user_interconnect_profile_id + ","
+				+ backup_core_access_point_name_id + ","
+				+ primary_core_access_point_name_id;
+		return s;
+	}
 
 	// check Radio Serial Number Duplicate
 	public int checkRadioSerialDuplicate() {
@@ -606,8 +601,8 @@ public class UCMConfiguration implements UpdateData {
 		// System.out.println("test");
 		DAOFactory UCMDAOFactory = DAOFactory
 				.getDAOFactory(DAOFactory.UCMCONFIGURATION);
-		DBValidationDAO dbvalidationDAO = UCMDAOFactory.getDBValidationDAO();
-		return (dbvalidationDAO.checkDuplicate3(this));
+		DBValidationDAO dbValidationDAO = UCMDAOFactory.getDBValidationDAO();
+		return (dbValidationDAO.checkDuplicate3(this));
 	}
 
 	// get softID by checking serial number of that radio

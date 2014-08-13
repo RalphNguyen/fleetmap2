@@ -1,9 +1,7 @@
 package motorolasolutions.com.Controller;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +13,6 @@ import motorolasolutions.com.DataObject.Radio;
 import motorolasolutions.com.DataObject.Remedy;
 import motorolasolutions.com.DataObject.UCMConfiguration;
 import motorolasolutions.com.DataObject.UCMConfigurationForm;
-import motorolasolutions.com.DataObject.UCMExport;
 import motorolasolutions.com.DataObject.UCMGeneratorInput;
 import motorolasolutions.com.DataObject.UCMGeneratorInputForm;
 import motorolasolutions.com.DataObject.Zone;
@@ -24,14 +21,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -41,15 +39,15 @@ import au.com.bytecode.opencsv.bean.CsvToBean;
 @Controller
 public class UCMGeneratorListController {
 
-    @Autowired
-    @Qualifier("UCMInputValidator")
-    private Validator validator;
- 
-    @InitBinder
-    private void initBinder(WebDataBinder binder) {
-        binder.setValidator(validator);
-    }
-	
+	@Autowired
+	@Qualifier("UCMListInputValidator")
+	private Validator validator;
+
+	@InitBinder("UCMConfigurationForm")
+	private void initBinder(WebDataBinder binder) {
+		binder.setValidator(validator);
+	}
+
 	@RequestMapping(value = "/UCMGeneratorList", method = RequestMethod.GET)
 	public String getUploadPage(Model model) {
 		return "UCMGeneratorListHome";
@@ -102,55 +100,33 @@ public class UCMGeneratorListController {
 					System.out.println(ucm_conf.getRemedy_id());
 				}
 				// return "You successfully uploaded file=" + name;
-				return "result2";
+				return "UCMGeneratorListResult";
 			} catch (Exception e) {
 				return "You failed to upload " + name + " => " + e.getMessage();
 			}
 		} else {
-			return "You failed to upload " + name
-					+ " because the file was empty.";
+			model.addAttribute("message", "You failed to upload " + name
+					+ " because the file was empty.");
+			return "UCMGeneratorListHome";
+
 		}
 	}
 
-	/**
-	 * Upload multiple file using Spring Controller
-	 */
-	@RequestMapping(value = "/uploadMultipleFile", method = RequestMethod.POST)
-	public @ResponseBody String uploadMultipleFileHandler(
-			@RequestParam("name") String[] names,
-			@RequestParam("file") MultipartFile[] files) {
-
-		if (files.length != names.length)
-			return "Mandatory information missing";
-
-		String message = "";
-		for (int i = 0; i < files.length; i++) {
-			MultipartFile file = files[i];
-			String name = names[i];
-			try {
-				byte[] bytes = file.getBytes();
-
-				// Creating the directory to store file
-				String rootPath = System.getProperty("catalina.home");
-				File dir = new File(rootPath + File.separator + "tmpFiles");
-				if (!dir.exists())
-					dir.mkdirs();
-
-				// Create the file on server
-				File serverFile = new File(dir.getAbsolutePath()
-						+ File.separator + name);
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(serverFile));
-				stream.write(bytes);
-				stream.close();
-
-				message = message + "You successfully uploaded file=" + name
-						+ "<br />";
-			} catch (Exception e) {
-				return "You failed to upload " + name + " => " + e.getMessage();
-			}
+	@RequestMapping(value = "/submitUCMConfigurationList", method = RequestMethod.POST)
+	public String submitUCMConfigurationList(
+			@ModelAttribute("UCMConfigurationForm") @Validated UCMConfigurationForm ucmConfigurationForm,
+			BindingResult bindingResult, Model model) {
+		if (bindingResult.hasErrors()) {
+			EntityForm entityForm = new EntityForm();
+			entityForm.getListEntityForm();
+			model.addAttribute("entityList", entityForm);
+			model.addAttribute("UCMConfigurationForm", ucmConfigurationForm);
+			return "UCMGeneratorListResult";
 		}
-		return message;
+		else{
+			model.addAttribute("message","done!");
+			return "UCMGeneratorListHome";
+		}
 	}
 
 	// to convert Multipart File to File which is parsed to Java Bean later by
@@ -202,17 +178,19 @@ public class UCMGeneratorListController {
 			check_serial_message = "validated";
 		} else {
 			check_serial_message = "duplicate";
-			ucm_conf.setRadio_serial_number(ucm_conf.getRadio_serial_number()+"(duplicate)");
+			ucm_conf.setRadio_serial_number(ucm_conf.getRadio_serial_number()
+					+ "(duplicate)");
 		}
-		//model.addAttribute("check_serial_message", check_serial_message);
+		// model.addAttribute("check_serial_message", check_serial_message);
 		// check radio user alias duplicate
 		if (ucm_conf.checkRadioUserAliasDuplicate() == 0) {
 			check_alias_message = "validated";
 		} else {
 			check_alias_message = "duplicate";
-			ucm_conf.setRadio_user_alias(ucm_conf.getRadio_user_alias()+"(duplicated)");
+			ucm_conf.setRadio_user_alias(ucm_conf.getRadio_user_alias()
+					+ "(duplicated)");
 		}
-		//model.addAttribute("check_alias_message", check_alias_message);
+		// model.addAttribute("check_alias_message", check_alias_message);
 
 		// if there is no duplicate with radio alias & serial number, allocate
 		// radio ID and return result
@@ -238,8 +216,8 @@ public class UCMGeneratorListController {
 			System.out.println("-----\nUCM generator end.");
 			return ucm_conf;
 
-			//model.addAttribute("UCMConfiguration", ucm_conf);
-			//return "UCMGeneratorResult";
+			// model.addAttribute("UCMConfiguration", ucm_conf);
+			// return "UCMGeneratorResult";
 		}
 		// if there is duplicate in radio serial number or alias, return it
 		else {
@@ -250,9 +228,10 @@ public class UCMGeneratorListController {
 								ucm_conf.getRadio_serial_number().length()));
 			}
 			return ucm_conf;
-			//return "UCMGenerator";
+			// return "UCMGenerator";
 		}
 	}
+
 	private void insertRemedy(Remedy remedy) {
 		System.out.println("Remedy: " + remedy);
 		System.out.println("check duplicate remedy...");
@@ -265,32 +244,33 @@ public class UCMGeneratorListController {
 			remedy.insertToDatabase();
 		}
 	}
-	// check & insert new UCM
-		private UCMConfiguration getInsertUCMConfiguration(
-				UCMConfiguration ucm_conf, Entity entity, Zone zone) {
-			System.out.println(ucm_conf);
-			// remedy.insertToDatabase();
-			System.out.println("check duplicate radio serial number");
 
-			// get an available Radio ID from the database
-			// then create a Radio
-			int temp_radio_id = ucm_conf.checkRadioIDAvailability();
-			if (temp_radio_id == 0) {
-				System.out
-						.println("There is no available Radio ID, please check the database");
-			} else {
-				Radio radio = new Radio(temp_radio_id, "Yes",
-						ucm_conf.getRadio_modulation_type_id(),
-						ucm_conf.getZone_id());
-				System.out.println(radio);
-				// update used_flag of the radio to the database
-				radio.updateToDatabase();
-				// get softID
-				ucm_conf.setRadio_id(radio.getRadio_id());
-				ucm_conf.setSecurity_group_id(entity.getSecurity_group_id());
-				ucm_conf.generateFields();
-				System.out.println(ucm_conf);
-			}
-			return ucm_conf;
+	// check & insert new UCM
+	private UCMConfiguration getInsertUCMConfiguration(
+			UCMConfiguration ucm_conf, Entity entity, Zone zone) {
+		System.out.println(ucm_conf);
+		// remedy.insertToDatabase();
+		System.out.println("check duplicate radio serial number");
+
+		// get an available Radio ID from the database
+		// then create a Radio
+		int temp_radio_id = ucm_conf.checkRadioIDAvailability();
+		if (temp_radio_id == 0) {
+			System.out
+					.println("There is no available Radio ID, please check the database");
+		} else {
+			Radio radio = new Radio(temp_radio_id, "Yes",
+					ucm_conf.getRadio_modulation_type_id(),
+					ucm_conf.getZone_id());
+			System.out.println(radio);
+			// update used_flag of the radio to the database
+			radio.updateToDatabase();
+			// get softID
+			ucm_conf.setRadio_id(radio.getRadio_id());
+			ucm_conf.setSecurity_group_id(entity.getSecurity_group_id());
+			ucm_conf.generateFields();
+			System.out.println(ucm_conf);
 		}
+		return ucm_conf;
+	}
 }

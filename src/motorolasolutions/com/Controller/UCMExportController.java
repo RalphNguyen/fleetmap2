@@ -1,18 +1,13 @@
 package motorolasolutions.com.Controller;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import javax.servlet.ServletContext;
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import motorolasolutions.com.BusinessLogic.UCMExportLogic;
 import motorolasolutions.com.DataObject.EntityForm;
 import motorolasolutions.com.DataObject.ExportData;
 import motorolasolutions.com.DataObject.UCMExport;
@@ -33,8 +28,7 @@ public class UCMExportController {
 	/**
 	 * Size of a byte buffer to read/write file
 	 */
-	private static final int BUFFER_SIZE = 4096;
-
+	
 	@RequestMapping("/UCMExport")
 	public String ucmExport(Model model) {
 		EntityForm entityForm = new EntityForm();
@@ -83,108 +77,11 @@ public class UCMExportController {
 	}
 
 	@RequestMapping(value = "/sendUCMClient", method = RequestMethod.POST, params = { "approve" })
-	public String sendUCMClientApprove(HttpServletRequest request,
+	public void sendUCMClientApprove(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws IOException {
 
-		// get absolute path of the application
-		ServletContext context = request.getServletContext();
-		String appPath = context.getRealPath("");
-		System.out.println("appPath = " + appPath);
-
-		// construct the complete absolute path of the file
-
-		File downloadFile = ucmFileWriter("UCM", ucmExportForm1);
-		String fullPath = appPath + downloadFile.getAbsolutePath();
-		FileInputStream inputStream = new FileInputStream(downloadFile);
-
-		// get MIME type of the file
-		String mimeType = context.getMimeType(fullPath);
-		if (mimeType == null) {
-			// set to binary type if MIME mapping not found
-			mimeType = "application/octet-stream";
-		}
-		System.out.println("MIME type: " + mimeType);
-
-		// set content attributes for the response
-		response.setContentType(mimeType);
-		response.setContentLength((int) downloadFile.length());
-
-		// set headers for the response
-		String headerKey = "Content-Disposition";
-		String headerValue = String.format("attachment; filename=\"%s\"",
-				downloadFile.getName());
-		response.setHeader(headerKey, headerValue);
-
-		// get output stream of the response
-		OutputStream outStream = response.getOutputStream();
-
-		byte[] buffer = new byte[BUFFER_SIZE];
-		int bytesRead = -1;
-
-		// write bytes read from the input stream into the output stream
-		while ((bytesRead = inputStream.read(buffer)) != -1) {
-			outStream.write(buffer, 0, bytesRead);
-		}
-
-		inputStream.close();
-		outStream.close();
-		return "UCMExportHome";
+		File downloadFile = UCMExportLogic.ucmListFileWriter("ucmList", ucmExportForm1);
+		UCMExportLogic.generateResponseFile(request, response, downloadFile);
 	}
-
-	private File ucmFileWriter(String type, UCMExportForm ucmExportForm) {
-		SimpleDateFormat sdfDate = new SimpleDateFormat("yyyyMMdd.hhmmss");// dd/MM/yyyy
-		Date now = new Date();
-		String fileName = "UCM." + sdfDate.format(now) + ".csv";
-		File f = new File(fileName);
-		try {
-			// f.createNewFile();
-			// System.out.println("Hello");
-			// f.setWritable(true);
-			FileWriter fstream = new FileWriter(f);
-			BufferedWriter out = new BufferedWriter(fstream);
-			for (UCMExport ucmExport : ucmExportForm.getUcmExports()) {
-				out.write(ucmExport.getCSV());
-				out.newLine();
-			}
-			out.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return f;
-	}
-
-	/*
-	 * @RequestMapping("/UCMExport") public String ucmExport(Model model) {
-	 * ExportSearchInput exportSearchInput = new ExportSearchInput();
-	 * UCMExportForm ucmExportForm = new UCMExportForm();
-	 * 
-	 * EntityForm entityForm = new EntityForm(); entityForm.getListEntityForm();
-	 * 
-	 * model.addAttribute("UCMExport", ucmExportForm);
-	 * model.addAttribute("UCMExport", exportSearchInput);
-	 * model.addAttribute("search_not_found",
-	 * "Input any one of following fields to search for UCM to export"); return
-	 * "UCMExport"; }
-	 * 
-	 * 
-	 * @RequestMapping(value = "/searchUCMExport", method = RequestMethod.POST)
-	 * public String searchUCM(
-	 * 
-	 * @ModelAttribute("UCMExport") ExportSearchInput exportSearchInput,
-	 * UCMExportForm ucmExportForm, Model model) {
-	 * System.out.println("start date: " + exportSearchInput.getStartDate() +
-	 * ", end date: " + exportSearchInput.getEndDate()); // UCMExportForm
-	 * ucmExportForm = new UCMExportForm();
-	 * ucmExportForm.getListUCMExportForm(exportSearchInput);
-	 * if(ucmExportForm.getUcmExports().isEmpty()){
-	 * model.addAttribute("search_not_found",
-	 * "No UCM found, please check your inputs"); return "UCMExport"; } else{
-	 * for (UCMExport ucmExport : ucmExportForm.getUcmExports()) {
-	 * System.out.println("hahahaha: " + ucmExport.getUcm_id()); }
-	 * this.ucmExportForm1 = ucmExportForm; // model.addAttribute("UCMExport",
-	 * exportSearchInput); model.addAttribute("UCMExport", ucmExportForm);
-	 * 
-	 * return "UCMExport2"; } }
-	 */
 
 }
