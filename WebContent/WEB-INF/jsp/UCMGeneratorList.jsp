@@ -1,6 +1,8 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form"
+	prefix="springForm"%>
 <!DOCTYPE html>
 <!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
 <html class="no-js" lang="en">
@@ -24,7 +26,6 @@
 	src="<c:url value="/resources/js/jquery-ui.min.js" />"></script>
 </head>
 <body>
-<body>
 	<!-- HEADER AREA -->
 	<header class="full-width header-area">
 		<div class="row">
@@ -46,6 +47,7 @@
 								class="logo" src="<c:url value="/resources/img/motorola.png"/>"></a></li>
 						<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 					</ul>
+
 					<!-- The Section wrap -->
 					<section class="top-bar-section">
 
@@ -76,21 +78,88 @@
 		<div class="row">
 			<div class="row">
 				<div class="large-11 large-centered columns">
-					<form method="POST" action="UCMGeneratorList.html"
-						enctype="multipart/form-data">
+					<h3>List of radio to allocate IDs</h3>
+					<form:form method="post" action="generateUCMConfigurationList.html"
+						modelAttribute="UCMConfigurationForm">
 						<div class="row">
-							<div class="large-4 columns">
-								<label>File to upload: <input type="file" name="file">
-								</label>
+							<div class="large-1 columns">No.</div>
+							<div class="large-11 columns">
+								<div class="row">
+									<div class="large-2 columns">Activation Status</div>
+									<div class="large-2 columns">Remedy ID</div>
+									<div class="large-2 columns">Radio Serial Number</div>
+									<div class="large-2 columns">Radio User Alias</div>
+									<div class="large-2 columns">Zone ID</div>
+									<div class="large-2 columns">Entity Name</div>
+								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="large-4 columns end">
-								<input type="submit" value="Upload">
+							<div class="large-12 columns">
+								<c:forEach items="${UCMConfigurationForm.ucmConfigurations}"
+									var="ucmConfiguration" varStatus="status">
+									<div class="row">
+										<div class="large-1 columns">${status.count}</div>
+										<div class="large-11 columns">
+											<div class="row">
+												<div class="large-2 columns">
+													<form:select
+														path="ucmConfigurations[${status.index}].activation_status">
+														<form:option value="Registered and Activated"
+															selected="selected">Registered and Activated</form:option>
+														<form:option value="Registered and Deactivated">Registered and Deactivated</form:option>
+														<form:option value="Deregistered">Deregistered</form:option>
+													</form:select>
+												</div>
+												<div class="large-2 columns">
+													<form:input
+														path="ucmConfigurations[${status.index}].remedy_id" />
+													<springForm:errors
+														path="ucmConfigurations[${status.index}].remedy_id"
+														cssClass="error" />
+												</div>
+												<div class="large-2 columns">
+													<form:input
+														path="ucmConfigurations[${status.index}].radio_serial_number" />
+													<springForm:errors
+														path="ucmConfigurations[${status.index}].radio_serial_number"
+														cssClass="error" />
+												</div>
+												<div class="large-2 columns">
+													<form:input
+														path="ucmConfigurations[${status.index}].radio_user_alias" />
+														<springForm:errors
+														path="ucmConfigurations[${status.index}].radio_user_alias"
+														cssClass="error" />
+												</div>
+												<div class="large-2 columns">
+													<form:select
+														path="ucmConfigurations[${status.index}].zone_id">
+														<form:option value="1">Zone 1</form:option>
+														<form:option value="2">Zone 2</form:option>
+														<form:option value="3">Zone 3</form:option>
+													</form:select>
+												</div>
+												<div class="large-2 columns">
+													<form:select
+														path="ucmConfigurations[${status.index}].entity_name">
+														<form:options items="${entityList.entities}" var="entity"
+															itemValue="entity_name" itemLabel="entity_name"></form:options>
+													</form:select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</c:forEach>
 							</div>
 						</div>
-					</form>
-					<p>${message}</p>
+						<div class="row">
+							<div class="large-12 columns">
+								<input class="button [radius round]" type="submit"
+									value="Generate UCMs" />
+							</div>
+						</div>
+					</form:form>
 				</div>
 			</div>
 		</div>

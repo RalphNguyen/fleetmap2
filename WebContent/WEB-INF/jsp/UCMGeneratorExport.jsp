@@ -45,14 +45,13 @@
 								class="logo" src="<c:url value="/resources/img/motorola.png"/>"></a></li>
 						<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 					</ul>
-
 					<!-- The Section wrap -->
 					<section class="top-bar-section">
-
 						<!-- Left Nav Section -->
 						<ul class="left">
 							<li><a href="home.html">Home</a></li>
-							<li  class="active"><a href="UCMGenerator.html">Generate UCM</a></li>
+							<li class="active"><a href="UCMGenerator.html">Generate
+									UCM</a></li>
 							<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
 							<li><a href="UCMUpdate.html">Update UCM</a></li>
 							<li><a href="UCMExport.html">Export</a></li>
@@ -64,9 +63,7 @@
 						</ul>
 						<!-- Right Nav Section -->
 						<ul class="right">
-
 						</ul>
-
 					</section>
 				</nav>
 			</div>
@@ -76,109 +73,104 @@
 	<div class="full-width content-area">
 		<div class="row">
 			<div class="row">
-				<div class="large-9 push-3 columns">
+				<div class="large-11 large-centered columns">
 					<h3>${message}</h3>
 					<form:form method="post" action="UCMGeneratorExport.html"
 						modelAttribute="UCMConfiguration">
-						<table>
-							<tr>
-								<td><form:label path="remedy_id">Remedy ID</form:label></td>
-								<td><form:input path="remedy_id" readOnly="true" /></td>
-							</tr>
-							<tr>
-								<td><form:label path="id_issued_date">Issued Date</form:label></td>
-								<td><form:input path="id_issued_date" readOnly="true" /></td>
-							</tr>
-							<tr>
-								<td><form:label path="activation_status">Activation Status</form:label></td>
-								<td><form:input path="activation_status" readOnly="true" /></td>
-							</tr>
-							<tr>
-								<td><form:label path="radio_id">Radio ID</form:label></td>
-								<td><form:input path="radio_id" readOnly="true" /></td>
-							</tr>
-							<tr>
-								<td><form:label path="radio_serial_number">Radio Serial Number</form:label></td>
-								<td><form:input path="radio_serial_number" readOnly="true" /></td>
-							</tr>
-							<tr>
-								<td><form:label path="radio_user_alias">Radio User Alias</form:label></td>
-								<td><form:input path="radio_user_alias" readOnly="true" /></td>
-							</tr>
-							<tr>
-								<td><form:label path="zone_id">Zone ID</form:label></td>
-								<td><form:input path="zone_id" readOnly="true" /></td>
-							</tr>
-							<tr>
-								<td><form:label path="entity_name">Entity Name</form:label></td>
-								<td><form:input path="entity_name" readOnly="true" /></td>
-							</tr>
-							<tr>
-								<td><form:label path="voice_enabled">Voice Enabled</form:label></td>
-								<td><form:input path="voice_enabled" readOnly="true"></form:input>
-							</tr>
-							<tr>
-								<td><form:label path="interconnect_enabled">Interconnect Enabled</form:label></td>
-								<td><form:input path="interconnect_enabled" readOnly="true"></form:input>
-							</tr>
-							<tr>
-								<td><form:label path="secure_comms_mode">Secure Comms Mode</form:label></td>
-								<td><form:input path="secure_comms_mode" readOnly="true" /></td>
-							</tr>
-							<tr>
-								<td><form:label path="ucp">UCP</form:label></td>
-								<td><form:input path="ucp" readOnly="true" /></td>
-							</tr>
-							<tr>
-								<td><form:label path="soft_id">Soft ID</form:label></td>
-								<td><form:input path="soft_id" readOnly="true" /></td>
-							</tr>
-							<tr>
-								<td><form:label path="radio_type">Radio Type</form:label></td>
-								<td><form:input path="radio_type" readOnly="true" /></td>
-							</tr>
-							<tr>
-								<td><form:label path="security_group_id">Security Group ID</form:label></td>
-								<td><form:input path="security_group_id" readOnly="true" /></td>
-							</tr>
-							<tr>
-								<td><form:label path="primary_core_access_point_name_id">Primary AP</form:label></td>
-								<td><form:input path="primary_core_access_point_name_id"
-										readOnly="true"></form:input>
-							</tr>
-							<tr>
-								<td><form:label path="backup_core_access_point_name_id">Backup Core AP</form:label></td>
-								<td><form:input path="backup_core_access_point_name_id"
-										readOnly="true"></form:input>
-							</tr>
-							<tr>
-								<td colspan="2"><input type="submit" name="ucm"
-									value="Export UCM" /></td>
-								<td colspan="2"><input type="submit" name="remedy"
-									value="Export Remedy" /></td>
-								<td><input type="submit" name="back"
-									value="Back to UCM Generator" /></td>
-							</tr>
-						</table>
+						<div class="row">
+							<div class="large-4 medium-4 columns">
+								<label>Remedy ID <form:input type="text"
+										path="remedy_id" readOnly="true" /></label>
+							</div>
+							<div class="large-4 medium-4 columns">
+								<label>Issued Date<form:input path="id_issued_date"
+										readOnly="true" /></label>
+							</div>
+							<div class="large-4 medium-4 columns">
+								<label>Activation Status <form:input
+										path="activation_status" readOnly="true" /></label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="large-4 medium-4 columns">
+								<label>Radio ID<form:input path="radio_id"
+										readOnly="true" /></label>
+							</div>
+							<div class="large-4 medium-4 columns">
+								<label>Radio Serial Number <form:input
+										path="radio_serial_number" readOnly="true" /></label>
+							</div>
+							<div class="large-4 medium-4 columns">
+								<label>Radio User Alias <form:input
+										path="radio_user_alias" readOnly="true" /></label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="large-4 medium-4 columns">
+								<label>Zone ID <form:input path="zone_id"
+										readOnly="true" /></label>
+							</div>
+							<div class="large-4 medium-4 columns">
+								<label>Entity <form:input path="entity_name"
+										readOnly="true" /></label>
+							</div>
+							<div class="large-4 medium-4 columns">
+								<label>Radio Type <form:input path="radio_type"
+										readOnly="true" /></label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="large-4 medium-4 columns">
+								<label>Security Group ID <form:input
+										path="security_group_id" readOnly="true" /></label>
+							</div>
+							<div class="large-4 medium-4 columns">
+								<label>Voice Enabled <form:input path="voice_enabled"
+										readOnly="true" /></label>
+							</div>
+							<div class="large-4 medium-4 columns">
+								<label>Interconnect Enabled <form:input
+										path="interconnect_enabled" readOnly="true" /></label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="large-4 medium-4 columns">
+								<label>Secure Comms Mode<form:input
+										path="secure_comms_mode" readOnly="true" /></label>
+							</div>
+							<div class="large-4 medium-4 columns">
+								<label>UCP<form:input path="ucp" readOnly="true" /></label>
+							</div>
+							<div class="large-4 medium-4 columns">
+								<label>Soft ID <form:input path="soft_id"
+										readOnly="true" /></label>
+							</div>
+
+						</div>
+						<div class="row">
+							<div class="large-4 medium-4 columns">
+								<label>Primary AP <form:input
+										path="primary_core_access_point_name_id" readOnly="true" /></label>
+							</div>
+							<div class="large-4 medium-4 columns end">
+								<label>Backup Core AP<form:select
+										path="backup_core_access_point_name_id" readOnly="true" /></label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="large-12 columns">
+								<ul class="button-group [radius round]">
+									<li><input class="button [radius round]" type="submit"
+										name="ucm" value="Export UCM" /></li>
+									<li><input class="button [radius round]" type="submit"
+										name="remedy" value="Export Remedy" /></li>
+									<li><input class="button [secondary alert success]" type="submit"
+										name="back" value="Generate UCM again!" /></li>
+								</ul>
+							</div>
+						</div>
 					</form:form>
 				</div>
-				<div class="large-3 pull-9 columns">
-					<ul class="side-nav">
-						<li><a href="#">Section 1</a></li>
-						<li><a href="#">Section 2</a></li>
-						<li><a href="#">Section 3</a></li>
-						<li><a href="#">Section 4</a></li>
-						<li><a href="#">Section 5</a></li>
-						<li><a href="#">Section 6</a></li>
-					</ul>
-					<p>
-						<img
-							style="height: auto; max-height: 60px; vertical-align: center;"
-							class="logo" src="<c:url value="/resources/img/motorola.png"/>">
-					</p>
-
-				</div>
-
 			</div>
 		</div>
 	</div>
@@ -186,7 +178,10 @@
 	<!-- FOOTER AREA -->
 	<div class="full-width footer-area">
 		<div class="row">
-			<div class="large-12 columns">&copy; Motorola Solutions 2014</div>
+			<div class="large-12 columns">
+				&copy; <a href="http://www.motorolasolutions.com">Motorola
+					Solutions 2014</a>
+			</div>
 		</div>
 	</div>
 	<script type="text/javascript"

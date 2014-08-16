@@ -519,6 +519,7 @@ public class UCMConfiguration implements UpdateData {
 				break;
 			}
 		}
+		voice_enabled = "Yes";
 		interconnect_enabled = "No";
 		emergency_alarm_comments = "N/A";
 		direct_dial_number = "N/A";

@@ -24,7 +24,6 @@
 	src="<c:url value="/resources/js/jquery-ui.min.js" />"></script>
 </head>
 <body>
-<body>
 	<!-- HEADER AREA -->
 	<header class="full-width header-area">
 		<div class="row">
@@ -46,15 +45,15 @@
 								class="logo" src="<c:url value="/resources/img/motorola.png"/>"></a></li>
 						<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 					</ul>
+
 					<!-- The Section wrap -->
 					<section class="top-bar-section">
 
 						<!-- Left Nav Section -->
 						<ul class="left">
 							<li><a href="home.html">Home</a></li>
-							<li><a href="UCMGenerator.html">Generate UCM</a></li>
-							<li class="active"><a href="UCMGeneratorList.html">Generate
-									UCM List</a></li>
+							<li class="active"><a href="UCMGenerator.html">Generate UCM</a></li>
+							<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
 							<li><a href="UCMUpdate.html">Update UCM</a></li>
 							<li><a href="UCMExport.html">Export</a></li>
 							<li class="has-dropdown"><a href="#">Administration</a>
@@ -75,22 +74,67 @@
 	<div class="full-width content-area">
 		<div class="row">
 			<div class="row">
-				<div class="large-11 large-centered columns">
-					<form method="POST" action="UCMGeneratorList.html"
-						enctype="multipart/form-data">
-						<div class="row">
-							<div class="large-4 columns">
-								<label>File to upload: <input type="file" name="file">
-								</label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="large-4 columns end">
-								<input type="submit" value="Upload">
-							</div>
-						</div>
-					</form>
-					<p>${message}</p>
+				<div class="large-9 push-3 columns">
+					<h3>UCM generation result</h3>
+					<form:form method="post" action="UCMGeneratorListExport.html"
+						modelAttribute="UCMConfigurationForm">
+						<table>
+							<tr>
+								<th>No.</th>
+								<th>Activation Status</th>
+								<th>Remedy ID</th>
+								<th>Radio Serial Number</th>
+								<th>Radio User Alias</th>
+								<th>Zone ID</th>
+								<th>Entity Name</th>
+							</tr>
+
+							<c:forEach items="${UCMConfigurationForm.ucmConfigurations}"
+								var="ucmConfiguration" varStatus="status">
+								<tr>
+									<td align="center">${status.count}</td>
+									<td><form:input
+											path="ucmConfigurations[${status.index}].radio_id"/></td>
+									<td><form:input
+											path="ucmConfigurations[${status.index}].activation_status"/></td>
+									<td><form:input
+											path="ucmConfigurations[${status.index}].remedy_id" /></td>
+									<td><form:input
+											path="ucmConfigurations[${status.index}].radio_serial_number" /></td>
+									<td><form:input
+											path="ucmConfigurations[${status.index}].radio_user_alias" /></td>
+									<td><form:input
+											path="ucmConfigurations[${status.index}].zone_id"/></td>
+									<td><form:input
+											path="ucmConfigurations[${status.index}].entity_name"/></td>
+								</tr>
+							</c:forEach>
+							<tr>
+								<td colspan="2"><input type="submit" name="ucm"
+									value="Export UCM" /></td>
+								<td colspan="2"><input type="submit" name="remedy"
+									value="Export Remedy" /></td>
+								<td><input type="submit" name="back"
+									value="Back to UCM Generator List" /></td>
+							</tr>
+						</table>
+					</form:form>
+				</div>
+
+				<div class="large-3 pull-9 columns">
+					<ul class="side-nav">
+						<li><a href="#">Section 1</a></li>
+						<li><a href="#">Section 2</a></li>
+						<li><a href="#">Section 3</a></li>
+						<li><a href="#">Section 4</a></li>
+						<li><a href="#">Section 5</a></li>
+						<li><a href="#">Section 6</a></li>
+					</ul>
+					<p>
+						<img
+							style="height: auto; max-height: 60px; vertical-align: center;"
+							class="logo" src="<c:url value="/resources/img/motorola.png"/>">
+					</p>
 				</div>
 			</div>
 		</div>
@@ -98,10 +142,7 @@
 	<!-- FOOTER AREA -->
 	<div class="full-width footer-area">
 		<div class="row">
-			<div class="large-12 columns">
-				&copy; <a href="http://www.motorolasolutions.com">Motorola
-					Solutions 2014</a>
-			</div>
+			<div class="large-12 columns">&copy; Motorola Solutions 2014</div>
 		</div>
 	</div>
 	<script type="text/javascript"

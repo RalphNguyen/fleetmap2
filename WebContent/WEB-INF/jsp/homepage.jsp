@@ -74,17 +74,80 @@
 	</div>
 	<!-- CONTENT AREA -->
 	<div class="full-width content-area">
-		<div class="large-12 columns">
-			<h3>
-				Page Title <small>Page subtitle</small>
-			</h3>
-			<p>Put the content here</p>
+		<div class="row">
+			<div class="large-12 columns">
+				<div class="row">
+					<div class="large-8 columns">
+						<h3>
+							Page Title <small>Page subtitle</small>
+						</h3>
+						<p>Put the content here</p>
+					</div>
+					<div class="large-4 columns">
+					
+						<dl class="accordion" data-accordion>
+							<dd class="accordion-navigation">
+								<a href="#panel1">Accordion 1</a>
+								<div id="panel1" class="content active">
+									<dl class="tabs" data-tab>
+										<dd class="active">
+											<a href="#panel2-1">Tab 1</a>
+										</dd>
+										<dd>
+											<a href="#panel2-2">Tab 2</a>
+										</dd>
+										<dd>
+											<a href="#panel2-3">Tab 3</a>
+										</dd>
+										<dd>
+											<a href="#panel2-4">Tab 4</a>
+										</dd>
+									</dl>
+									<div class="tabs-content">
+										<div class="content active" id="panel2-1">
+											<p>First panel content goes here...</p>
+										</div>
+										<div class="content" id="panel2-2">
+											<p>Second panel content goes here...</p>
+										</div>
+										<div class="content" id="panel2-3">
+											<p>Third panel content goes here...</p>
+										</div>
+										<div class="content" id="panel2-4">
+											<p>Fourth panel content goes here...</p>
+										</div>
+									</div>
+								</div>
+							</dd>
+							<dd class="accordion-navigation">
+								<a href="#panel2">Accordion 2</a>
+								<div id="panel2" class="content active">Panel 2. Lorem ipsum
+									dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+									tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+									minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+									aliquip ex ea commodo consequat.</div>
+							</dd>
+							<dd class="accordion-navigation">
+								<a href="#panel3">Accordion 3</a>
+								<div id="panel3" class="content">Panel 3. Lorem ipsum
+									dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+									tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+									minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+									aliquip ex ea commodo consequat.</div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- FOOTER AREA -->
 	<div class="full-width footer-area">
 		<div class="row">
-			<div class="large-12 columns">&copy; Motorola Solutions 2014</div>
+			<div class="large-12 columns">
+				&copy; <a href="http://www.motorolasolutions.com">Motorola
+					Solutions 2014</a>
+			</div>
 		</div>
 	</div>
 	<script type="text/javascript"

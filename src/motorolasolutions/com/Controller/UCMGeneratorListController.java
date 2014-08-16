@@ -7,15 +7,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import motorolasolutions.com.DataObject.Entity;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import motorolasolutions.com.BusinessLogic.UCMExportLogic;
+import motorolasolutions.com.BusinessLogic.UCMGeneratorLogic;
 import motorolasolutions.com.DataObject.EntityForm;
-import motorolasolutions.com.DataObject.Radio;
 import motorolasolutions.com.DataObject.Remedy;
+import motorolasolutions.com.DataObject.RemedyExport;
+import motorolasolutions.com.DataObject.RemedyExportForm;
 import motorolasolutions.com.DataObject.UCMConfiguration;
 import motorolasolutions.com.DataObject.UCMConfigurationForm;
 import motorolasolutions.com.DataObject.UCMGeneratorInput;
 import motorolasolutions.com.DataObject.UCMGeneratorInputForm;
-import motorolasolutions.com.DataObject.Zone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,6 +34,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -37,6 +42,7 @@ import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 import au.com.bytecode.opencsv.bean.CsvToBean;
 
 @Controller
+@SessionAttributes("UCMConfigurationForm")
 public class UCMGeneratorListController {
 
 	@Autowired
@@ -48,16 +54,14 @@ public class UCMGeneratorListController {
 		binder.setValidator(validator);
 	}
 
+	// generate view to upload file
 	@RequestMapping(value = "/UCMGeneratorList", method = RequestMethod.GET)
-	public String getUploadPage(Model model) {
+	public String getUCMUploadPage(Model model) {
 		return "UCMGeneratorListHome";
 	}
 
-	/**
-	 * Upload single file using Spring Controller
-	 */
 	@RequestMapping(value = "/UCMGeneratorList", method = RequestMethod.POST)
-	public String uploadFileHandler(@RequestParam("name") String name,
+	public String uploadUCMFileHandler(
 			@RequestParam("file") MultipartFile file, Model model) {
 
 		if (!file.isEmpty()) {
@@ -65,7 +69,7 @@ public class UCMGeneratorListController {
 				UCMGeneratorInputForm ucmGeneratorInputForm = parseCSVtoBean(multipartToFile(file));
 
 				// create a list of UCMConfiguration
-				List<UCMConfiguration> ucmConfigurationList = new ArrayList();
+				List<UCMConfiguration> ucmConfigurationList = new ArrayList<UCMConfiguration>();
 				for (UCMGeneratorInput ucmGeneratorInput : ucmGeneratorInputForm
 						.getUcmGeneratorInputs()) {
 					UCMConfiguration ucm_conf = new UCMConfiguration();
@@ -81,10 +85,13 @@ public class UCMGeneratorListController {
 					ucm_conf.setZone_id(ucmGeneratorInput.getZone_id());
 					ucm_conf.setEntity_name(ucmGeneratorInput.getEntity_name());
 					ucm_conf.setSub_entity(ucmGeneratorInput.getSub_entity());
+					ucm_conf.setRequest_no(ucmGeneratorInput.getRequest_no());
 					ucm_conf.setRadio_modulation_type_id(ucmGeneratorInput
 							.getRadio_modulation_type_id());
 					ucm_conf.setActivation_status(ucmGeneratorInput
 							.getActivation_status());
+					ucm_conf.setRadio_user_data_type(ucmGeneratorInput
+							.getRadio_user_data_type());
 					ucmConfigurationList.add(ucm_conf);
 				}
 
@@ -95,38 +102,108 @@ public class UCMGeneratorListController {
 				entityForm.getListEntityForm();
 				model.addAttribute("entityList", entityForm);
 				model.addAttribute("UCMConfigurationForm", ucmConfigurationForm);
-				for (UCMConfiguration ucm_conf : ucmConfigurationForm
-						.getUcmConfigurations()) {
-					System.out.println(ucm_conf.getRemedy_id());
-				}
 				// return "You successfully uploaded file=" + name;
-				return "UCMGeneratorListResult";
+				return "UCMGeneratorList";
 			} catch (Exception e) {
-				return "You failed to upload " + name + " => " + e.getMessage();
+				return "You failed to upload => " + e.getMessage();
 			}
 		} else {
-			model.addAttribute("message", "You failed to upload " + name
-					+ " because the file was empty.");
+			model.addAttribute("message",
+					"You failed to upload because the file was empty.");
 			return "UCMGeneratorListHome";
-
 		}
 	}
 
-	@RequestMapping(value = "/submitUCMConfigurationList", method = RequestMethod.POST)
-	public String submitUCMConfigurationList(
+	@RequestMapping(value = "/generateUCMConfigurationList", method = RequestMethod.POST)
+	public String generateUCMConfigurationList(
 			@ModelAttribute("UCMConfigurationForm") @Validated UCMConfigurationForm ucmConfigurationForm,
 			BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			EntityForm entityForm = new EntityForm();
 			entityForm.getListEntityForm();
 			model.addAttribute("entityList", entityForm);
-			model.addAttribute("UCMConfigurationForm", ucmConfigurationForm);
+			return "UCMGeneratorList";
+		} else {
+			for (UCMConfiguration ucm_conf : ucmConfigurationForm
+					.getUcmConfigurations()) {
+				// set ucm radio serial and date issued
+				ucm_conf.setSerialNoAndDate();
+				// System.out.println("input: " + ucm_conf);
+
+				// insert remedy
+				Remedy remedy = new Remedy(ucm_conf.getRemedy_id(),
+						ucm_conf.getRequest_no(), ucm_conf.getSub_entity());
+
+				// insert remedy to DB
+				UCMGeneratorLogic.insertRemedy(remedy);
+				// get the insert information
+				ucm_conf = UCMGeneratorLogic
+						.getInsertUCMConfiguration(ucm_conf);
+			}
+			for (UCMConfiguration ucm_conf : ucmConfigurationForm
+					.getUcmConfigurations()) {
+				System.out.println("pre insert: " + ucm_conf);
+			}
+			model.addAttribute("message", "done!");
 			return "UCMGeneratorListResult";
 		}
-		else{
-			model.addAttribute("message","done!");
-			return "UCMGeneratorListHome";
+	}
+
+	// insert UCM to the database, and create remedy export
+	@RequestMapping(value = "/UCMGeneratorListSubmission", method = RequestMethod.POST)
+	public String saveUCMList(
+			@ModelAttribute("UCMConfigurationForm") UCMConfigurationForm ucmConfigurationForm,
+			Model model) {
+		for (UCMConfiguration ucm_conf : ucmConfigurationForm
+				.getUcmConfigurations()) {
+			System.out.println("insert: " + ucm_conf);
+			// insert to UCM_configuration table
+			ucm_conf.setUcm_id(ucm_conf.insertToDatabase());
+			System.out.println("after insert " + ucm_conf);
+			// create then insert remedy_export
+			ucm_conf.insertRemedyExport();
 		}
+		model.addAttribute("message",
+				"One UCM record was added to the database");
+		return "UCMGeneratorListExport";
+	}
+
+	// export UCM
+	@RequestMapping(value = "/UCMGeneratorListExport", method = RequestMethod.POST, params = { "ucm" })
+	public void exportUCM(
+			@ModelAttribute("UCMConfigurationForm") UCMConfigurationForm ucmConfigurationForm,
+			HttpServletRequest request, HttpServletResponse response,
+			Model model) throws IOException {
+		File downloadFile = UCMExportLogic.ucmListFileWriter("ucmListFlaw",
+				ucmConfigurationForm);
+		UCMExportLogic.generateResponseFile(request, response, downloadFile);
+	}
+
+	// export remedy
+	@RequestMapping(value = "/UCMGeneratorListExport", method = RequestMethod.POST, params = { "remedy" })
+	public void exportRemedy(
+			@ModelAttribute("UCMConfigurationForm") UCMConfigurationForm ucmConfigurationForm,
+			HttpServletRequest request, HttpServletResponse response,
+			Model model) throws IOException {
+		RemedyExportForm remedyExportForm = new RemedyExportForm();
+		List<RemedyExport> remedyExports = new ArrayList<RemedyExport>();
+		for (UCMConfiguration ucm_conf : ucmConfigurationForm
+				.getUcmConfigurations()) {
+			RemedyExport remedyExport = new RemedyExport(
+					ucm_conf.getRadio_id(), ucm_conf.getRadio_type(),
+					ucm_conf.getUcm_id());
+			remedyExports.add(remedyExport);
+		}
+		remedyExportForm.setRemedyExports(remedyExports);
+		File downloadFile = UCMExportLogic.ucmListFileWriter("remedyList",
+				remedyExportForm);
+		UCMExportLogic.generateResponseFile(request, response, downloadFile);
+	}
+
+	// back to UCM List generator
+	@RequestMapping(value = "/UCMGeneratorListExport", method = RequestMethod.POST, params = { "back" })
+	public String backToUCMGenerator(Model model) {
+		return getUCMUploadPage(model);
 	}
 
 	// to convert Multipart File to File which is parsed to Java Bean later by
@@ -166,111 +243,5 @@ public class UCMGeneratorListController {
 			System.err.println(e.getMessage());
 		}
 		return ucmGeneratorForm;
-	}
-
-	private UCMConfiguration generateUCM(UCMConfiguration ucm_conf) {
-		String check_alias_message;
-		String check_serial_message;
-		// check radio serial duplicate
-		ucm_conf.setSerialNoAndDate();
-
-		if (ucm_conf.checkRadioSerialDuplicate() == 0) {
-			check_serial_message = "validated";
-		} else {
-			check_serial_message = "duplicate";
-			ucm_conf.setRadio_serial_number(ucm_conf.getRadio_serial_number()
-					+ "(duplicate)");
-		}
-		// model.addAttribute("check_serial_message", check_serial_message);
-		// check radio user alias duplicate
-		if (ucm_conf.checkRadioUserAliasDuplicate() == 0) {
-			check_alias_message = "validated";
-		} else {
-			check_alias_message = "duplicate";
-			ucm_conf.setRadio_user_alias(ucm_conf.getRadio_user_alias()
-					+ "(duplicated)");
-		}
-		// model.addAttribute("check_alias_message", check_alias_message);
-
-		// if there is no duplicate with radio alias & serial number, allocate
-		// radio ID and return result
-		if (check_serial_message.equals("validated")
-				&& check_alias_message.equals("validated")) {
-			System.out.println("no radio serial & alias duplicate");
-			System.out.println("input: " + ucm_conf);
-
-			// create entity from user input
-			Entity entity = new Entity(ucm_conf.getEntity_name());
-			System.out.println("entity: " + entity);
-			ucm_conf.setEntity_id(entity.getEntity_id());
-			// create zone from user input
-			Zone zone = new Zone(ucm_conf.getZone_id());
-
-			// insert remedy
-			Remedy remedy = new Remedy(ucm_conf.getRemedy_id(),
-					ucm_conf.getRequest_no(), ucm_conf.getSub_entity());
-			insertRemedy(remedy);
-
-			// insert UCM
-			ucm_conf = getInsertUCMConfiguration(ucm_conf, entity, zone);
-			System.out.println("-----\nUCM generator end.");
-			return ucm_conf;
-
-			// model.addAttribute("UCMConfiguration", ucm_conf);
-			// return "UCMGeneratorResult";
-		}
-		// if there is duplicate in radio serial number or alias, return it
-		else {
-			System.out.println("radio serial & alias duplicate");
-			if (ucm_conf.getRadio_modulation_type_id() == 3) {
-				ucm_conf.setRadio_serial_number(ucm_conf
-						.getRadio_serial_number().substring(1,
-								ucm_conf.getRadio_serial_number().length()));
-			}
-			return ucm_conf;
-			// return "UCMGenerator";
-		}
-	}
-
-	private void insertRemedy(Remedy remedy) {
-		System.out.println("Remedy: " + remedy);
-		System.out.println("check duplicate remedy...");
-		if (remedy.checkRemedyDuplicate() == 1) {
-			System.out
-					.println("remedy already exists, no need to insert to our Database");
-		} else {
-			System.out.println("insert new Remedy with ID = "
-					+ remedy.getRemedy_id() + " to our Database:" + remedy);
-			remedy.insertToDatabase();
-		}
-	}
-
-	// check & insert new UCM
-	private UCMConfiguration getInsertUCMConfiguration(
-			UCMConfiguration ucm_conf, Entity entity, Zone zone) {
-		System.out.println(ucm_conf);
-		// remedy.insertToDatabase();
-		System.out.println("check duplicate radio serial number");
-
-		// get an available Radio ID from the database
-		// then create a Radio
-		int temp_radio_id = ucm_conf.checkRadioIDAvailability();
-		if (temp_radio_id == 0) {
-			System.out
-					.println("There is no available Radio ID, please check the database");
-		} else {
-			Radio radio = new Radio(temp_radio_id, "Yes",
-					ucm_conf.getRadio_modulation_type_id(),
-					ucm_conf.getZone_id());
-			System.out.println(radio);
-			// update used_flag of the radio to the database
-			radio.updateToDatabase();
-			// get softID
-			ucm_conf.setRadio_id(radio.getRadio_id());
-			ucm_conf.setSecurity_group_id(entity.getSecurity_group_id());
-			ucm_conf.generateFields();
-			System.out.println(ucm_conf);
-		}
-		return ucm_conf;
 	}
 }

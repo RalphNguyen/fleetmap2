@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import motorolasolutions.com.DataObject.RemedyExport;
+import motorolasolutions.com.DataObject.RemedyExportForm;
 import motorolasolutions.com.DataObject.UCMConfiguration;
+import motorolasolutions.com.DataObject.UCMConfigurationForm;
 import motorolasolutions.com.DataObject.UCMExport;
 import motorolasolutions.com.DataObject.UCMExportForm;
 
@@ -36,11 +38,22 @@ public class UCMExportLogic {
 			UCMExportForm ucmExportForm = (UCMExportForm) obj;
 			fileName = "UCM." + sdfDate.format(now) + ".csv";
 			f = new File(fileName);
-
 			fstream = new FileWriter(f);
 			out = new BufferedWriter(fstream);
 			for (UCMExport ucmExport : ucmExportForm.getUcmExports()) {
 				out.write(ucmExport.getCSV());
+				out.newLine();
+			}
+			out.close();
+			break;
+		case "ucmListFlaw":
+			UCMConfigurationForm ucmConfigurationForm = (UCMConfigurationForm) obj;
+			fileName = "UCM." + sdfDate.format(now) + ".csv";
+			f = new File(fileName);
+			fstream = new FileWriter(f);
+			out = new BufferedWriter(fstream);
+			for (UCMConfiguration ucm_conf : ucmConfigurationForm.getUcmConfigurations()) {
+				out.write(ucm_conf.getCSV());
 				out.newLine();
 			}
 			out.close();
@@ -55,8 +68,16 @@ public class UCMExportLogic {
 			out.close();
 			break;
 		case "remedyList":
+			RemedyExportForm remedyExportForm = (RemedyExportForm)obj;
 			fileName = "Remedy." + sdfDate.format(now) + ".csv";
 			f = new File(fileName);
+			fstream = new FileWriter(f);
+			out = new BufferedWriter(fstream);
+			for(RemedyExport remedyExport:remedyExportForm.getRemedyExports()){
+				out.write(remedyExport.getCSV());
+				out.newLine();
+			}
+			out.close();
 			break;
 		case "remedy":
 			RemedyExport remedyExport = (RemedyExport) obj;

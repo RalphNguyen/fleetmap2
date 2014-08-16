@@ -1,6 +1,8 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form"
+	prefix="springForm"%>
 <!DOCTYPE html>
 <!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
 <html class="no-js" lang="en">
@@ -22,18 +24,6 @@
 	src="<c:url value="/resources/js/jquery-ui.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/js/jquery-ui.min.js" />"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/vendor/modernizr.js" />"></script>
-<script>
-	$(function() {
-		$('#datepicker').datepicker({
-			dateFormat : 'yy/mm/dd'
-		});
-		$('#datepicker2').datepicker({
-			dateFormat : 'yy/mm/dd'
-		});
-	});
-</script>
 </head>
 <body>
 	<!-- HEADER AREA -->
@@ -57,14 +47,13 @@
 								class="logo" src="<c:url value="/resources/img/motorola.png"/>"></a></li>
 						<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 					</ul>
-
 					<!-- The Section wrap -->
 					<section class="top-bar-section">
 
 						<!-- Left Nav Section -->
 						<ul class="left">
-							<li class="active"><a href="home.html">Home</a></li>
-							<li><a href="UCMGenerator.html">Generate UCM</a></li>
+							<li><a href="home.html">Home</a></li>
+							<li class="active"><a href="UCMGenerator.html">Generate UCM</a></li>
 							<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
 							<li><a href="UCMUpdate.html">Update UCM</a></li>
 							<li><a href="UCMExport.html">Export</a></li>
@@ -82,74 +71,87 @@
 			</div>
 		</div>
 	</div>
+
 	<!-- CONTENT AREA -->
 	<div class="full-width content-area">
 		<div class="row">
 			<div class="row">
 				<div class="large-9 push-3 columns">
-					<h3>UCM Export</h3>
-					<p>${search_not_found}</p>
-					<form:form method="post" action="searchUCMExport.html"
-						modelAttribute="UCMExport">
+					<h3>UCM Generator</h3>
+					<p>Please input to generate a UCM Data</p>
+					<form:form method="post" action="UCMGenerator.html"
+						modelAttribute="UCMConfiguration">
 						<table>
 							<tr>
-								<td>Search by ID issued date?</td>
-								<td><form:checkbox
-										path="exportSearchInput.searchByIdIssuedDate"
-										checked="checked"></form:checkbox></td>
+								<td><form:label path="remedy_id">Remedy ID</form:label></td>
+								<td><form:input path="remedy_id" /></td>
+								<td><springForm:errors path="remedy_id" cssClass="error" /></td>
 							</tr>
 							<tr>
-								<td><form:label path="exportSearchInput.startDate">Start Issued Date</form:label></td>
-								<td><form:input path="exportSearchInput.startDate"
-										id="datepicker" /></td>
-
-							</tr>
-							<tr>
-								<td><form:label path="exportSearchInput.endDate">End Issued Date</form:label></td>
-								<td><form:input path="exportSearchInput.endDate"
-										id="datepicker2" /></td>
-							</tr>
-							<tr>
-								<td>Search by allocated agency?</td>
-								<td><form:checkbox path="exportSearchInput.searchByEntity"></form:checkbox></td>
-							</tr>
-							<tr>
-								<td><form:label path="exportSearchInput.entity_name">Allocated Agency</form:label></td>
-								<td><form:select path="exportSearchInput.entity_name">
-										<form:options items="${UCMExport.entityForm.entities}"
-											var="entity" itemValue="entity_name" itemLabel="entity_name"></form:options>
+								<td><form:label path="radio_type">Radio Type</form:label></td>
+								<td><form:select path="radio_type">
+										<form:option value="Radio" selected="selected">Radio</form:option>
+										<form:option value="Console">Console</form:option>
 									</form:select></td>
 							</tr>
 							<tr>
-								<td>Search by Zone?</td>
-								<td><form:checkbox path="exportSearchInput.searchByZoneId"></form:checkbox></td>
+								<td><form:label path="radio_user_data_type">Radio User Data Type</form:label></td>
+								<td><form:select path="radio_user_data_type">
+										<form:option value="IVD" selected="selected">IVD</form:option>
+										<form:option value="HPD">HPD</form:option>
+									</form:select></td>
 							</tr>
 							<tr>
-								<td><form:label path="exportSearchInput.zone_id">Zone ID</form:label></td>
-								<td><form:select path="exportSearchInput.zone_id">
+								<td><form:label path="radio_user_alias">Radio User Alias</form:label></td>
+								<td><form:input path="radio_user_alias" /></td>
+								<td><springForm:errors path="radio_user_alias"
+										cssClass="error" /></td>
+							</tr>
+							<tr>
+								<td><form:label path="radio_serial_number">Radio Serial Number</form:label></td>
+								<td><form:input path="radio_serial_number" /></td>
+								<td><springForm:errors path="radio_serial_number"
+										cssClass="error" /></td>
+							</tr>
+							<tr>
+								<td><form:label path="ucp">UCP</form:label></td>
+								<td><form:input path="ucp" /></td>
+							</tr>
+							<tr>
+								<td><form:label path="zone_id">Zone ID</form:label></td>
+								<td><form:select path="zone_id">
 										<form:option value="1">Zone 1</form:option>
 										<form:option value="2">Zone 2</form:option>
 										<form:option value="3">Zone 3</form:option>
 									</form:select></td>
 							</tr>
 							<tr>
-								<td>Search by Radio Serial Number?</td>
-								<td><form:checkbox
-										path="exportSearchInput.searchByRadioSerialNumber"></form:checkbox></td>
+								<td><form:label path="entity_name">Entity Name</form:label></td>
+								<td><form:select path="entity_name">
+										<form:options items="${entityForm.entities}" var="entity"
+											itemValue="entity_name" itemLabel="entity_name"></form:options>
+									</form:select></td>
 							</tr>
 							<tr>
-								<td><form:label
-										path="exportSearchInput.radio_serial_number">Radio Serial Number</form:label></td>
-								<td><form:input
-										path="exportSearchInput.radio_serial_number" /></td>
+								<td><form:label path="request_no">Entity Request Number</form:label></td>
+								<td><form:input path="request_no" /></td>
+								<td><springForm:errors path="request_no" cssClass="error" /></td>
 							</tr>
 							<tr>
-								<td>Search by activation status?</td>
-								<td><form:checkbox path="exportSearchInput.searchByStatus"></form:checkbox></td>
+								<td><form:label path="sub_entity">Sub-Entity</form:label></td>
+								<td><form:input path="sub_entity" /></td>
 							</tr>
 							<tr>
-								<td><form:label path="exportSearchInput.activation_status">Activation Status</form:label></td>
-								<td><form:select path="exportSearchInput.activation_status">
+								<td><form:label path="radio_modulation_type_id">Radio Modulation Type ID</form:label></td>
+								<td><form:select path="radio_modulation_type_id">
+										<form:option value="1">Analog</form:option>
+										<form:option value="2">Digital</form:option>
+										<form:option value="3" selected="selected">P25</form:option>
+									</form:select></td>
+							</tr>
+							<tr>
+								<td><form:label path="activation_status">Activation Status</form:label></td>
+								<td><form:select path="activation_status">
 										<form:option value="Registered and Activated"
 											selected="selected">Registered and Activated</form:option>
 										<form:option value="Registered and Deactivated">Registered and Deactivated</form:option>
@@ -157,30 +159,12 @@
 									</form:select></td>
 							</tr>
 							<tr>
-								<td>Search by Remedy ID?</td>
-								<td><form:checkbox
-										path="exportSearchInput.searchByRemedyId"></form:checkbox></td>
-							</tr>
-							<tr>
-								<td><form:label path="exportSearchInput.remedy_id">Remedy ID</form:label></td>
-								<td><form:input path="exportSearchInput.remedy_id" /></td>
-							</tr>
-							<tr>
-								<td>Search by Radio ID?</td>
-								<td><form:checkbox path="exportSearchInput.searchByRadioId"></form:checkbox></td>
-							</tr>
-							<tr>
-								<td><form:label path="exportSearchInput.radio_id">Remedy ID</form:label></td>
-								<td><form:input path="exportSearchInput.radio_id" /></td>
-							</tr>
-							<tr>
-								<td colspan="2"><input type="submit" value="Search UCM" /></td>
+								<td colspan="2"><input type="submit" value="Generate UCM" /></td>
 							</tr>
 						</table>
 					</form:form>
 				</div>
 				<div class="large-3 pull-9 columns">
-
 					<ul class="side-nav">
 						<li><a href="#">Section 1</a></li>
 						<li><a href="#">Section 2</a></li>
@@ -194,17 +178,23 @@
 							style="height: auto; max-height: 60px; vertical-align: center;"
 							class="logo" src="<c:url value="/resources/img/motorola.png"/>">
 					</p>
+
 				</div>
+
 			</div>
 		</div>
-
 	</div>
+
 	<!-- FOOTER AREA -->
 	<div class="full-width footer-area">
 		<div class="row">
 			<div class="large-12 columns">&copy; Motorola Solutions 2014</div>
 		</div>
 	</div>
+	<script type="text/javascript"
+		src="<c:url value="/resources/js/vendor/modernizr.js" />"></script>
+	<script type="text/javascript"
+		src="<c:url value="/resources/js/vendor/jquery.js" />"></script>
 	<script type="text/javascript"
 		src="<c:url value="/resources/js/foundation.min.js" />"></script>
 	<script>
