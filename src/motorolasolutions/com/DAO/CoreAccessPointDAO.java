@@ -71,4 +71,10 @@ public class CoreAccessPointDAO implements DBManipulationDAO{
         return coreAccessPoints;
 	}
 
+	@Override
+	public Collection searchObjectList(String type, Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

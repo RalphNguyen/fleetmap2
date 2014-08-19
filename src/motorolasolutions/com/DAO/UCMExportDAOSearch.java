@@ -21,6 +21,7 @@ public class UCMExportDAOSearch implements DBSearchDAO {
 
 	}
 
+	// return a list of UCMExport according to a input search object
 	@Override
 	public Collection selectObjectList(Object obj) {
 		List<UCMExport> ucmExports = new ArrayList<UCMExport>();

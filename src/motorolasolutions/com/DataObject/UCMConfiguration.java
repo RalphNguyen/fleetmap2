@@ -59,6 +59,7 @@ public class UCMConfiguration implements UpdateData {
 	private int radio_user_interconnect_profile_id;
 	private int backup_core_access_point_name_id;
 	private int primary_core_access_point_name_id;
+	private boolean updated;
 
 	// getter and setter methods
 	public String getEmergency_alarm_comments() {
@@ -393,6 +394,14 @@ public class UCMConfiguration implements UpdateData {
 
 	public String getRadio_user_alias() {
 		return radio_user_alias;
+	}
+
+	public boolean isUpdated() {
+		return updated;
+	}
+
+	public void setUpdated(boolean updated) {
+		this.updated = updated;
 	}
 
 	public UCMConfiguration(String update_search) {

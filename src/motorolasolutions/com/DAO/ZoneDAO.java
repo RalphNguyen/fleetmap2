@@ -74,4 +74,10 @@ public class ZoneDAO implements DBManipulationDAO {
 		return zones;
 	}
 
+	@Override
+	public Collection searchObjectList(String type, Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

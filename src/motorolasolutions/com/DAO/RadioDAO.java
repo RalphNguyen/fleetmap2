@@ -7,6 +7,7 @@
 package motorolasolutions.com.DAO;
 
 import motorolasolutions.com.DataObject.Radio;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -83,5 +84,11 @@ public class RadioDAO implements DBManipulationDAO{
         }
         return flag;
     }
+
+	@Override
+	public Collection searchObjectList(String type, Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }

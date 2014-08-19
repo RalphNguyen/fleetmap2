@@ -141,9 +141,13 @@ public class ExportSearchInput {
 	@Override
 	public String toString() {
 		String s;
-		s = "('" + startDate + "','" + endDate + "','" + entity_name + "',"
-				+ radio_id + ",'" + radio_serial_number + "'," + zone_id + ",'"
-				+ activation_status + "','" + remedy_id + "')";
+		s = "(" + searchByIdIssuedDate + ",'" + startDate + "','" + endDate
+				+ "'," + searchByEntity + ",'" + entity_name + "',"
+				+ searchByRadioId + "," + radio_id + ","
+				+ searchByRadioSerialNumber + ",'" + radio_serial_number + "',"
+				+ searchByZoneId + "," + zone_id + "," + searchByStatus + ",'"
+				+ activation_status + "'," + searchByRemedyId + ",'"
+				+ remedy_id + "')";
 		return s;
 	}
 }

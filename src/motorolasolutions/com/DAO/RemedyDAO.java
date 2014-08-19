@@ -7,6 +7,7 @@
 package motorolasolutions.com.DAO;
 
 import motorolasolutions.com.DataObject.Remedy;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -74,5 +75,11 @@ public class RemedyDAO implements DBManipulationDAO{
     public int deleteObject(Object obj) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+	@Override
+	public Collection searchObjectList(String type, Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }

@@ -28,6 +28,7 @@
 	src="<c:url value="/resources/js/jquery-ui.min.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/js/responsive-tables.js" />"></script>
+</head>
 <body>
 	<!-- HEADER AREA -->
 	<header class="full-width header-area">
@@ -50,10 +51,8 @@
 								class="logo" src="<c:url value="/resources/img/motorola.png"/>"></a></li>
 						<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 					</ul>
-
 					<!-- The Section wrap -->
 					<section class="top-bar-section">
-
 						<!-- Left Nav Section -->
 						<ul class="left">
 							<li><a href="home.html">Home</a></li>
@@ -75,6 +74,7 @@
 			</div>
 		</div>
 	</div>
+
 	<!-- CONTENT AREA -->
 	<div class="full-width content-area">
 		<div class="row">
@@ -86,15 +86,14 @@
 				</div>
 				<div class="row">
 					<div class="large-12 columns">
-						<form:form method="post" action="UCMUpdate.html"
+						<form:form method="post" action="submitUpdatedUCM.html"
 							modelAttribute="UCMUpdate">
 							<div class="row">
 								<div class="large-12 columns">
 									<table>
 										<tr>
 											<td><form:label path="activation_status">Activation Status</form:label></td>
-											<td><form:select path="activation_status"
-													disabled="true">
+											<td><form:select path="activation_status">
 													<form:option value="Registered and Activated">Registered and Activated</form:option>
 													<form:option value="Registered and Deactivated">Registered and Deactivated</form:option>
 													<form:option value="Deregistered">Deregistered</form:option>
@@ -102,25 +101,22 @@
 										</tr>
 										<tr>
 											<td><form:label path="radio_user_alias">Radio User Alias</form:label></td>
-											<td><form:input path="radio_user_alias" disabled="true" /></td>
+											<td><form:input path="radio_user_alias" /></td>
 											<td>${check_alias_message}</td>
 										</tr>
 										<tr>
 											<td><form:label path="radio_serial_number">Radio Serial Number</form:label></td>
-											<td><form:input path="radio_serial_number"
-													disabled="true" /></td>
+											<td><form:input path="radio_serial_number" /></td>
 											<td>${check_serial_message}</td>
 										</tr>
 										<tr>
 											<td><form:label path="ucp">UCP</form:label></td>
-											<td><form:input path="ucp" disabled="true" /></td>
+											<td><form:input path="ucp" /></td>
 										</tr>
 										<tr>
 											<td><form:label path="security_group_id">Security Group</form:label></td>
-											<td><form:select path="security_group_id"
-													disabled="true">
-													<form:options
-														items="${UCMUpdate.securityGroupForm.securityGroups}"
+											<td><form:select path="security_group_id">
+													<form:options items="${securityGroupForm.securityGroups}"
 														var="securitygroup" itemValue="security_group_id"
 														itemLabel="security_group"></form:options>
 												</form:select></td>
@@ -155,21 +151,24 @@
 											<td><form:input path="remedy_id" disabled="true" /></td>
 										</tr>
 										<tr>
-											<td><form:label path="id_issued_date">ID Issued Date</form:label></td>
+											<td><form:label path="id_issued_date">Id Issued Date</form:label></td>
 											<td><form:input path="id_issued_date" disabled="true" /></td>
 										</tr>
 										<tr>
-											<td><form:label path="date_modified">Date Modified</form:label></td>
+											<td><form:label path="date_modified">Modified Date</form:label></td>
 											<td><form:input path="date_modified" disabled="true" /></td>
 										</tr>
-
 									</table>
 								</div>
 							</div>
 							<div class="row">
-								<div class="large-4 columns">
-									<input class="button [radius round]" type="submit"
-										value="Back to UCM update" />
+								<div class="large-8 columns">
+									<ul class="button-group [radius round]">
+										<li><input class="button [radius round]" type="submit"
+											name="approve" value="Update UCM" /></li>
+										<li><input class="button [secondary alert success]"
+											type="submit" name="deny" value="Back to UCM Update" /></li>
+									</ul>
 								</div>
 							</div>
 						</form:form>

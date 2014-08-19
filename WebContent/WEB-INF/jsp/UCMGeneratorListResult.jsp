@@ -77,71 +77,137 @@
 			<div class="row">
 				<div class="large-11 large-centered columns">
 					<div class="row">
-						<h3>UCM generation result</h3>
+						<div class="large-12 columns">
+							<h3>UCM generation result</h3>
+							<p> Please change any fields if necessary</p>
+						</div>
 					</div>
 					<div class="row">
 						<div class="large-12 columns">
 							<form:form method="post" action="UCMGeneratorListSubmission.html"
 								modelAttribute="UCMConfigurationForm">
 								<div class="row">
-									<dl class="accordion" data-accordion>
+									<div class="large-12 column">
 										<c:forEach items="${UCMConfigurationForm.ucmConfigurations}"
 											var="ucmConfiguration" varStatus="status">
-											<dd class="accordion-navigation">
-												<a href="#panel${status.count}">No.${status.count}</a>
-												<div id="panel${status.count}" class="content active">
-													<div class="row">
-														<div class="large-4 medium-4 columns">
-															<form:input
-																path="ucmConfigurations[${status.index}].remedy_id"
-																readOnly="true" />
+											<dl class="accordion" data-accordion>
+												<dd class="accordion-navigation">
+													<a href="#panel${status.count}">No.${status.count}</a>
+													<div id="panel${status.count}" class="content active">
+														<div class="row">
+															<div class="large-4 medium-4 columns">
+																<label>Remedy ID <form:input type="text"
+																		path="ucmConfigurations[${status.index}].remedy_id"
+																		readOnly="true" /></label>
+															</div>
+															<div class="large-4 medium-4 columns">
+																<label>Issued Date<form:input
+																		path="ucmConfigurations[${status.index}].id_issued_date"
+																		readOnly="true" /></label>
+															</div>
+															<div class="large-4 medium-4 columns">
+																<label>Activation Status <form:input
+																		path="ucmConfigurations[${status.index}].activation_status"
+																		readOnly="true" /></label>
+															</div>
 														</div>
-														<div class="large-4 medium-4 columns">
-															<form:input
-																path="ucmConfigurations[${status.index}].activation_status"
-																readOnly="true" />
+														<div class="row">
+															<div class="large-4 medium-4 columns">
+																<label>Radio ID<form:input
+																		path="ucmConfigurations[${status.index}].radio_id"
+																		readOnly="true" /></label>
+															</div>
+															<div class="large-4 medium-4 columns">
+																<label>Radio Serial Number <form:input
+																		path="ucmConfigurations[${status.index}].radio_serial_number"
+																		readOnly="true" /></label>
+															</div>
+															<div class="large-4 medium-4 columns">
+																<label>Radio User Alias <form:input
+																		path="ucmConfigurations[${status.index}].radio_user_alias"
+																		readOnly="true" /></label>
+															</div>
 														</div>
-														<div class="large-4 medium-4 columns">
-															<form:input
-																path="ucmConfigurations[${status.index}].radio_id"
-																readOnly="true" />
+														<div class="row">
+															<div class="large-4 medium-4 columns">
+																<label>Zone ID <form:input
+																		path="ucmConfigurations[${status.index}].zone_id"
+																		readOnly="true" /></label>
+															</div>
+															<div class="large-4 medium-4 columns">
+																<label>Entity <form:input
+																		path="ucmConfigurations[${status.index}].entity_name"
+																		readOnly="true" /></label>
+															</div>
+															<div class="large-4 medium-4 columns">
+																<label>Radio Type <form:input
+																		path="ucmConfigurations[${status.index}].radio_type"
+																		readOnly="true" /></label>
+															</div>
+														</div>
+														<div class="row">
+															<div class="large-4 medium-4 columns">
+																<label>Security Group ID <form:input
+																		path="ucmConfigurations[${status.index}].security_group_id"
+																		readOnly="true" /></label>
+															</div>
+															<div class="large-4 medium-4 columns">
+																<label>Voice Enabled <form:select
+																		path="ucmConfigurations[${status.index}].voice_enabled">
+																		<form:option value="Yes" selected="selected">Yes</form:option>
+																		<form:option value="No">No</form:option>
+																	</form:select></label>
+															</div>
+															<div class="large-4 medium-4 columns">
+																<label>Interconnect Enabled <form:select
+																		path="ucmConfigurations[${status.index}].interconnect_enabled">
+																		<form:option value="Yes">Yes</form:option>
+																		<form:option value="No">No</form:option>
+																	</form:select></label>
+															</div>
+														</div>
+														<div class="row">
+															<div class="large-4 medium-4 columns">
+																<label>Secure Comms Mode<form:input
+																		path="ucmConfigurations[${status.index}].secure_comms_mode" /></label>
+															</div>
+															<div class="large-4 medium-4 columns">
+																<label>UCP<form:input
+																		path="ucmConfigurations[${status.index}].ucp" /></label>
+															</div>
+															<div class="large-4 medium-4 columns">
+																<label>Soft ID <form:input
+																		path="ucmConfigurations[${status.index}].soft_id" /></label>
+															</div>
+
+														</div>
+														<div class="row">
+															<div class="large-4 medium-4 columns">
+																<label>Primary AP <form:select
+																		path="ucmConfigurations[${status.index}].primary_core_access_point_name_id">
+																		<form:options
+																			items="${coreAccessPointForm.coreAccessPoints}"
+																			var="coreaccesspoint"
+																			itemValue="core_access_point_id"
+																			itemLabel="core_access_point_name"></form:options>
+																	</form:select></label>
+															</div>
+															<div class="large-4 medium-4 columns end">
+																<label>Backup Core AP<form:select
+																		path="ucmConfigurations[${status.index}].backup_core_access_point_name_id">
+																		<form:options
+																			items="${coreAccessPointForm.coreAccessPoints}"
+																			var="coreaccesspoint"
+																			itemValue="core_access_point_id"
+																			itemLabel="core_access_point_name"></form:options>
+																	</form:select></label>
+															</div>
 														</div>
 													</div>
-													<div class="row">
-														<div class="large-4 medium-4 columns">
-															<form:input
-																path="ucmConfigurations[${status.index}].radio_serial_number"
-																readOnly="true" />
-														</div>
-														<div class="large-4 medium-4 columns">
-															<form:input
-																path="ucmConfigurations[${status.index}].radio_user_alias"
-																readOnly="true" />
-														</div>
-														<div class="large-4 medium-4 columns">
-															<form:input
-																path="ucmConfigurations[${status.index}].zone_id"
-																readOnly="true" />
-														</div>
-													</div>
-													<div class="row">
-														<div class="large-4 medium-4 columns">
-															<form:input
-																path="ucmConfigurations[${status.index}].entity_name"
-																readOnly="true" />
-														</div>
-														<div class="large-4 medium-4 columns">
-															<form:select
-																path="ucmConfigurations[${status.index}].voice_enabled">
-																<form:option value="Yes" selected="selected">Yes</form:option>
-																<form:option value="No">No</form:option>
-															</form:select>
-														</div>
-													</div>
-												</div>
-											</dd>
+												</dd>
+											</dl>
 										</c:forEach>
-									</dl>
+									</div>
 								</div>
 								<div class="row">
 									<div class="large-4 columns">

@@ -179,7 +179,7 @@
 						<div class="row">
 							<div class="large-4 columns">
 								<input class="button [radius round]" type="submit"
-									value="Submit UCM" />
+									value="Save UCM" />
 							</div>
 						</div>
 					</form:form>

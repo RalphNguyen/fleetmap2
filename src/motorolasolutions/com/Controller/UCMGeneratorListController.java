@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import motorolasolutions.com.BusinessLogic.UCMExportLogic;
 import motorolasolutions.com.BusinessLogic.UCMGeneratorLogic;
+import motorolasolutions.com.DataObject.CoreAccessPointForm;
 import motorolasolutions.com.DataObject.EntityForm;
 import motorolasolutions.com.DataObject.Remedy;
 import motorolasolutions.com.DataObject.RemedyExport;
@@ -145,6 +146,10 @@ public class UCMGeneratorListController {
 				System.out.println("pre insert: " + ucm_conf);
 			}
 			model.addAttribute("message", "done!");
+			// create core access point list to choose for input
+			CoreAccessPointForm coreAccessPointForm = new CoreAccessPointForm();
+			coreAccessPointForm.getListCoreAccessPointForm();
+			model.addAttribute("coreAccessPointForm", coreAccessPointForm);		
 			return "UCMGeneratorListResult";
 		}
 	}

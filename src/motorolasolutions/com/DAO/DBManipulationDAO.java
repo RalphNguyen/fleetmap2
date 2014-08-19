@@ -19,4 +19,5 @@ public interface DBManipulationDAO {
   public int updateObject(Object obj);
   public Object selectObject(Object obj);
   public Collection selectObjectList();  
+  public Collection searchObjectList(String type,Object obj);
 }

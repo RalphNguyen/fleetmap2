@@ -33,7 +33,7 @@ public class UCMExportController {
 
 		model.addAttribute("UCMExport", exportData);
 		model.addAttribute("message",
-				"Input any one of following fields to search for UCM to export");
+				"Please tick the box then input values to search for UCM");
 		return "UCMExport";
 	}
 
@@ -41,18 +41,23 @@ public class UCMExportController {
 	@RequestMapping(value = "/UCMExport", method = RequestMethod.POST)
 	public String searchUCMExport(@ModelAttribute("UCMExport") ExportData exportData,
 			Model model) {
-		System.out.println(exportData.getExportSearchInput());
+		System.out.println("Search Input: \n"+exportData.getExportSearchInput());
 		UCMExportForm ucmExportForm = new UCMExportForm();
+		
+		// get a list of UCM export from the search input
 		ucmExportForm.getListUCMExportForm(exportData.getExportSearchInput());
 		
 		// if there is no return result
 		if (ucmExportForm.getUcmExports().isEmpty()) {
 			model.addAttribute("message",
-					"No UCM found, please check your inputs");
+					"No UCM found, please check your inputs, tick the box then input value to search for UCM");
 			return "UCMExport";
 		} else {
 			//this.ucmExportForm1 = ucmExportForm;
 			exportData.setUcmExportForm(ucmExportForm);
+			model.addAttribute("noOfUcm",ucmExportForm.getUcmExports().size());
+			model.addAttribute("message",
+					"Please tick the box then input values to search for UCM");
 			model.addAttribute("UCMExport", exportData);
 			return "UCMExportSearchResult";
 		}
