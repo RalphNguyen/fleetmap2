@@ -100,7 +100,7 @@ public class UCMUpdateController {
 				}
 				// else marked as used
 				else {
-					radio.updateToDatabase();
+					//radio.updateToDatabase();
 				}
 				// update modified_date
 				SimpleDateFormat sdfDate = new SimpleDateFormat(
@@ -131,7 +131,7 @@ public class UCMUpdateController {
 		securityGroupForm.getListSecurityGroupForm();
 		model.addAttribute("securityGroupForm", securityGroupForm);
 	
-		return "UCMUpdateSearchResult";
+		return "UCMUpdateResult";
 	}
 
 	// the user wants to comeback to the main menu

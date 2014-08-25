@@ -55,50 +55,63 @@
 			<div class="large-12 columns">
 				<div class="row">
 					<div class="large-12 columns">
-						<nav class="top-bar" data-topbar>
-							<!-- Title Area -->
-							<ul class="title-area">
-								<li class="name"><a href="home.html"><img
-										style="height: auto; max-height: 40px; vertical-align: center;"
-										class="logo"
-										src="<c:url value="/resources/img/motorola.png"/>"></a></li>
-								<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-							</ul>
-
-							<!-- The Section wrap -->
-							<section class="top-bar-section">
-
-								<!-- Left Nav Section -->
-								<ul class="left">
-									<li><a href="home.html">Home</a></li>
-									<li><a href="UCMGenerator.html">Generate UCM</a></li>
-									<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
-									<li><a href="UCMUpdate.html">Update UCM</a></li>
-									<li class="active"><a href="UCMExport.html">Export</a></li>
-									<li class="has-dropdown"><a href="#">Administration</a>
-										<ul class="dropdown">
-											<li><a href="#">DB Management</a></li>
-											<li><a href="#">Account Management</a></li>
-										</ul></li>
+						<div class="top-nav" data-magellan-expedition="fixed">
+							<nav class="top-bar" data-topbar>
+								<!-- Title Area -->
+								<ul class="title-area">
+									<li class="name"><a href="home.html"><img
+											style="height: auto; max-height: 40px; vertical-align: center;"
+											class="logo"
+											src="<c:url value="/resources/img/motorola.png"/>"></a></li>
+									<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 								</ul>
-								<!-- Right Nav Section -->
-								<ul class="right">
-								</ul>
-							</section>
-						</nav>
+								<!-- The Section wrap -->
+								<section class="top-bar-section">
+									<!-- Left Nav Section -->
+									<ul class="left">
+										<li><a href="home.html">Home</a></li>
+										<li><a href="UCMGenerator.html">Generate UCM</a></li>
+										<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
+										<li><a href="UCMUpdate.html">Update UCM</a></li>
+										<li class="active"><a href="UCMExport.html">Export</a></li>
+										<li class="has-dropdown"><a href="#">Administration</a>
+											<ul class="dropdown">
+												<li><a href="#">DB Management</a></li>
+												<li><a href="#">Account Management</a></li>
+											</ul></li>
+									</ul>
+									<!-- Right Nav Section -->
+									<ul class="right">
+									</ul>
+								</section>
+							</nav>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
+
 	<!-- CONTENT AREA -->
 	<div class="full-width content-area">
 		<div class="row">
 			<div class="large-12 columns">
+				<div class="progress large-12 radius round">
+					<span class="meter" style="width: 50%"></span>
+				</div>
+				<ul class="breadcrumbs">
+					<li><a href="home.html">Home</a></li>
+					<li><a href="UCMExport.html">Export UCM</a></li>
+					<li class="current"><a href="UCMExport.html">Search Input</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="large-12 columns">
 				<div class="row">
 					<div class="large-12 columns">
-						<h3>${message}</h3>
+						<p>${message}</p>
 					</div>
 				</div>
 				<div class="row">
@@ -246,7 +259,7 @@
 							</br>
 							<div class="row">
 								<div class="large-8 columns">
-									<input class="button [radius round]" type="submit"
+									<input class="button radius round" type="submit"
 										value="Search UCM" />
 								</div>
 							</div>

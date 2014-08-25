@@ -19,8 +19,35 @@ public class Entity {
     private String description;
     private int security_group_id;
     private int agency_id;
+    private int analogRadioNo;
+    private int digitalRadioNo;
+    private int p25RadioNo;
     
-    public Entity(){
+    public int getAnalogRadioNo() {
+		return analogRadioNo;
+	}
+
+	public void setAnalogRadioNo(int analogRadioNo) {
+		this.analogRadioNo = analogRadioNo;
+	}
+
+	public int getDigitalRadioNo() {
+		return digitalRadioNo;
+	}
+
+	public void setDigitalRadioNo(int digitalRadioNo) {
+		this.digitalRadioNo = digitalRadioNo;
+	}
+
+	public int getP25RadioNo() {
+		return p25RadioNo;
+	}
+
+	public void setP25RadioNo(int p25RadioNo) {
+		this.p25RadioNo = p25RadioNo;
+	}
+
+	public Entity(){
     }
     
     public Entity(String entity_name){

@@ -18,7 +18,7 @@ import motorolasolutions.com.DataObject.UCMConfiguration;
 public class UCMGeneratorLogic {
 
 	// check & insert new UCM
-	public static UCMConfiguration getInsertUCMConfiguration(
+	public static void getInsertUCMConfiguration(
 			UCMConfiguration ucm_conf) {
 		Entity entity = new Entity(ucm_conf.getEntity_name());
 		// System.out.println("entity: " + entity);
@@ -45,7 +45,7 @@ public class UCMGeneratorLogic {
 			ucm_conf.generateFields();
 			System.out.println(ucm_conf);
 		}
-		return ucm_conf;
+		//return ucm_conf;
 	}
 	
 	public static void insertRemedy(Remedy remedy) {

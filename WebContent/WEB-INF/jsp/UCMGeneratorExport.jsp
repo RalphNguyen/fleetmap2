@@ -37,46 +37,62 @@
 	<div class="full-width navigation-area">
 		<div class="row">
 			<div class="large-12 columns">
-				<nav class="top-bar" data-topbar>
-					<!-- Title Area -->
-					<ul class="title-area">
-						<li class="name"><a href="home.html"><img
-								style="height: auto; max-height: 40px; vertical-align: center;"
-								class="logo" src="<c:url value="/resources/img/motorola.png"/>"></a></li>
-						<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-					</ul>
-					<!-- The Section wrap -->
-					<section class="top-bar-section">
-						<!-- Left Nav Section -->
-						<ul class="left">
-							<li><a href="home.html">Home</a></li>
-							<li class="active"><a href="UCMGenerator.html">Generate
-									UCM</a></li>
-							<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
-							<li><a href="UCMUpdate.html">Update UCM</a></li>
-							<li><a href="UCMExport.html">Export</a></li>
-							<li class="has-dropdown"><a href="#">Administration</a>
-								<ul class="dropdown">
-									<li><a href="#">DB Management</a></li>
-									<li><a href="#">Account Management</a></li>
-								</ul></li>
+				<div class="top-nav" data-magellan-expedition="fixed">
+					<nav class="top-bar" data-topbar>
+						<!-- Title Area -->
+						<ul class="title-area">
+							<li class="name"><a href="home.html"><img
+									style="height: auto; max-height: 40px; vertical-align: center;"
+									class="logo" src="<c:url value="/resources/img/motorola.png"/>"></a></li>
+							<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 						</ul>
-						<!-- Right Nav Section -->
-						<ul class="right">
-						</ul>
-					</section>
-				</nav>
+						<!-- The Section wrap -->
+						<section class="top-bar-section">
+							<!-- Left Nav Section -->
+							<ul class="left">
+								<li><a href="home.html">Home</a></li>
+								<li class="active"><a href="UCMGenerator.html">Generate
+										UCM</a></li>
+								<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
+								<li><a href="UCMUpdate.html">Update UCM</a></li>
+								<li><a href="UCMExport.html">Export</a></li>
+								<li class="has-dropdown"><a href="#">Administration</a>
+									<ul class="dropdown">
+										<li><a href="#">DB Management</a></li>
+										<li><a href="#">Account Management</a></li>
+									</ul></li>
+							</ul>
+							<!-- Right Nav Section -->
+							<ul class="right">
+							</ul>
+						</section>
+					</nav>
+				</div>
 			</div>
 		</div>
 	</div>
 	<!-- CONTENT AREA -->
 	<div class="full-width content-area">
 		<div class="row">
-			<div class="row">
-				<div class="large-11 large-centered columns">
-					<h3>${message}</h3>
-					<form:form method="post" action="UCMGeneratorExport.html"
-						modelAttribute="UCMConfiguration">
+			<div class="large-12 columns">
+				<div class="progress large-12 radius round">
+					<span class="meter" style="width: 100%"></span>
+				</div>
+				<ul class="breadcrumbs">
+					<li><a href="home.html">Home</a></li>
+					<li><a href="UCMGenerator.html">Generate UCM</a></li>
+					<li><a href="UCMGenerator.html">Input Request</a></li>
+					<li class="unavailable"><a href="#">Configure UCM</a></li>
+					<li class="current"><a href="#">Export</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="large-12 large-centered columns">
+				<form:form method="post" action="UCMGeneratorExport.html"
+					modelAttribute="UCMConfiguration">
+					<fieldset>
+						<legend>${message}</legend>
 						<div class="row">
 							<div class="large-4 medium-4 columns">
 								<label>Remedy ID <form:input type="text"
@@ -157,20 +173,20 @@
 										path="backup_core_access_point_name_id" readOnly="true" /></label>
 							</div>
 						</div>
-						<div class="row">
-							<div class="large-12 columns">
-								<ul class="button-group [radius round]">
-									<li><input class="button [radius round]" type="submit"
-										name="ucm" value="Export UCM" /></li>
-									<li><input class="button [radius round]" type="submit"
-										name="remedy" value="Export Remedy" /></li>
-									<li><input class="button [secondary alert success]" type="submit"
-										name="back" value="Generate UCM again!" /></li>
-								</ul>
-							</div>
+					</fieldset>
+					<div class="row">
+						<div class="large-12 columns">
+							<ul class="button-group radius round">
+								<li><input class="button secondary alert success"
+									type="submit" name="ucm" value="Export UCM" /></li>
+								<li><input class="button secondary alert success"
+									type="submit" name="remedy" value="Export Remedy" /></li>
+								<li><input class="button radius round" type="submit"
+									name="back" value="Generate UCM again!" /></li>
+							</ul>
 						</div>
-					</form:form>
-				</div>
+					</div>
+				</form:form>
 			</div>
 		</div>
 	</div>

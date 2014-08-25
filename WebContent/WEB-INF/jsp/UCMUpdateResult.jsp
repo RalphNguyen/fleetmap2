@@ -28,6 +28,7 @@
 	src="<c:url value="/resources/js/jquery-ui.min.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/js/responsive-tables.js" />"></script>
+</head>
 <body>
 	<!-- HEADER AREA -->
 	<header class="full-width header-area">
@@ -42,134 +43,240 @@
 	<div class="full-width navigation-area">
 		<div class="row">
 			<div class="large-12 columns">
-				<nav class="top-bar" data-topbar>
-					<!-- Title Area -->
-					<ul class="title-area">
-						<li class="name"><a href="home.html"><img
-								style="height: auto; max-height: 40px; vertical-align: center;"
-								class="logo" src="<c:url value="/resources/img/motorola.png"/>"></a></li>
-						<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-					</ul>
-
-					<!-- The Section wrap -->
-					<section class="top-bar-section">
-
-						<!-- Left Nav Section -->
-						<ul class="left">
-							<li><a href="home.html">Home</a></li>
-							<li><a href="UCMGenerator.html">Generate UCM</a></li>
-							<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
-							<li class="active"><a href="UCMUpdate.html">Update UCM</a></li>
-							<li><a href="UCMExport.html">Export</a></li>
-							<li class="has-dropdown"><a href="#">Administration</a>
-								<ul class="dropdown">
-									<li><a href="#">DB Management</a></li>
-									<li><a href="#">Account Management</a></li>
-								</ul></li>
+				<div class="top-nav" data-magellan-expedition="fixed">
+					<nav class="top-bar" data-topbar>
+						<!-- Title Area -->
+						<ul class="title-area">
+							<li class="name"><a href="home.html"><img
+									style="height: auto; max-height: 40px; vertical-align: center;"
+									class="logo" src="<c:url value="/resources/img/motorola.png"/>"></a></li>
+							<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 						</ul>
-						<!-- Right Nav Section -->
-						<ul class="right">
-						</ul>
-					</section>
-				</nav>
+						<!-- The Section wrap -->
+						<section class="top-bar-section">
+							<!-- Left Nav Section -->
+							<ul class="left">
+								<li><a href="home.html">Home</a></li>
+								<li><a href="UCMGenerator.html">Generate UCM</a></li>
+								<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
+								<li class="active"><a href="UCMUpdate.html">Update UCM</a></li>
+								<li><a href="UCMExport.html">Export</a></li>
+								<li class="has-dropdown"><a href="#">Administration</a>
+									<ul class="dropdown">
+										<li><a href="#">DB Management</a></li>
+										<li><a href="#">Account Management</a></li>
+									</ul></li>
+							</ul>
+							<!-- Right Nav Section -->
+							<ul class="right">
+							</ul>
+						</section>
+					</nav>
+				</div>
 			</div>
 		</div>
 	</div>
+
 	<!-- CONTENT AREA -->
 	<div class="full-width content-area">
 		<div class="row">
 			<div class="large-12 columns">
 				<div class="row">
 					<div class="large-12 columns">
-						<p>${search_not_found}</p>
+						<div class="progress large-12 radius round">
+							<span class="meter" style="width: 100%"></span>
+						</div>
+						<ul class="breadcrumbs">
+							<li><a href="home.html">Home</a></li>
+							<li><a href="UCMUpdate.html">Update UCM</a></li>
+							<li><a href="UCMUpdate.html">Search UCM</a></li>
+							<li class="current"><a href="UCMUpdate.html">Update Result</a></li>
+						</ul>
 					</div>
 				</div>
 				<div class="row">
 					<div class="large-12 columns">
-						<form:form method="post" action="UCMUpdate.html"
-							modelAttribute="UCMUpdate">
-							<div class="row">
-								<div class="large-12 columns">
-									<table>
-										<tr>
-											<td><form:label path="activation_status">Activation Status</form:label></td>
-											<td><form:select path="activation_status"
-													disabled="true">
-													<form:option value="Registered and Activated">Registered and Activated</form:option>
-													<form:option value="Registered and Deactivated">Registered and Deactivated</form:option>
-													<form:option value="Deregistered">Deregistered</form:option>
-												</form:select></td>
-										</tr>
-										<tr>
-											<td><form:label path="radio_user_alias">Radio User Alias</form:label></td>
-											<td><form:input path="radio_user_alias" disabled="true" /></td>
-											<td>${check_alias_message}</td>
-										</tr>
-										<tr>
-											<td><form:label path="radio_serial_number">Radio Serial Number</form:label></td>
-											<td><form:input path="radio_serial_number"
-													disabled="true" /></td>
-											<td>${check_serial_message}</td>
-										</tr>
-										<tr>
-											<td><form:label path="ucp">UCP</form:label></td>
-											<td><form:input path="ucp" disabled="true" /></td>
-										</tr>
-										<tr>
-											<td><form:label path="security_group_id">Security Group</form:label></td>
-											<td><form:select path="security_group_id"
-													disabled="true">
-													<form:options
-														items="${UCMUpdate.securityGroupForm.securityGroups}"
-														var="securitygroup" itemValue="security_group_id"
-														itemLabel="security_group"></form:options>
-												</form:select></td>
-										</tr>
-										<tr>
-											<td><form:label path="radio_id">Radio ID</form:label></td>
-											<td><form:input path="radio_id" disabled="true" /></td>
-										</tr>
-										<tr>
-											<td><form:label path="radio_type">Radio Type</form:label></td>
-											<td><form:input path="radio_type" disabled="true" /></td>
-										</tr>
-										<tr>
-											<td><form:label path="radio_modulation_type_id">Radio Modulation Type</form:label></td>
-											<td><form:select path="radio_modulation_type_id"
-													disabled="true">
-													<form:option value="1">Analog</form:option>
-													<form:option value="2">Digital</form:option>
-													<form:option value="3">P25</form:option>
-												</form:select></td>
-										</tr>
-										<tr>
-											<td><form:label path="zone_id">Zone</form:label></td>
-											<td><form:select path="zone_id" disabled="true">
-													<form:option value="1">Zone 1</form:option>
-													<form:option value="2">Zone 2</form:option>
-													<form:option value="3">Zone 3</form:option>
-												</form:select></td>
-										</tr>
-										<tr>
-											<td><form:label path="remedy_id">Remedy ID</form:label></td>
-											<td><form:input path="remedy_id" disabled="true" /></td>
-										</tr>
-										<tr>
-											<td><form:label path="id_issued_date">ID Issued Date</form:label></td>
-											<td><form:input path="id_issued_date" disabled="true" /></td>
-										</tr>
-										<tr>
-											<td><form:label path="date_modified">Date Modified</form:label></td>
-											<td><form:input path="date_modified" disabled="true" /></td>
-										</tr>
-
-									</table>
-								</div>
+						<div class="row">
+							<div class="large-12 columns">
+								<p>${search_not_found}</p>
 							</div>
+						</div>
+						<div class="row">
+							<div class="large-12 columns">
+								<form:form method="post" action="UCMUpdate.html"
+									modelAttribute="UCMUpdate">
+									<fieldset>
+										<legend>Search input</legend>
+										<div class="row">
+											<div class="large-4 medium-4 columns">
+												<div class="row">
+													<div class="large-12 columns">
+														<label><form:checkbox
+																path="ucmUpdateSearchInput.searchByRadioUserAlias" />
+															Radio User Alias</label>
+													</div>
+													<div class="row">
+														<div class="large-12 columns">
+															<form:input path="ucmUpdateSearchInput.radio_user_alias" />
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="large-4 medium-4 columns">
+												<div class="row">
+													<div class="large-12 columns">
+														<label><form:checkbox
+																path="ucmUpdateSearchInput.searchByRadioSerialNumber" />
+															Radio Serial Number</label>
+													</div>
+													<div class="row">
+														<div class="large-12 columns">
+															<form:input
+																path="ucmUpdateSearchInput.radio_serial_number" />
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="large-4 medium-4 columns">
+												<div class="row">
+													<div class="large-12 columns">
+														<label><form:checkbox
+																path="ucmUpdateSearchInput.searchByRadioID" /> Radio ID</label>
+													</div>
+													<div class="row">
+														<div class="large-12 columns">
+															<form:input path="ucmUpdateSearchInput.radio_id" />
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</fieldset>
+									<div class="row">
+										<div class="large-8 columns">
+											<input class="button radius round" type="submit"
+												value="Search UCM" />
+										</div>
+									</div>
+								</form:form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="large-12 columns">
+						<p>${message}</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-12 columns">
+						<form:form method="post" action="submitUpdatedUCM.html"
+							modelAttribute="UCMUpdate">
+							<fieldset>
+								<legend>Search result</legend>
+								<div class="row">
+									<div class="large-12 columns">
+										<c:forEach
+											items="${UCMUpdate.ucmConfigurationForm.ucmConfigurations}"
+											var="ucmConfiguration" varStatus="status">
+											<label>No.${status.count} <form:checkbox
+													path="ucmConfigurationForm.ucmConfigurations[${status.index}].updated" />
+												Update this UCM?
+											</label>
+											<dl class="accordion" data-accordion>
+												<dd class="accordion-navigation">
+													<a href="#panel${status.count}-1">Updated fields</a>
+													<div id="panel${status.count}-1" class="content active">
+														<div class="row">
+															<div class="large-4 medium-4 columns">
+																<label>Activation Status <form:select
+																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].activation_status">
+																		<form:option value="Registered and Activated">Registered and Activated</form:option>
+																		<form:option value="Registered and Deactivated">Registered and Deactivated</form:option>
+																		<form:option value="Deregistered">Deregistered</form:option>
+																	</form:select>
+																</label>
+															</div>
+															<div class="large-4 medium-4 columns">
+																<label>Radio Serial Number <form:input
+																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].radio_serial_number" /></label>
+															</div>
+															<div class="large-4 medium-4 columns">
+																<label>Radio User Alias <form:input
+																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].radio_user_alias" /></label>
+															</div>
+														</div>
+														<div class="row">
+															<div class="large-4 medium-4 columns">
+																<label>Security Group ID <form:select
+																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].security_group_id">
+																		<form:options
+																			items="${securityGroupForm.securityGroups}"
+																			var="securitygroup" itemValue="security_group_id"
+																			itemLabel="security_group"></form:options>
+																	</form:select></label>
+															</div>
+															<div class="large-4 medium-4 columns">
+																<label>UCP<form:input
+																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].ucp" /></label>
+															</div>
+															<div class="large-4 medium-4 columns">
+																<label>Radio Type <form:select
+																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].radio_type">
+																		<form:option value="Radio">Radio</form:option>
+																		<form:option value="Console">Console</form:option>
+																	</form:select></label>
+															</div>
+														</div>
+													</div>
+												</dd>
+											</dl>
+											<dl class="accordion" data-accordion>
+												<dd class="accordion-navigation">
+													<a href="#panel${status.count}-2">Basic Information</a>
+													<div id="panel${status.count}-2" class="content active">
+														<div class="row">
+															<div class="large-4 medium-4 columns">
+																<label>Radio ID<form:input
+																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].radio_id"
+																		readOnly="true" /></label>
+															</div>
+
+															<div class="large-4 medium-4 columns">
+																<label>Remedy ID <form:input type="text"
+																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].remedy_id"
+																		readOnly="true" /></label>
+															</div>
+															<div class="large-4 medium-4 columns">
+																<label>Zone ID <form:input
+																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].zone_id"
+																		readOnly="true" /></label>
+															</div>
+														</div>
+														<div class="row">
+															<div class="large-4 medium-4 columns">
+																<label>Issued Date<form:input
+																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].id_issued_date"
+																		readOnly="true" /></label>
+															</div>
+															<div class="large-4 medium-4 columns end">
+																<label>Modified Date<form:input
+																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].date_modified"
+																		readOnly="true" /></label>
+															</div>
+														</div>
+													</div>
+												</dd>
+											</dl>
+										</c:forEach>
+									</div>
+								</div>
+							</fieldset>
 							<div class="row">
-								<div class="large-4 columns">
-									<input class="button [radius round]" type="submit"
-										value="Back to UCM update" />
+								<div class="large-8 columns">
+										<input class="button radius round" type="submit"
+											name="deny" value="Back to UCM Update" />
 								</div>
 							</div>
 						</form:form>

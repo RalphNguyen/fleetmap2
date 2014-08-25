@@ -103,6 +103,7 @@ public class UCMGeneratorListController {
 				entityForm.getListEntityForm();
 				model.addAttribute("entityList", entityForm);
 				model.addAttribute("UCMConfigurationForm", ucmConfigurationForm);
+				model.addAttribute("noOfUcm",ucmConfigurationForm.getUcmConfigurations().size());
 				// return "You successfully uploaded file=" + name;
 				return "UCMGeneratorList";
 			} catch (Exception e) {
@@ -119,6 +120,13 @@ public class UCMGeneratorListController {
 	public String generateUCMConfigurationList(
 			@ModelAttribute("UCMConfigurationForm") @Validated UCMConfigurationForm ucmConfigurationForm,
 			BindingResult bindingResult, Model model) {
+		List<UCMConfiguration> ucmConfigurations = new ArrayList<UCMConfiguration>();
+		for(UCMConfiguration ucm_conf:ucmConfigurationForm.getUcmConfigurations()){
+			if(ucm_conf.isUpdated()){
+				ucmConfigurations.add(ucm_conf);
+			}
+		}
+		ucmConfigurationForm.setUcmConfigurations(ucmConfigurations);
 		if (bindingResult.hasErrors()) {
 			EntityForm entityForm = new EntityForm();
 			entityForm.getListEntityForm();
@@ -138,14 +146,14 @@ public class UCMGeneratorListController {
 				// insert remedy to DB
 				UCMGeneratorLogic.insertRemedy(remedy);
 				// get the insert information
-				ucm_conf = UCMGeneratorLogic
+				UCMGeneratorLogic
 						.getInsertUCMConfiguration(ucm_conf);
 			}
 			for (UCMConfiguration ucm_conf : ucmConfigurationForm
 					.getUcmConfigurations()) {
 				System.out.println("pre insert: " + ucm_conf);
 			}
-			model.addAttribute("message", "done!");
+			model.addAttribute("noOfUcm",ucmConfigurationForm.getUcmConfigurations().size());
 			// create core access point list to choose for input
 			CoreAccessPointForm coreAccessPointForm = new CoreAccessPointForm();
 			coreAccessPointForm.getListCoreAccessPointForm();
@@ -163,13 +171,14 @@ public class UCMGeneratorListController {
 				.getUcmConfigurations()) {
 			System.out.println("insert: " + ucm_conf);
 			// insert to UCM_configuration table
-			ucm_conf.setUcm_id(ucm_conf.insertToDatabase());
+			int remedy_id = ucm_conf.insertToDatabase();
+			ucm_conf.setUcm_id(remedy_id);
+			//ucm_conf.setUcm_id(ucm_conf.insertToDatabase());
 			System.out.println("after insert " + ucm_conf);
 			// create then insert remedy_export
 			ucm_conf.insertRemedyExport();
 		}
-		model.addAttribute("message",
-				"One UCM record was added to the database");
+		model.addAttribute("noOfUcm",ucmConfigurationForm.getUcmConfigurations().size());
 		return "UCMGeneratorListExport";
 	}
 

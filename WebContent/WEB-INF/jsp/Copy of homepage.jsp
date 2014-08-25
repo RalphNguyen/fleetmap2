@@ -27,7 +27,11 @@
 <script type="text/javascript"
 	src="<c:url value="/resources/js/jquery-ui.min.js" />"></script>
 <script type="text/javascript"
+	src="<c:url value="/resources/js/Chart.js" />"></script>
+<script type="text/javascript"
 	src="<c:url value="/resources/js/responsive-tables.js" />"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/js/myJS.js" />"></script>
 </head>
 <body>
 	<!-- HEADER AREA -->
@@ -43,36 +47,36 @@
 	<div class="full-width navigation-area">
 		<div class="row">
 			<div class="large-12 columns">
-				<nav class="top-bar" data-topbar>
-					<!-- Title Area -->
-					<ul class="title-area">
-						<li class="name"><a href="home.html"><img
-								style="height: auto; max-height: 40px; vertical-align: center;"
-								class="logo" src="<c:url value="/resources/img/motorola.png"/>"></a></li>
-						<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-					</ul>
-
-					<!-- The Section wrap -->
-					<section class="top-bar-section">
-
-						<!-- Left Nav Section -->
-						<ul class="left">
-							<li><a href="home.html">Home</a></li>
-							<li><a href="UCMGenerator.html">Generate UCM</a></li>
-							<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
-							<li class="active"><a href="UCMUpdate.html">Update UCM</a></li>
-							<li><a href="UCMExport.html">Export</a></li>
-							<li class="has-dropdown"><a href="#">Administration</a>
-								<ul class="dropdown">
-									<li><a href="#">DB Management</a></li>
-									<li><a href="#">Account Management</a></li>
-								</ul></li>
+				<div class="top-nav" data-magellan-expedition="fixed">
+					<nav class="top-bar" data-topbar>
+						<!-- Title Area -->
+						<ul class="title-area">
+							<li class="name"><a href="home.html"><img
+									style="height: auto; max-height: 40px; vertical-align: center;"
+									class="logo" src="<c:url value="/resources/img/motorola.png"/>"></a></li>
+							<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 						</ul>
-						<!-- Right Nav Section -->
-						<ul class="right">
-						</ul>
-					</section>
-				</nav>
+						<!-- The Section wrap -->
+						<section class="top-bar-section">
+							<!-- Left Nav Section -->
+							<ul class="left">
+								<li class="active"><a href="home.html">Home</a></li>
+								<li><a href="UCMGenerator.html">Generate UCM</a></li>
+								<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
+								<li><a href="UCMUpdate.html">Update UCM</a></li>
+								<li><a href="UCMExport.html">Export</a></li>
+								<li class="has-dropdown"><a href="#">Administration</a>
+									<ul class="dropdown">
+										<li><a href="#">DB Management</a></li>
+										<li><a href="#">Account Management</a></li>
+									</ul></li>
+							</ul>
+							<!-- Right Nav Section -->
+							<ul class="right">
+							</ul>
+						</section>
+					</nav>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -81,46 +85,22 @@
 		<div class="row">
 			<div class="large-12 columns">
 				<div class="row">
-					<div class="large-12 columns">
-						<div class="row">
-							<div class="large-12 columns">
-								<p>${search_not_found}</p>
+					<div class="large-8 columns">
+						<h1></h1>
+						<h3>Dashboard</h3>
+						<p>Put the content here</p>
+						<div>
+							<input type="button" value="Save1" onclick="doAjaxPost();" />
+						</div>
+						<div>
+							<input type="button" value="Save2" onclick="drawOther();" />
+						</div>
+						<div style="width: 80%">
+							<div>
+								<canvas id="canvas" height="600" width="600"></canvas>
 							</div>
 						</div>
-						<div class="row">
-							<div class="large-12 columns">
-								<form:form method="post" action="UCMUpdate.html"
-									modelAttribute="UCMUpdate">
-									<div class="row">
-										<div class="large-4 medium-4 columns">
-											<label>Radio User Alias <form:input type="text"
-													path="radio_user_alias" />
-											</label>
-										</div>
-									</div>
-									<div class="row">
-										<div class="large-4 medium-4 columns">
-											<label>Radio Serial Number <form:input type="text"
-													path="radio_serial_number" />
-											</label>
-										</div>
-									</div>
-									<div class="row">
-										<div class="large-4 medium-4 columns">
-											<label>Radio ID <form:input type="text"
-													path="radio_id" />
-											</label>
-										</div>
-									</div>
-									<div class="row">
-										<div class="large-4 columns">
-											<input class="button [radius round]" type="submit"
-												value="Search UCM" />
-										</div>
-									</div>
-								</form:form>
-							</div>
-						</div>
+
 					</div>
 				</div>
 			</div>

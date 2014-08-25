@@ -65,6 +65,7 @@ public class RadioDAO implements DBManipulationDAO{
         return flag;
     }
 
+    // mark radio used_flag as 'No' when the radio is deregistered
     @Override
     public int deleteObject(Object obj) {
         int flag = 0;

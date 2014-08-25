@@ -39,37 +39,39 @@
 	<div class="full-width navigation-area">
 		<div class="row">
 			<div class="large-12 columns">
-				<nav class="top-bar" data-topbar>
-					<!-- Title Area -->
-					<ul class="title-area">
-						<li class="name"><a href="home.html"><img
-								style="height: auto; max-height: 40px; vertical-align: center;"
-								class="logo" src="<c:url value="/resources/img/motorola.png"/>"></a></li>
-						<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-					</ul>
-
-					<!-- The Section wrap -->
-					<section class="top-bar-section">
-
-						<!-- Left Nav Section -->
-						<ul class="left">
-							<li><a href="home.html">Home</a></li>
-							<li><a href="UCMGenerator.html">Generate UCM</a></li>
-							<li class="active"><a href="UCMGeneratorList.html">Generate
-									UCM List</a></li>
-							<li><a href="UCMUpdate.html">Update UCM</a></li>
-							<li><a href="UCMExport.html">Export</a></li>
-							<li class="has-dropdown"><a href="#">Administration</a>
-								<ul class="dropdown">
-									<li><a href="#">DB Management</a></li>
-									<li><a href="#">Account Management</a></li>
-								</ul></li>
+				<div class="top-nav" data-magellan-expedition="fixed">
+					<nav class="top-bar" data-topbar>
+						<!-- Title Area -->
+						<ul class="title-area">
+							<li class="name"><a href="home.html"><img
+									style="height: auto; max-height: 40px; vertical-align: center;"
+									class="logo" src="<c:url value="/resources/img/motorola.png"/>"></a></li>
+							<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 						</ul>
-						<!-- Right Nav Section -->
-						<ul class="right">
-						</ul>
-					</section>
-				</nav>
+
+						<!-- The Section wrap -->
+						<section class="top-bar-section">
+
+							<!-- Left Nav Section -->
+							<ul class="left">
+								<li><a href="home.html">Home</a></li>
+								<li><a href="UCMGenerator.html">Generate UCM</a></li>
+								<li class="active"><a href="UCMGeneratorList.html">Generate
+										UCM List</a></li>
+								<li><a href="UCMUpdate.html">Update UCM</a></li>
+								<li><a href="UCMExport.html">Export</a></li>
+								<li class="has-dropdown"><a href="#">Administration</a>
+									<ul class="dropdown">
+										<li><a href="#">DB Management</a></li>
+										<li><a href="#">Account Management</a></li>
+									</ul></li>
+							</ul>
+							<!-- Right Nav Section -->
+							<ul class="right">
+							</ul>
+						</section>
+					</nav>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -79,103 +81,116 @@
 			<div class="large-12 columns">
 				<div class="row">
 					<div class="large-12 columns">
-						<div class="row">
-							<div class="large-12 columns">
-								<h3>List of radio to allocate IDs</h3>
-							</div>
+						<div class="progress large-12 radius round">
+							<span class="meter" style="width: 50%"></span>
 						</div>
-						<div class="row">
-							<div class="large-12 columns">
-								<form:form method="post"
-									action="generateUCMConfigurationList.html"
-									modelAttribute="UCMConfigurationForm">
-									<div class="row">
-										<div class="large-1 columns">No.</div>
-										<div class="large-11 columns">
-											<div class="row">
-												<div class="large-2 columns">Activation Status</div>
-												<div class="large-2 columns">Remedy ID</div>
-												<div class="large-2 columns">Radio Serial Number</div>
-												<div class="large-2 columns">Radio User Alias</div>
-												<div class="large-2 columns">Zone ID</div>
-												<div class="large-2 columns">Entity Name</div>
-											</div>
+						<ul class="breadcrumbs">
+							<li><a href="home.html">Home</a></li>
+							<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
+							<li><a href="UCMGeneratorList.html">Upload input</a></li>
+							<li class="current"><a href="UCMGeneratorList.html">Modify
+									Input</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-12 columns">
+						<form:form method="post"
+							action="generateUCMConfigurationList.html"
+							modelAttribute="UCMConfigurationForm">
+							<fieldset>
+								<legend>${noOfUcm} radios to allocate IDs</legend>
+								<div class="row">
+									<div class="large-1 medium-1 columns">No.</div>
+									<div class="large-11 medium-11 columns">
+										<div class="row">
+											<div class="large-2 medium-2 columns">Serial Number</div>
+											<div class="large-2 medium-2 columns">User Alias</div>
+											<div class="large-1 medium-1 columns">Zone</div>
+											<div class="large-3 medium-3 columns">Entity Name</div>
+											<div class="large-2 medium-2 columns">Remedy ID</div>
+											<div class="large-2 medium-2 columns">Activation Status</div>
 										</div>
 									</div>
-									<div class="row">
-										<div class="large-12 columns">
-											<c:forEach items="${UCMConfigurationForm.ucmConfigurations}"
-												var="ucmConfiguration" varStatus="status">
-												<div class="row">
-													<div class="large-1 columns">${status.count}</div>
-													<div class="large-11 columns">
-														<div class="row">
-															<div class="large-2 columns">
-																<form:select
-																	path="ucmConfigurations[${status.index}].activation_status">
-																	<form:option value="Registered and Activated"
-																		selected="selected">Registered and Activated</form:option>
-																	<form:option value="Registered and Deactivated">Registered and Deactivated</form:option>
-																	<form:option value="Deregistered">Deregistered</form:option>
-																</form:select>
-															</div>
-															<div class="large-2 columns">
-																<form:input
-																	path="ucmConfigurations[${status.index}].remedy_id" />
-																<springForm:errors
-																	path="ucmConfigurations[${status.index}].remedy_id"
-																	cssClass="error" />
-															</div>
-															<div class="large-2 columns">
-																<form:input
-																	path="ucmConfigurations[${status.index}].radio_serial_number" />
-																<springForm:errors
-																	path="ucmConfigurations[${status.index}].radio_serial_number"
-																	cssClass="error" />
-															</div>
-															<div class="large-2 columns">
-																<form:input
-																	path="ucmConfigurations[${status.index}].radio_user_alias" />
-																<springForm:errors
-																	path="ucmConfigurations[${status.index}].radio_user_alias"
-																	cssClass="error" />
-															</div>
-															<div class="large-2 columns">
-																<form:select
-																	path="ucmConfigurations[${status.index}].zone_id">
-																	<form:option value="1">Zone 1</form:option>
-																	<form:option value="2">Zone 2</form:option>
-																	<form:option value="3">Zone 3</form:option>
-																</form:select>
-															</div>
-															<div class="large-2 columns">
-																<form:select
-																	path="ucmConfigurations[${status.index}].entity_name">
-																	<form:options items="${entityList.entities}"
-																		var="entity" itemValue="entity_name"
-																		itemLabel="entity_name"></form:options>
-																</form:select>
-															</div>
+								</div>
+								<div class="row">
+									<div class="large-12 columns">
+										<c:forEach items="${UCMConfigurationForm.ucmConfigurations}"
+											var="ucmConfiguration" varStatus="status">
+											<div class="row">
+												<div class="large-1 medium-1 columns">
+													<label><form:checkbox
+															path="ucmConfigurations[${status.index}].updated"
+															checked="checked" /> ${status.count}</label>
+												</div>
+												<div class="large-11 medium-11 columns">
+													<div class="row">
+														<div class="large-2 medium-2 columns">
+															<form:input
+																path="ucmConfigurations[${status.index}].radio_serial_number" />
+															<springForm:errors
+																path="ucmConfigurations[${status.index}].radio_serial_number"
+																cssClass="error" />
+														</div>
+														<div class="large-2 medium-2 columns">
+															<form:input
+																path="ucmConfigurations[${status.index}].radio_user_alias" />
+															<springForm:errors
+																path="ucmConfigurations[${status.index}].radio_user_alias"
+																cssClass="error" />
+														</div>
+														<div class="large-1 medium-1 columns">
+															<form:select
+																path="ucmConfigurations[${status.index}].zone_id">
+																<form:option value="1">1</form:option>
+																<form:option value="2">2</form:option>
+																<form:option value="3">3</form:option>
+															</form:select>
+														</div>
+														<div class="large-3 medium-3 columns">
+															<form:select
+																path="ucmConfigurations[${status.index}].entity_name">
+																<form:options items="${entityList.entities}"
+																	var="entity" itemValue="entity_name"
+																	itemLabel="entity_name"></form:options>
+															</form:select>
+														</div>
+														<div class="large-2 medium-2 columns">
+															<form:input
+																path="ucmConfigurations[${status.index}].remedy_id" />
+															<springForm:errors
+																path="ucmConfigurations[${status.index}].remedy_id"
+																cssClass="error" />
+														</div>
+														<div class="large-2 medium-2 columns">
+															<form:select
+																path="ucmConfigurations[${status.index}].activation_status">
+																<form:option value="Registered and Activated"
+																	selected="selected">Registered and Activated</form:option>
+																<form:option value="Registered and Deactivated">Registered and Deactivated</form:option>
+																<form:option value="Deregistered">Deregistered</form:option>
+															</form:select>
 														</div>
 													</div>
 												</div>
-											</c:forEach>
-										</div>
+											</div>
+										</c:forEach>
 									</div>
-									<div class="row">
-										<div class="large-12 columns">
-											<input class="button [radius round]" type="submit"
-												value="Generate UCMs" />
-										</div>
-									</div>
-								</form:form>
+								</div>
+							</fieldset>
+							<div class="row">
+								<div class="large-4 medium-4 columns">
+									<input class="button radius round" type="submit"
+										value="Generate UCMs" />
+								</div>
 							</div>
-						</div>
+						</form:form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 	<!-- FOOTER AREA -->
 	<div class="full-width footer-area">
 		<div class="row">

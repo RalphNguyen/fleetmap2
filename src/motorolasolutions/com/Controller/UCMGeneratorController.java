@@ -82,7 +82,7 @@ public class UCMGeneratorController {
 			// insert remedy to DB
 			UCMGeneratorLogic.insertRemedy(remedy);
 			// get the insert information
-			ucm_conf = UCMGeneratorLogic.getInsertUCMConfiguration(ucm_conf);
+			UCMGeneratorLogic.getInsertUCMConfiguration(ucm_conf);
 			System.out.println("pre insert: " + ucm_conf);
 
 			// create core access point list to choose for input
@@ -103,7 +103,8 @@ public class UCMGeneratorController {
 			Model model) {
 		System.out.println("insert: " + ucm_conf);
 		// insert to UCM_configuration table
-		ucm_conf.setUcm_id(ucm_conf.insertToDatabase());
+		int ucm_id = ucm_conf.insertToDatabase();
+		ucm_conf.setUcm_id(ucm_id);
 		System.out.println("after insert " + ucm_conf);
 		// create then insert remedy_export
 		ucm_conf.insertRemedyExport();

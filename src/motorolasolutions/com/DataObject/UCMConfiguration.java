@@ -538,6 +538,7 @@ public class UCMConfiguration implements UpdateData {
 		notes = "N/A";
 		data_agency_group = "N/A";
 		interconnect_secure_key_reference = "N/A";
+		primary_core_access_point_name_id =1;
 
 		// get softID
 		soft_id = getSoftID();

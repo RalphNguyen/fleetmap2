@@ -38,59 +38,79 @@
 	<div class="full-width navigation-area">
 		<div class="row">
 			<div class="large-12 columns">
-				<nav class="top-bar" data-topbar>
-					<!-- Title Area -->
-					<ul class="title-area">
-						<li class="name"><a href="home.html"><img
-								style="height: auto; max-height: 40px; vertical-align: center;"
-								class="logo" src="<c:url value="/resources/img/motorola.png"/>"></a></li>
-						<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-					</ul>
-					<!-- The Section wrap -->
-					<section class="top-bar-section">
+				<div class="top-nav" data-magellan-expedition="fixed">
+					<nav class="top-bar" data-topbar>
+						<!-- Title Area -->
+						<ul class="title-area">
+							<li class="name"><a href="home.html"><img
+									style="height: auto; max-height: 40px; vertical-align: center;"
+									class="logo" src="<c:url value="/resources/img/motorola.png"/>"></a></li>
+							<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+						</ul>
+						<!-- The Section wrap -->
+						<section class="top-bar-section">
 
-						<!-- Left Nav Section -->
-						<ul class="left">
-							<li><a href="home.html">Home</a></li>
-							<li><a href="UCMGenerator.html">Generate UCM</a></li>
-							<li class="active"><a href="UCMGeneratorList.html">Generate
-									UCM List</a></li>
-							<li><a href="UCMUpdate.html">Update UCM</a></li>
-							<li><a href="UCMExport.html">Export</a></li>
-							<li class="has-dropdown"><a href="#">Administration</a>
-								<ul class="dropdown">
-									<li><a href="#">DB Management</a></li>
-									<li><a href="#">Account Management</a></li>
-								</ul></li>
-						</ul>
-						<!-- Right Nav Section -->
-						<ul class="right">
-						</ul>
-					</section>
-				</nav>
+							<!-- Left Nav Section -->
+							<ul class="left">
+								<li><a href="home.html">Home</a></li>
+								<li><a href="UCMGenerator.html">Generate UCM</a></li>
+								<li class="active"><a href="UCMGeneratorList.html">Generate
+										UCM List</a></li>
+								<li><a href="UCMUpdate.html">Update UCM</a></li>
+								<li><a href="UCMExport.html">Export</a></li>
+								<li class="has-dropdown"><a href="#">Administration</a>
+									<ul class="dropdown">
+										<li><a href="#">DB Management</a></li>
+										<li><a href="#">Account Management</a></li>
+									</ul></li>
+							</ul>
+							<!-- Right Nav Section -->
+							<ul class="right">
+							</ul>
+						</section>
+					</nav>
+				</div>
 			</div>
 		</div>
 	</div>
 	<!-- CONTENT AREA -->
 	<div class="full-width content-area">
 		<div class="row">
-			<div class="row">
-				<div class="large-11 large-centered columns">
-					<form method="POST" action="UCMGeneratorList.html"
-						enctype="multipart/form-data">
-						<div class="row">
-							<div class="large-4 columns">
-								<label>File to upload: <input type="file" name="file">
-								</label>
-							</div>
+			<div class="large-12 columns">
+				<div class="row">
+					<div class="large-12 columns">
+						<div class="progress large-12 radius round">
+							<span class="meter" style="width: 25%"></span>
 						</div>
-						<div class="row">
-							<div class="large-4 columns end">
-								<input type="submit" value="Upload">
+						<ul class="breadcrumbs">
+							<li><a href="home.html">Home</a></li>
+							<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
+							<li class="current"><a href="UCMGeneratorList.html">Upload
+									input</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-12 columns">
+						<form method="POST" action="UCMGeneratorList.html"
+							enctype="multipart/form-data">
+							<fieldset>
+								<legend>File to upload</legend>
+								<div class="row">
+									<div class="large-4 columns">
+										<input type="file" name="file">
+									</div>
+								</div>
+							</fieldset>
+							<div class="row">
+								<div class="large-4 columns">
+									<input class="button radius round" type="submit"
+										value="Upload">
+								</div>
 							</div>
-						</div>
-					</form>
-					<p>${message}</p>
+						</form>
+						<p>${message}</p>
+					</div>
 				</div>
 			</div>
 		</div>
