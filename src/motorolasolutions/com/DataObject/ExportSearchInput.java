@@ -9,6 +9,7 @@ public class ExportSearchInput {
 	private String radio_serial_number;
 	private String activation_status;
 	private int radio_id;
+	private int radio_modulation_type_id;
 	private boolean searchByIdIssuedDate;
 	private boolean searchByEntity;
 	private boolean searchByZoneId;
@@ -16,6 +17,7 @@ public class ExportSearchInput {
 	private boolean searchByRadioSerialNumber;
 	private boolean searchByStatus;
 	private boolean searchByRadioId;
+	private boolean searchByRadioModulationType;
 
 	// getter & setter
 	public String getEntity_name() {
@@ -72,6 +74,14 @@ public class ExportSearchInput {
 
 	public void setActivation_status(String activation_status) {
 		this.activation_status = activation_status;
+	}
+
+	public int getRadio_modulation_type_id() {
+		return radio_modulation_type_id;
+	}
+
+	public void setRadio_modulation_type_id(int radio_modulation_type_id) {
+		this.radio_modulation_type_id = radio_modulation_type_id;
 	}
 
 	public boolean isSearchByIdIssuedDate() {
@@ -136,6 +146,14 @@ public class ExportSearchInput {
 
 	public void setRadio_id(int radio_id) {
 		this.radio_id = radio_id;
+	}
+	
+	public boolean isSearchByRadioModulationType() {
+		return searchByRadioModulationType;
+	}
+
+	public void setSearchByRadioModulationType(boolean searchByRadioModulationType) {
+		this.searchByRadioModulationType = searchByRadioModulationType;
 	}
 
 	@Override

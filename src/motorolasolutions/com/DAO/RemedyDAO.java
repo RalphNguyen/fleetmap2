@@ -7,6 +7,7 @@
 package motorolasolutions.com.DAO;
 
 import motorolasolutions.com.DataObject.Remedy;
+import motorolasolutions.com.DataObject.RemedyExport;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -79,6 +80,11 @@ public class RemedyDAO implements DBManipulationDAO{
 	@Override
 	public Collection searchObjectList(String type, Object obj) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getCSVObject(Object obj) {
 		return null;
 	}
     

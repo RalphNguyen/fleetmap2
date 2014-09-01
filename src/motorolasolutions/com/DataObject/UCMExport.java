@@ -1,5 +1,8 @@
 package motorolasolutions.com.DataObject;
 
+import motorolasolutions.com.DAO.DAOFactory;
+import motorolasolutions.com.DAO.DBManipulationDAO;
+
 public class UCMExport implements ExportFile {
 	private int ucm_id;
 	private String radio_user_data_type;
@@ -33,6 +36,9 @@ public class UCMExport implements ExportFile {
 	private int radio_user_interconnect_profile_id;
 	private int backup_core_access_point_name_id;
 	private int primary_core_access_point_name_id;
+	private String interconnect_subsystem;
+	private String talkgroup_alias;
+	private String radio_capabilities_profile_id;
 
 	// getter and setter
 	public int getUcm_id() {
@@ -296,26 +302,46 @@ public class UCMExport implements ExportFile {
 		this.primary_core_access_point_name_id = primary_core_access_point_name_id;
 	}
 
+	public String getInterconnect_subsystem() {
+		return interconnect_subsystem;
+	}
+
+	public void setInterconnect_subsystem(String interconnect_subsystem) {
+		this.interconnect_subsystem = interconnect_subsystem;
+	}
+
+	public String getTalkgroup_alias() {
+		return talkgroup_alias;
+	}
+
+	public void setTalkgroup_alias(String talkgroup_alias) {
+		this.talkgroup_alias = talkgroup_alias;
+	}
+
+	public String getRadio_capabilities_profile_id() {
+		return radio_capabilities_profile_id;
+	}
+
+	public void setRadio_capabilities_profile_id(
+			String radio_capabilities_profile_id) {
+		this.radio_capabilities_profile_id = radio_capabilities_profile_id;
+	}
+
 	@Override
 	public String getCSV() {
-		// TODO Auto-generated method stub
+		DAOFactory ucmDAOFactory = DAOFactory
+				.getDAOFactory(DAOFactory.UCMEXPORT);
+		DBManipulationDAO dBManipulationDAO = ucmDAOFactory
+				.getDBManipulationDAO();
+		dBManipulationDAO.getCSVObject(this);
 		String s;
-		s = ucm_id + "," + radio_user_data_type + "," + activation_status + ","
-				+ radio_id + "," + radio_serial_number + "," + radio_user_alias
-				+ "," + voice_enabled + "," + interconnect_enabled + ","
-				+ emergency_alarm_comments + "," + secure_comms_mode + ","
-				+ data_capabilities + "," + direct_dial_number + ","
-				+ secure_land_to_mobile_start_mode + ","
-				+ interconnect_secure_key_reference + ","
-				+ ip_address_assignment + "," + ip_address + ","
-				+ generate_icmp_message + "," + source_address_checking + ","
-				+ ready_timer + "," + data_agency_group + "," + notes + ","
-				+ id_issued_date + "," + date_modified + "," + ucp + ","
-				+ soft_id + "," + radio_type + "," + security_group_id + ","
-				+ radio_site_access_profile_id + "," + remedy_id + ","
-				+ radio_user_interconnect_profile_id + ","
-				+ backup_core_access_point_name_id + ","
-				+ primary_core_access_point_name_id;
+		s = radio_id+","+radio_serial_number+","+radio_user_alias+","+security_group_id+","
+				+radio_capabilities_profile_id+","+radio_site_access_profile_id+","+talkgroup_alias+","
+				+voice_enabled+","+interconnect_enabled+","+emergency_alarm_comments+","+secure_comms_mode+","
+				+data_capabilities+","+direct_dial_number+","+secure_land_to_mobile_start_mode+","+interconnect_subsystem+","
+				+radio_user_interconnect_profile_id+","+interconnect_secure_key_reference+","+ip_address_assignment+","
+				+ip_address+","+generate_icmp_message+","+source_address_checking+","+ready_timer+","+data_agency_group+","
+				+primary_core_access_point_name_id+","+backup_core_access_point_name_id+","+notes+","+date_modified;
 		return s;
 	}
 	

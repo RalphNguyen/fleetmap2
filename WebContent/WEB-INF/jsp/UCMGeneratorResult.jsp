@@ -54,7 +54,7 @@
 
 							<!-- Left Nav Section -->
 							<ul class="left">
-								<li><a href="home.html">Home</a></li>
+								<li><a href="home.html">Dashboard</a></li>
 								<li class="active"><a href="UCMGenerator.html">Generate
 										UCM</a></li>
 								<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
@@ -191,9 +191,13 @@
 						</div>
 					</fieldset>
 					<div class="row">
-						<div class="large-4 columns">
-							<input class="button radius round" type="submit"
-								value="Save UCM" />
+						<div class="large-8 columns">
+							<ul class="button-group">
+								<li><input class="small button secondary alert"
+									type="submit" name="save" value="Save UCM" /></li>
+								<li><input class="small button" type="submit"
+									name="back" value="Back" /></li>
+							</ul>
 						</div>
 					</div>
 				</form:form>

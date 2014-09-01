@@ -135,5 +135,11 @@ public class EntityDAO implements DBManipulationDAO{
 		return null;
 	}
 
+	@Override
+	public Object getCSVObject(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
     
 }

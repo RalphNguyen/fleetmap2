@@ -69,7 +69,7 @@ public class UCMConfigurationDAO implements DBManipulationDAO {
 			connection = ConnectionFactory.getConnection();
 			statement = connection.createStatement();
 			statement.executeUpdate(query);
-			System.out.println("insert one record to UCM_Configuration table");
+			//System.out.println("insert one record to UCM_Configuration table");
 		} catch (SQLException ex) {
 			Logger.getLogger(EntityDAO.class.getName()).log(Level.SEVERE, null,
 					ex);
@@ -205,7 +205,7 @@ public class UCMConfigurationDAO implements DBManipulationDAO {
 	public Collection searchObjectList(String type, Object obj) {
 		List<UCMConfiguration> ucmConfList = new ArrayList<UCMConfiguration>();
 		String query = "SELECT * FROM ucm_configuration AS t1 INNER JOIN "
-				+ "entity as t2 ON t1.security_group_id=t2.security_group_id INNER JOIN "
+				+ "security_group as t2 ON t1.security_group_id=t2.security_group_id INNER JOIN "
 				+ "radio as t3 ON t1.radio_id = t3.radio_id WHERE";
 
 		switch (type) {
@@ -233,7 +233,6 @@ public class UCMConfigurationDAO implements DBManipulationDAO {
 		default:
 			break;
 		}
-
 		ResultSet rs = null;
 		try {
 			connection = ConnectionFactory.getConnection();
@@ -299,6 +298,39 @@ public class UCMConfigurationDAO implements DBManipulationDAO {
 			DbUtil.close(connection);
 		}
 		return ucmConfList;
+	}
+
+	@Override
+	public Object getCSVObject(Object obj) {
+		UCMConfiguration ucm_conf=(UCMConfiguration) obj;
+		String query = "SELECT * FROM ucm_configuration as t1 "
+				+ "inner join radio as t2 on t1.radio_id=t2.radio_id "
+				+ "inner join zone as t3 on t2.zone_id=t3.zone_id "
+				+ "inner join security_group as t4 on t1.security_group_id=t4.security_group_id "
+				+ "inner join talkgroup as t5 on t4.talkgroup_id=t5.talkgroup_id "
+				+ "inner join radio_capabilities_mapping as t6 on t1.security_group_id=t6.security_group_id AND t1.radio_type=t6.radio_type "
+				+ "where t1.ucm_id=" + ucm_conf.getUcm_id();
+		ResultSet rs = null;
+		try {
+			connection = ConnectionFactory.getConnection();
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			if (rs.next()) {
+				ucm_conf.setTalkgroup_alias(rs.getString("talkgroup_alias"));
+				ucm_conf.setInterconnect_subsystem(rs
+						.getString("interconnect_subsystem"));
+				ucm_conf.setRadio_capabilities_profile_id(rs
+						.getString("radio_capabilities_profile_id"));
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(EntityDAO.class.getName()).log(Level.SEVERE, null,
+					ex);
+		} finally {
+			DbUtil.close(rs);
+			DbUtil.close(statement);
+			DbUtil.close(connection);
+		}
+		return obj;
 	}
 
 }

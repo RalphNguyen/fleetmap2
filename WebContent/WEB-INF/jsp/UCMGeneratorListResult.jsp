@@ -52,7 +52,7 @@
 
 							<!-- Left Nav Section -->
 							<ul class="left">
-								<li><a href="home.html">Home</a></li>
+								<li><a href="home.html">Dashboard</a></li>
 								<li><a href="UCMGenerator.html">Generate UCM</a></li>
 								<li class="active"><a href="UCMGeneratorList.html">Generate
 										UCM List</a></li>
@@ -94,7 +94,7 @@
 			<div class="large-12 columns">
 				<div class="row">
 					<div class="large-12 columns">
-						<p>${noOfUcm} radios to allocate IDs</p>
+						<p>${noOfUcm}radios to allocate IDs</p>
 					</div>
 				</div>
 				<div class="row">
@@ -241,9 +241,13 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="large-4 columns">
-									<input class="button radius round" type="submit"
-										value="Save UCM" />
+								<div class="large-12 medium-12 columns">
+									<ul class="button-group">
+										<li><input class="small button secondary alert success"
+											type="submit" name="approve" value="Save UCMs" /></li>
+										<li><input class="small button" type="submit" name="deny"
+											value="Back" /></li>
+									</ul>
 								</div>
 							</div>
 						</form:form>

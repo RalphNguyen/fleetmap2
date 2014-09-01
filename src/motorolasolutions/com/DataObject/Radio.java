@@ -19,6 +19,9 @@ public class Radio implements UpdateData{
     int radio_modulation_type;
     int zone_id;
 
+    public Radio(){   	
+    }
+    
     public int getRadio_id() {
         return radio_id;
     }

@@ -53,7 +53,7 @@
 
 							<!-- Left Nav Section -->
 							<ul class="left">
-								<li><a href="home.html">Home</a></li>
+								<li><a href="home.html">Dashboard</a></li>
 								<li class="active"><a href="UCMGenerator.html">Generate
 										UCM</a></li>
 								<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
@@ -97,7 +97,7 @@
 						<form:form method="post" action="UCMGenerator.html"
 							modelAttribute="UCMConfiguration">
 							<fieldset>
-								<legend>Please input to generate a UCM Data</legend>
+								<legend>${message}Please input to generate a UCM Data</legend>
 								<div class="row">
 									<div class="large-4 medium-4 columns">
 										<label>Remedy ID <form:input type="text"
@@ -147,7 +147,7 @@
 												path="radio_modulation_type_id">
 												<form:option value="1">Analog</form:option>
 												<form:option value="2">Digital</form:option>
-												<form:option value="3" selected="selected">P25</form:option>
+												<form:option value="3">P25</form:option>
 											</form:select></label>
 									</div>
 									<div class="large-4 medium-4 columns">
@@ -179,7 +179,7 @@
 							</fieldset>
 							<div class="row">
 								<div class="large-4 columns">
-									<input class="button radius round" type="submit"
+									<input class="small button" type="submit"
 										value="Generate UCM" />
 								</div>
 							</div>

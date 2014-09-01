@@ -35,6 +35,7 @@ public class RadioDAO implements DBManipulationDAO{
 
     @Override
     public int insertObject(Object obj) { 
+    	
         return 0;
     }
 
@@ -55,7 +56,7 @@ public class RadioDAO implements DBManipulationDAO{
             connection = ConnectionFactory.getConnection();
             statement = connection.createStatement();
             flag = statement.executeUpdate(query);
-            System.out.println("Update radio used_flag = Yes with id = "+radio.getRadio_id()+" to the Database");
+            //System.out.println("Update radio used_flag = Yes with id = "+radio.getRadio_id()+" to the Database");
         } catch (SQLException ex) {
             Logger.getLogger(EntityDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally{
@@ -70,13 +71,19 @@ public class RadioDAO implements DBManipulationDAO{
     public int deleteObject(Object obj) {
         int flag = 0;
         Radio radio = (Radio)obj;
-        String query = "UPDATE radio SET used_flag='No' WHERE radio_id="+radio.getRadio_id();
+        String query;
+        if(radio.getRadio_id()!=0){
+        	query = "UPDATE radio SET used_flag='No' WHERE radio_id="+radio.getRadio_id();
+        }
+        else{
+        	query = "UPDATE radio SET used_flag='' WHERE used_flag='Temp'";
+        }
         //System.out.println(query);
         try{
             connection = ConnectionFactory.getConnection();
             statement = connection.createStatement();
             flag = statement.executeUpdate(query);
-            System.out.println("Update radio used_flag = No with id = "+radio.getRadio_id()+" to the Database");
+            //System.out.println("Update radio used_flag = No with id = "+radio.getRadio_id()+" to the Database");
         } catch (SQLException ex) {
             Logger.getLogger(EntityDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally{
@@ -88,6 +95,12 @@ public class RadioDAO implements DBManipulationDAO{
 
 	@Override
 	public Collection searchObjectList(String type, Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getCSVObject(Object obj) {
 		// TODO Auto-generated method stub
 		return null;
 	}

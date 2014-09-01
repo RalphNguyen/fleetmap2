@@ -5,7 +5,7 @@ public class UCMExportDAOFactory extends DAOFactory {
 	@Override
 	public DBManipulationDAO getDBManipulationDAO() {
 		// TODO Auto-generated method stub
-		return null;
+		return new UCMExportDAO();
 	}
 
 	@Override

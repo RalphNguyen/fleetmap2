@@ -68,7 +68,7 @@
 
 							<!-- Left Nav Section -->
 							<ul class="left">
-								<li><a href="home.html">Home</a></li>
+								<li><a href="home.html">Dashboard</a></li>
 								<li><a href="UCMGenerator.html">Generate UCM</a></li>
 								<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
 								<li><a href="UCMUpdate.html">Update UCM</a></li>
@@ -121,149 +121,185 @@
 									modelAttribute="UCMExport">
 									<div class="row">
 										<div class="large-12 columns">
-											<dl class="accordion" data-accordion>
-												<dd class="accordion-navigation">
-													<div id="panel1" class="content active">
-														<div class="row">
+											<div class="row">
+												<dl class="accordion" data-accordion>
+													<dd class="accordion-navigation">
+														<div id="panel1" class="content active">
 															<div class="row">
 																<div class="large-12 columns">
-																	<label><form:checkbox
-																			path="exportSearchInput.searchByIdIssuedDate"
-																			checked="checked" /> Search by ID issued date</label>
+																	<div class="row">
+																		<div class="large-12 columns">
+																			<label><form:checkbox
+																					path="exportSearchInput.searchByIdIssuedDate"
+																					checked="checked" /> Search by ID issued date</label>
+																		</div>
+																	</div>
+																	<div class="row">
+																		<div class="large-4 medium-4 columns">
+																			<label>Start Date</label>
+																			<form:input path="exportSearchInput.startDate"
+																				id="datepicker"></form:input>
+
+																		</div>
+																		<div class="large-4 medium-4 columns end">
+																			<label>End Date<form:input
+																					path="exportSearchInput.endDate" id="datepicker2" />
+																			</label>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</dd>
+												</dl>
+											</div>
+											<div class="row">
+												<dl class="accordion" data-accordion>
+													<dd class="accordion-navigation">
+														<a href="#panel2">Advanced search</a>
+														<div id="panel2" class="content">
+															<div class="row">
+																<div class="large-5 medium-5 columns">
+																	<div class="row">
+																		<div class="large-12 columns">
+																			<label><form:checkbox
+																					id="entityExportSearchCheckBox"
+																					path="exportSearchInput.searchByEntity" /> Entity</label>
+																		</div>
+																		<div class="row">
+																			<div class="large-12 columns">
+																				<form:select id="entityExportSearchInput"
+																					path="exportSearchInput.entity_name">
+																					<form:options
+																						items="${UCMExport.entityForm.entities}"
+																						var="entity" itemValue="entity_name"
+																						itemLabel="entity_name"></form:options>
+																				</form:select>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+																<div class="large-2 medium-2 columns">
+																	<div class="row">
+																		<div class="large-12 columns">
+																			<label><form:checkbox
+																					id="radioModulationTypeExportSearchCheckBox"
+																					path="exportSearchInput.searchByRadioModulationType" />
+																				Modulation Type</label>
+																		</div>
+																		<div class="row">
+																			<div class="large-12 columns">
+																				<form:select
+																					id="radioModulationTypeExportSearchInput"
+																					path="exportSearchInput.radio_modulation_type_id">
+																					<form:option value="1">Analog</form:option>
+																					<form:option value="2">Digital</form:option>
+																					<form:option value="3">P25</form:option>
+																				</form:select>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+																<div class="large-2 medium-2 columns">
+																	<div class="row">
+																		<div class="large-12 columns">
+																			<label><form:checkbox
+																					id="zoneIDExportSearchCheckBox"
+																					path="exportSearchInput.searchByZoneId" /> Zone</label>
+																		</div>
+																		<div class="row">
+																			<div class="large-12 columns">
+																				<form:select id="zoneIDExportSearchInput"
+																					path="exportSearchInput.zone_id">
+																					<form:option value="1">Zone 1</form:option>
+																					<form:option value="2">Zone 2</form:option>
+																					<form:option value="3">Zone 3</form:option>
+																				</form:select>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+																<div class="large-3 medium-3 columns">
+																	<div class="row">
+																		<div class="large-12 columns">
+																			<label><form:checkbox
+																					id="radioStatusExportSearchCheckBox"
+																					path="exportSearchInput.searchByStatus" /> Status</label>
+																		</div>
+																		<div class="row">
+																			<div class="large-12 columns">
+																				<form:select id="radioStatusExportSearchInput"
+																					path="exportSearchInput.activation_status">
+																					<form:option value="Registered and Activated"
+																						selected="selected">Registered and Activated</form:option>
+																					<form:option value="Registered and Deactivated">Registered and Deactivated</form:option>
+																					<form:option value="Deregistered">Deregistered</form:option>
+																				</form:select>
+																			</div>
+																		</div>
+																	</div>
 																</div>
 															</div>
 															<div class="row">
 																<div class="large-4 medium-4 columns">
-																	<label>Start Date</label>
-																	<form:input path="exportSearchInput.startDate"
-																		id="datepicker"></form:input>
-
-																</div>
-																<div class="large-4 medium-4 columns end">
-																	<label>End Date<form:input
-																			path="exportSearchInput.endDate" id="datepicker2" />
-																	</label>
-																</div>
-															</div>
-														</div>
-													</div>
-												</dd>
-											</dl>
-											<dl class="accordion" data-accordion>
-												<dd class="accordion-navigation">
-													<a href="#panel2">Advanced search</a>
-													<div id="panel2" class="content">
-														<div class="row">
-															<div class="large-6 medium-6 columns">
-																<div class="row">
-																	<div class="large-12 columns">
-																		<label><form:checkbox
-																				path="exportSearchInput.searchByEntity" /> Entity</label>
-																	</div>
 																	<div class="row">
 																		<div class="large-12 columns">
-																			<form:select path="exportSearchInput.entity_name">
-																				<form:options
-																					items="${UCMExport.entityForm.entities}"
-																					var="entity" itemValue="entity_name"
-																					itemLabel="entity_name"></form:options>
-																			</form:select>
+																			<label><form:checkbox
+																					id="radioSerialNumberExportSearchCheckBox"
+																					path="exportSearchInput.searchByRadioSerialNumber" />
+																				Serial Number</label>
+																		</div>
+																		<div class="row">
+																			<div class="large-12 columns">
+																				<form:input id="radioSerialNumberExportSearchInput"
+																					path="exportSearchInput.radio_serial_number" />
+																			</div>
 																		</div>
 																	</div>
 																</div>
-															</div>
-
-															<div class="large-2 medium-2 columns">
-																<div class="row">
-																	<div class="large-12 columns">
-																		<label><form:checkbox
-																				path="exportSearchInput.searchByZoneId" /> Zone</label>
-																	</div>
+																<div class="large-4 medium-4 columns">
 																	<div class="row">
 																		<div class="large-12 columns">
-																			<form:select path="exportSearchInput.zone_id">
-																				<form:option value="1">Zone 1</form:option>
-																				<form:option value="2">Zone 2</form:option>
-																				<form:option value="3">Zone 3</form:option>
-																			</form:select>
+																			<label><form:checkbox
+																					id="radioIDExportSearchCheckBox"
+																					path="exportSearchInput.searchByRadioId" /> Radio
+																				ID</label>
+																		</div>
+																		<div class="row">
+																			<div class="large-12 columns">
+																				<form:input id="radioIDExportSearchInput"
+																					path="exportSearchInput.radio_id" />
+																			</div>
 																		</div>
 																	</div>
 																</div>
-															</div>
-															<div class="large-4 medium-4 columns">
-																<div class="row">
-																	<div class="large-12 columns">
-																		<label><form:checkbox
-																				path="exportSearchInput.searchByStatus" /> Status</label>
-																	</div>
+																<div class="large-4 medium-4 columns">
 																	<div class="row">
 																		<div class="large-12 columns">
-																			<form:select
-																				path="exportSearchInput.activation_status">
-																				<form:option value="Registered and Activated"
-																					selected="selected">Registered and Activated</form:option>
-																				<form:option value="Registered and Deactivated">Registered and Deactivated</form:option>
-																				<form:option value="Deregistered">Deregistered</form:option>
-																			</form:select>
+																			<label><form:checkbox
+																					id="remedyIDExportSearchCheckBox"
+																					path="exportSearchInput.searchByRemedyId" />
+																				Remedy ID</label>
+																		</div>
+																		<div class="row">
+																			<div class="large-12 columns">
+																				<form:input id="remedyIDExportSearchInput"
+																					path="exportSearchInput.remedy_id" />
+																			</div>
 																		</div>
 																	</div>
 																</div>
 															</div>
 														</div>
-														<div class="row">
-															<div class="large-4 medium-4 columns">
-																<div class="row">
-																	<div class="large-12 columns">
-																		<label><form:checkbox
-																				path="exportSearchInput.searchByRadioSerialNumber" />
-																			Serial Number</label>
-																	</div>
-																	<div class="row">
-																		<div class="large-12 columns">
-																			<form:input
-																				path="exportSearchInput.radio_serial_number" />
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="large-4 medium-4 columns">
-																<div class="row">
-																	<div class="large-12 columns">
-																		<label><form:checkbox
-																				path="exportSearchInput.searchByRadioId" /> Radio
-																			ID</label>
-																	</div>
-																	<div class="row">
-																		<div class="large-12 columns">
-																			<form:input path="exportSearchInput.radio_id" />
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="large-4 medium-4 columns">
-																<div class="row">
-																	<div class="large-12 columns">
-																		<label><form:checkbox
-																				path="exportSearchInput.searchByRemedyId" /> Remedy
-																			ID</label>
-																	</div>
-																	<div class="row">
-																		<div class="large-12 columns">
-																			<form:input path="exportSearchInput.remedy_id" />
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</dd>
-											</dl>
+													</dd>
+												</dl>
+											</div>
 										</div>
 									</div>
 									</br>
 									<div class="row">
 										<div class="large-8 columns">
-											<input class="button radius round" type="submit"
+											<input class="small button" type="submit"
 												value="Search UCM" />
 										</div>
 									</div>
@@ -281,21 +317,21 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="large-12 columns">
+							<div class="large-12 medium-12 columns">
 								<form:form method="post" action="UCMExportResult.html"
 									modelAttribute="UCMExport">
 									<div class="row">
-										<div class="large-8 columns">
+										<div class="large-12 medium-12 columns">
 											<table class="responsive">
 												<tr>
 													<th>UCM ID</th>
 													<th>Radio ID</th>
-													<th>Activation Status</th>
-													<th>Radio Type</th>
-													<td>Radio Serial Number</td>
-													<td>Radio User Alias</td>
+													<th>Status</th>
+													<th>Type</th>
+													<td>Serial Number</td>
+													<td>User Alias</td>
 													<td>Radio User Data Type</td>
-													<td>Id Issued Date</td>
+													<td>Issued Date</td>
 													<td>Date Modified</td>
 													<td>Voice Enabled</td>
 													<td>Interconnect Enabled</td>
@@ -318,8 +354,8 @@
 													<td>Radio Site Access Profile Id</td>
 													<td>Remedy Id</td>
 													<td>Radio User Interconnect Profile Id</td>
-													<td>Backup Core Access Point</td>
-													<td>Primary Core Access Point Name Id</td>
+													<td>Backup Core AP</td>
+													<td>Primary Core AP</td>
 												</tr>
 												<c:forEach items="${UCMExport.ucmExportForm.ucmExports}"
 													var="ucmExport">
@@ -363,11 +399,11 @@
 									</div>
 									<div class="row">
 										<div class="large-12 columns">
-											<ul class="button-group radius round">
-												<li><input class="button radius round" type="submit"
-													name="approve" value="Export" /></li>
-												<li><input class="button secondary alert success"
-													type="submit" name="deny" value="Back to Export Page" /></li>
+											<ul class="button-group">
+												<li><input class="small button secondary alert success"
+													type="submit" name="approve" value="Export" /></li>
+												<li><input class="small button" type="submit" name="deny"
+													value="Do it again!" /></li>
 											</ul>
 										</div>
 									</div>
@@ -393,6 +429,35 @@
 		src="<c:url value="/resources/js/foundation.min.js" />"></script>
 	<script>
 		$(document).foundation();
+		$("#remedyIDExportSearchInput").change(function() {
+			$("#remedyIDExportSearchCheckBox").prop('checked', true);
+		});
+		$("#radioIDExportSearchInput").change(function() {
+			if (isNaN($(this).val())) {
+				alert("Radio ID needed to be an integer");
+				$(this).val("0");
+				$("#radioIDExportSearchCheckBox").prop('checked', false);
+			} else {
+				$("#radioIDExportSearchCheckBox").prop('checked', true);
+			}
+		});
+		$("#radioSerialNumberExportSearchInput").change(function() {
+			$("#radioSerialNumberExportSearchCheckBox").prop('checked', true);
+		});
+		$("#radioStatusExportSearchInput").change(function() {
+			$("#radioStatusExportSearchCheckBox").prop('checked', true);
+		});
+		$("#zoneIDExportSearchInput").change(function() {
+			$("#zoneIDExportSearchCheckBox").prop('checked', true);
+		});
+		$("#radioModulationTypeExportSearchInput").change(
+				function() {
+					$("#radioModulationTypeExportSearchCheckBox").prop(
+							'checked', true);
+				});
+		$("#entityExportSearchInput").change(function() {
+			$("#entityExportSearchCheckBox").prop('checked', true);
+		});
 	</script>
 </body>
 </html>

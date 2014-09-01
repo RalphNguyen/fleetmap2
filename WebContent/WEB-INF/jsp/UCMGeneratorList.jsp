@@ -54,7 +54,7 @@
 
 							<!-- Left Nav Section -->
 							<ul class="left">
-								<li><a href="home.html">Home</a></li>
+								<li><a href="home.html">Dashboard</a></li>
 								<li><a href="UCMGenerator.html">Generate UCM</a></li>
 								<li class="active"><a href="UCMGeneratorList.html">Generate
 										UCM List</a></li>
@@ -101,50 +101,67 @@
 							<fieldset>
 								<legend>${noOfUcm} radios to allocate IDs</legend>
 								<div class="row">
-									<div class="large-1 medium-1 columns">No.</div>
-									<div class="large-11 medium-11 columns">
+									<div class="large-4 medium-4 columns">
 										<div class="row">
-											<div class="large-2 medium-2 columns">Serial Number</div>
-											<div class="large-2 medium-2 columns">User Alias</div>
-											<div class="large-1 medium-1 columns">Zone</div>
+											<div class="large-2 medium-2 columns">No.</div>
+											<div class="large-5 medium-5 columns">Serial Number</div>
+											<div class="large-5 medium-5 columns">User Alias</div>
+										</div>
+									</div>
+									<div class="large-8 medium-8 columns">
+										<div class="row">
+											<div class="large-2 medium-2 columns">Modulation</div>
+											<div class="large-2 medium-2 columns">Zone</div>
 											<div class="large-3 medium-3 columns">Entity Name</div>
 											<div class="large-2 medium-2 columns">Remedy ID</div>
-											<div class="large-2 medium-2 columns">Activation Status</div>
+											<div class="large-3 medium-3 columns">Activation Status</div>
 										</div>
 									</div>
 								</div>
 								<div class="row">
-									<div class="large-12 columns">
+									<div class="large-12 medium-12 columns">
 										<c:forEach items="${UCMConfigurationForm.ucmConfigurations}"
 											var="ucmConfiguration" varStatus="status">
 											<div class="row">
-												<div class="large-1 medium-1 columns">
-													<label><form:checkbox
-															path="ucmConfigurations[${status.index}].updated"
-															checked="checked" /> ${status.count}</label>
-												</div>
-												<div class="large-11 medium-11 columns">
+												<div class="large-4 medium-4 columns">
 													<div class="row">
 														<div class="large-2 medium-2 columns">
+															<label><form:checkbox
+																	path="ucmConfigurations[${status.index}].updated"
+																	checked="checked" /> ${status.count}</label>
+														</div>
+														<div class="large-5 medium-5 columns">
 															<form:input
 																path="ucmConfigurations[${status.index}].radio_serial_number" />
 															<springForm:errors
 																path="ucmConfigurations[${status.index}].radio_serial_number"
 																cssClass="error" />
 														</div>
-														<div class="large-2 medium-2 columns">
+														<div class="large-5 medium-5 columns">
 															<form:input
 																path="ucmConfigurations[${status.index}].radio_user_alias" />
 															<springForm:errors
 																path="ucmConfigurations[${status.index}].radio_user_alias"
 																cssClass="error" />
 														</div>
-														<div class="large-1 medium-1 columns">
+													</div>
+												</div>
+												<div class="large-8 medium-8 columns">
+													<div class="row">
+														<div class="large-2 medium-2 columns">
+															<form:select
+																path="ucmConfigurations[${status.index}].radio_modulation_type_id">
+																<form:option value="1">Analog</form:option>
+																<form:option value="2">Digital</form:option>
+																<form:option value="3">P25</form:option>
+															</form:select>
+														</div>
+														<div class="large-2 medium-2 columns">
 															<form:select
 																path="ucmConfigurations[${status.index}].zone_id">
-																<form:option value="1">1</form:option>
-																<form:option value="2">2</form:option>
-																<form:option value="3">3</form:option>
+																<form:option value="1">Zone 1</form:option>
+																<form:option value="2">Zone 2</form:option>
+																<form:option value="3">Zone 3</form:option>
 															</form:select>
 														</div>
 														<div class="large-3 medium-3 columns">
@@ -162,7 +179,7 @@
 																path="ucmConfigurations[${status.index}].remedy_id"
 																cssClass="error" />
 														</div>
-														<div class="large-2 medium-2 columns">
+														<div class="large-3 medium-3 columns">
 															<form:select
 																path="ucmConfigurations[${status.index}].activation_status">
 																<form:option value="Registered and Activated"
@@ -179,10 +196,15 @@
 								</div>
 							</fieldset>
 							<div class="row">
-								<div class="large-4 medium-4 columns">
-									<input class="button radius round" type="submit"
-										value="Generate UCMs" />
+								<div class="large-12 medium-12 columns">
+									<ul class="button-group">
+										<li><input class="small button secondary alert success"
+											type="submit" name="approve" value="Generate UCMs" /></li>
+										<li><input class="small button" type="submit" name="deny"
+											value="Back" /></li>
+									</ul>
 								</div>
+
 							</div>
 						</form:form>
 					</div>

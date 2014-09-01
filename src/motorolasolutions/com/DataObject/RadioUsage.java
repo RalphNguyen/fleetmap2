@@ -87,7 +87,13 @@ public class RadioUsage {
 	public String toString(){
 		String s;
 		s= "Zone ID: "+zone_id+",Modulation Type: "+radio_modulation_type_id+",Used: "+used_flag+",Number of Radio: "+used_radio;
+		return s;	
+	}
+	
+	// return csv string to export from dashboard
+	public String getCSV(){
+		String s;
+		s = entity_name+","+used_radio+","+zone_id;
 		return s;
-		
 	}
 }

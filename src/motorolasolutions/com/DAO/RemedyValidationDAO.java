@@ -8,6 +8,7 @@ package motorolasolutions.com.DAO;
 
 import motorolasolutions.com.DataObject.Entity;
 import motorolasolutions.com.DataObject.Remedy;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -56,4 +57,10 @@ public class RemedyValidationDAO implements DBValidationDAO{
     public int checkDuplicate3(Object obj) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+	@Override
+	public int checkDuplicate4(Object obj) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

@@ -58,9 +58,13 @@ public class UCMGeneratorListController {
 	// generate view to upload file
 	@RequestMapping(value = "/UCMGeneratorList", method = RequestMethod.GET)
 	public String getUCMUploadPage(Model model) {
+		// remove radio with "Temp" tag
+		UCMGeneratorLogic.removeRadioTempTag();
 		return "UCMGeneratorListHome";
 	}
 
+	// to read a CVS file containing inputs for a list of UCM, return errors if
+	// the file is not well formatted
 	@RequestMapping(value = "/UCMGeneratorList", method = RequestMethod.POST)
 	public String uploadUCMFileHandler(
 			@RequestParam("file") MultipartFile file, Model model) {
@@ -103,8 +107,11 @@ public class UCMGeneratorListController {
 				entityForm.getListEntityForm();
 				model.addAttribute("entityList", entityForm);
 				model.addAttribute("UCMConfigurationForm", ucmConfigurationForm);
-				model.addAttribute("noOfUcm",ucmConfigurationForm.getUcmConfigurations().size());
+				model.addAttribute("noOfUcm", ucmConfigurationForm
+						.getUcmConfigurations().size());
 				// return "You successfully uploaded file=" + name;
+				// need to add exceptions here when the file is not well
+				// formatted
 				return "UCMGeneratorList";
 			} catch (Exception e) {
 				return "You failed to upload => " + e.getMessage();
@@ -116,13 +123,15 @@ public class UCMGeneratorListController {
 		}
 	}
 
-	@RequestMapping(value = "/generateUCMConfigurationList", method = RequestMethod.POST)
+	@RequestMapping(value = "/generateUCMConfigurationList", method = RequestMethod.POST, params = { "approve" })
 	public String generateUCMConfigurationList(
 			@ModelAttribute("UCMConfigurationForm") @Validated UCMConfigurationForm ucmConfigurationForm,
 			BindingResult bindingResult, Model model) {
+
 		List<UCMConfiguration> ucmConfigurations = new ArrayList<UCMConfiguration>();
-		for(UCMConfiguration ucm_conf:ucmConfigurationForm.getUcmConfigurations()){
-			if(ucm_conf.isUpdated()){
+		for (UCMConfiguration ucm_conf : ucmConfigurationForm
+				.getUcmConfigurations()) {
+			if (ucm_conf.isUpdated()) {
 				ucmConfigurations.add(ucm_conf);
 			}
 		}
@@ -131,13 +140,14 @@ public class UCMGeneratorListController {
 			EntityForm entityForm = new EntityForm();
 			entityForm.getListEntityForm();
 			model.addAttribute("entityList", entityForm);
+			model.addAttribute("noOfUcm", ucmConfigurationForm
+					.getUcmConfigurations().size());
 			return "UCMGeneratorList";
 		} else {
 			for (UCMConfiguration ucm_conf : ucmConfigurationForm
 					.getUcmConfigurations()) {
 				// set ucm radio serial and date issued
 				ucm_conf.setSerialNoAndDate();
-				// System.out.println("input: " + ucm_conf);
 
 				// insert remedy
 				Remedy remedy = new Remedy(ucm_conf.getRemedy_id(),
@@ -146,40 +156,67 @@ public class UCMGeneratorListController {
 				// insert remedy to DB
 				UCMGeneratorLogic.insertRemedy(remedy);
 				// get the insert information
-				UCMGeneratorLogic
-						.getInsertUCMConfiguration(ucm_conf);
+				// if there is no available radio id, need to prompt an error
+				// message here. but how?
+				UCMGeneratorLogic.getInsertUCMConfiguration(ucm_conf);
 			}
-			for (UCMConfiguration ucm_conf : ucmConfigurationForm
-					.getUcmConfigurations()) {
-				System.out.println("pre insert: " + ucm_conf);
-			}
-			model.addAttribute("noOfUcm",ucmConfigurationForm.getUcmConfigurations().size());
+			/*
+			 * for (UCMConfiguration ucm_conf : ucmConfigurationForm
+			 * .getUcmConfigurations()) { System.out.println("pre insert: " +
+			 * ucm_conf); }
+			 */
+			model.addAttribute("noOfUcm", ucmConfigurationForm
+					.getUcmConfigurations().size());
 			// create core access point list to choose for input
 			CoreAccessPointForm coreAccessPointForm = new CoreAccessPointForm();
 			coreAccessPointForm.getListCoreAccessPointForm();
-			model.addAttribute("coreAccessPointForm", coreAccessPointForm);		
+			model.addAttribute("coreAccessPointForm", coreAccessPointForm);
 			return "UCMGeneratorListResult";
 		}
 	}
 
+	@RequestMapping(value = "/generateUCMConfigurationList", method = RequestMethod.POST, params = { "deny" })
+	public String backtoUCMUploadPage(Model model) {
+		// remove radio with "Temp" tag
+		UCMGeneratorLogic.removeRadioTempTag();
+		return "UCMGeneratorListHome";
+	}
+
 	// insert UCM to the database, and create remedy export
-	@RequestMapping(value = "/UCMGeneratorListSubmission", method = RequestMethod.POST)
+	@RequestMapping(value = "/UCMGeneratorListSubmission", method = RequestMethod.POST, params = { "approve" })
 	public String saveUCMList(
 			@ModelAttribute("UCMConfigurationForm") UCMConfigurationForm ucmConfigurationForm,
 			Model model) {
 		for (UCMConfiguration ucm_conf : ucmConfigurationForm
 				.getUcmConfigurations()) {
-			System.out.println("insert: " + ucm_conf);
+			// System.out.println("insert: " + ucm_conf);
 			// insert to UCM_configuration table
 			int remedy_id = ucm_conf.insertToDatabase();
 			ucm_conf.setUcm_id(remedy_id);
-			//ucm_conf.setUcm_id(ucm_conf.insertToDatabase());
-			System.out.println("after insert " + ucm_conf);
+			// ucm_conf.setUcm_id(ucm_conf.insertToDatabase());
+			// change used_tag of radio from Temp to "Yes"
+			UCMGeneratorLogic.updateRadioUsedTag(ucm_conf);
+			// System.out.println("after insert " + ucm_conf);
 			// create then insert remedy_export
 			ucm_conf.insertRemedyExport();
 		}
-		model.addAttribute("noOfUcm",ucmConfigurationForm.getUcmConfigurations().size());
+		model.addAttribute("noOfUcm", ucmConfigurationForm
+				.getUcmConfigurations().size());
 		return "UCMGeneratorListExport";
+	}
+
+	@RequestMapping(value = "/UCMGeneratorListSubmission", method = RequestMethod.POST, params = { "deny" })
+	public String backToGenerateUCMConfigurationList(
+			@ModelAttribute("UCMConfigurationForm") UCMConfigurationForm ucmConfigurationForm,
+			Model model) {
+		// remove radio with "Temp" tag
+		UCMGeneratorLogic.removeRadioTempTag();
+		EntityForm entityForm = new EntityForm();
+		entityForm.getListEntityForm();
+		model.addAttribute("entityList", entityForm);
+		model.addAttribute("noOfUcm", ucmConfigurationForm
+				.getUcmConfigurations().size());
+		return "UCMGeneratorList";
 	}
 
 	// export UCM
@@ -250,9 +287,10 @@ public class UCMGeneratorListController {
 			List<UCMGeneratorInput> ucmGeneratorInputList = csv.parse(
 					mappingStrategy, reader);
 			ucmGeneratorForm.setUcmGeneratorInputs(ucmGeneratorInputList);
-			for (UCMGeneratorInput input : ucmGeneratorInputList) {
-				System.out.println(input);
-			}
+			/*
+			 * for (UCMGeneratorInput input : ucmGeneratorInputList) {
+			 * System.out.println(input); }
+			 */
 		} catch (FileNotFoundException e) {
 			System.err.println(e.getMessage());
 		}

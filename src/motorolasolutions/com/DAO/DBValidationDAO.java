@@ -14,4 +14,5 @@ public interface DBValidationDAO {
     public int checkDuplicate(Object obj);
     public int checkDuplicate2(Object obj);
     public int checkDuplicate3(Object obj);
+    public int checkDuplicate4(Object obj);
 }

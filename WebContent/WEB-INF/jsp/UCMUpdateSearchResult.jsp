@@ -56,7 +56,7 @@
 						<section class="top-bar-section">
 							<!-- Left Nav Section -->
 							<ul class="left">
-								<li><a href="home.html">Home</a></li>
+								<li><a href="home.html">Dashboard</a></li>
 								<li><a href="UCMGenerator.html">Generate UCM</a></li>
 								<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
 								<li class="active"><a href="UCMUpdate.html">Update UCM</a></li>
@@ -113,12 +113,14 @@
 												<div class="row">
 													<div class="large-12 columns">
 														<label><form:checkbox
+																id="radioUserAliasUpdateSearchCheckBox"
 																path="ucmUpdateSearchInput.searchByRadioUserAlias" />
 															Radio User Alias</label>
 													</div>
 													<div class="row">
 														<div class="large-12 columns">
-															<form:input path="ucmUpdateSearchInput.radio_user_alias" />
+															<form:input id="radioUserAliasUpdateSearchInput"
+																path="ucmUpdateSearchInput.radio_user_alias" />
 														</div>
 													</div>
 												</div>
@@ -127,12 +129,13 @@
 												<div class="row">
 													<div class="large-12 columns">
 														<label><form:checkbox
+																id="radioSerialNumberUpdateSearchCheckBox"
 																path="ucmUpdateSearchInput.searchByRadioSerialNumber" />
 															Radio Serial Number</label>
 													</div>
 													<div class="row">
 														<div class="large-12 columns">
-															<form:input
+															<form:input id="radioSerialNumberUpdateSearchInput"
 																path="ucmUpdateSearchInput.radio_serial_number" />
 														</div>
 													</div>
@@ -142,11 +145,13 @@
 												<div class="row">
 													<div class="large-12 columns">
 														<label><form:checkbox
+																id="radioIDUpdateSearchCheckBox"
 																path="ucmUpdateSearchInput.searchByRadioID" /> Radio ID</label>
 													</div>
 													<div class="row">
 														<div class="large-12 columns">
-															<form:input path="ucmUpdateSearchInput.radio_id" />
+															<form:input id="radioIDUpdateSearchInput"
+																path="ucmUpdateSearchInput.radio_id" />
 														</div>
 													</div>
 												</div>
@@ -155,11 +160,13 @@
 									</fieldset>
 									<div class="row">
 										<div class="large-8 columns">
-											<input class="button radius round" type="submit"
-												value="Search UCM" />
+											<input id="updateSearchButton" disabled class="small button"
+												type="submit" value="Search UCM" />
 										</div>
 									</div>
+
 								</form:form>
+
 							</div>
 						</div>
 					</div>
@@ -201,11 +208,17 @@
 															</div>
 															<div class="large-4 medium-4 columns">
 																<label>Radio Serial Number <form:input
-																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].radio_serial_number" /></label>
+																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].radio_serial_number" />
+																	<springForm:errors
+																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].radio_serial_number"
+																		cssClass="error" /></label>
 															</div>
 															<div class="large-4 medium-4 columns">
 																<label>Radio User Alias <form:input
-																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].radio_user_alias" /></label>
+																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].radio_user_alias" />
+																	<springForm:errors
+																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].radio_user_alias"
+																		cssClass="error" /></label>
 															</div>
 														</div>
 														<div class="row">
@@ -220,7 +233,10 @@
 															</div>
 															<div class="large-4 medium-4 columns">
 																<label>UCP<form:input
-																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].ucp" /></label>
+																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].ucp" />
+																	<springForm:errors
+																		path="ucmConfigurationForm.ucmConfigurations[${status.index}].ucp"
+																		cssClass="error" /></label>
 															</div>
 															<div class="large-4 medium-4 columns">
 																<label>Radio Type <form:select
@@ -276,8 +292,12 @@
 							</fieldset>
 							<div class="row">
 								<div class="large-8 columns">
-									<input class="button radius round" type="submit"
-										name="approve" value="Update UCM" />
+									<ul class="button-group">
+										<li><input class="small button secondary alert success"
+											type="submit" name="approve" value="Update UCM" /></li>
+										<li><input class="small button" type="submit" name="deny"
+											value="Back" /></li>
+									</ul>
 								</div>
 							</div>
 						</form:form>
@@ -304,6 +324,25 @@
 		src="<c:url value="/resources/js/foundation.min.js" />"></script>
 	<script>
 		$(document).foundation();
+		$("#radioIDUpdateSearchInput").change(function() {
+			if (isNaN($(this).val())) {
+				alert("Radio ID needed to be an integer");
+				$(this).val("0");
+				$("#updateSearchButton").attr("disabled", "true");
+				$("#radioIDUpdateSearchCheckBox").prop('checked', false);
+			} else {
+				$("#radioIDUpdateSearchCheckBox").prop('checked', true);
+				$("#updateSearchButton").removeAttr("disabled");
+			}
+		});
+		$("#radioSerialNumberUpdateSearchInput").change(function() {
+			$("#radioSerialNumberUpdateSearchCheckBox").prop('checked', true);
+			$("#updateSearchButton").removeAttr("disabled");
+		});
+		$("#radioUserAliasUpdateSearchInput").change(function() {
+			$("#radioUserAliasUpdateSearchCheckBox").prop('checked', true);
+			$("#updateSearchButton").removeAttr("disabled");
+		});
 	</script>
 </body>
 </html>

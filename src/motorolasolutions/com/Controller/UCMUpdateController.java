@@ -12,8 +12,15 @@ import motorolasolutions.com.DataObject.UCMConfigurationForm;
 import motorolasolutions.com.DataObject.UCMUpdate;
 import motorolasolutions.com.DataObject.UCMUpdateSearchInput;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +29,15 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @Controller
 @SessionAttributes("UCMUpdate")
 public class UCMUpdateController {
+
+	@Autowired
+	@Qualifier("UCMUpdateValidator")
+	private Validator validator;
+
+	@InitBinder("UCMUpdate")
+	private void initBinder(WebDataBinder binder) {
+		binder.setValidator(validator);
+	}
 
 	// get UCM update page
 	@RequestMapping("/UCMUpdate")
@@ -52,23 +68,26 @@ public class UCMUpdateController {
 				.getUcmUpdateSearchInput());
 
 		if (ucmConfigurations.getUcmConfigurations().isEmpty()) {
-			System.out
-					.println("No corresponding UCMs in the Database, please check your input");
+			// System.out.println("No corresponding UCMs in the Database, please check your input");
 			model.addAttribute("search_not_found",
 					"Could not find any UCM, please check your input");
-			return getUcmUpdate(model);
+			return "UCMUpdate";
 		} else {
+
+			/*
 			for (UCMConfiguration ucm_conf : ucmConfigurations
 					.getUcmConfigurations()) {
 				System.out.println("Search result: " + ucm_conf);
 			}
+
+			*/
 			ucmUpdate.setUcmConfigurationForm(ucmConfigurations);
-			
+
 			// create security group options
 			SecurityGroupForm securityGroupForm = new SecurityGroupForm();
 			securityGroupForm.getListSecurityGroupForm();
 			model.addAttribute("securityGroupForm", securityGroupForm);
-			
+
 			model.addAttribute("message", "There are "
 					+ ucmConfigurations.getUcmConfigurations().size()
 					+ " UCM can be updated");
@@ -79,67 +98,86 @@ public class UCMUpdateController {
 		}
 	}
 
-	// get the list of marked to update UCMs, then updated them based on the user's inputs
+	// get the list of marked to update UCMs, then updated them based on the
+	// user's inputs
 	@RequestMapping(value = "/submitUpdatedUCM", method = RequestMethod.POST, params = { "approve" })
 	public String submitUCMApprove(
-			@ModelAttribute("UCMUpdate") UCMUpdate ucmUpdate, Model model) {
+			@ModelAttribute("UCMUpdate") @Validated UCMUpdate ucmUpdate,
+			BindingResult bindingResult, Model model) {
 		// check validate input, in particular: user alias + serial number
 
-		// create a list of to be updated ucm_configuration
-		List<UCMConfiguration> ucmConfigurations = new ArrayList<UCMConfiguration>();
+		if (bindingResult.hasErrors()) {
+			// create security group options
+			SecurityGroupForm securityGroupForm = new SecurityGroupForm();
+			securityGroupForm.getListSecurityGroupForm();
+			model.addAttribute("securityGroupForm", securityGroupForm);
 
-		for (UCMConfiguration ucm_conf : ucmUpdate.getUcmConfigurationForm()
-				.getUcmConfigurations()) {
-			if (ucm_conf.isUpdated()) {
-				ucmConfigurations.add(ucm_conf);
+			model.addAttribute("message", "There are "
+					+ ucmUpdate.getUcmConfigurationForm()
+							.getUcmConfigurations().size()
+					+ " UCM can be updated");
+			model.addAttribute("search_not_found",
+					"Input any one of following fields to search for UCM");
+			return "UCMUpdateSearchResult";
 
-				// release Radio ID when deregitered
-				Radio radio = new Radio(ucm_conf.getRadio_id());
-				if (ucm_conf.getActivation_status().equals("Deregistered")) {
-					radio.removeFromDatabase();
+		} else {
+			// create a list of to be updated ucm_configuration
+			List<UCMConfiguration> ucmConfigurations = new ArrayList<UCMConfiguration>();
+
+			for (UCMConfiguration ucm_conf : ucmUpdate
+					.getUcmConfigurationForm().getUcmConfigurations()) {
+				if (ucm_conf.isUpdated()) {
+					ucmConfigurations.add(ucm_conf);
+
+					// release Radio ID when deregitered
+					Radio radio = new Radio(ucm_conf.getRadio_id());
+					if (ucm_conf.getActivation_status().equals("Deregistered")) {
+						radio.removeFromDatabase();
+					}
+					// else marked as used
+					else {
+						// radio.updateToDatabase();
+					}
+					// update modified_date
+					SimpleDateFormat sdfDate = new SimpleDateFormat(
+							"yyyy/MM/dd HH:mm:ss");// dd/MM/yyyy
+					Date now = new Date();
+					ucm_conf.setDate_modified(sdfDate.format(now));
+
+					// update UCM to database
+					// update to UCM_configuration table
+					ucm_conf.updateToDatabase();
 				}
-				// else marked as used
-				else {
-					//radio.updateToDatabase();
-				}
-				// update modified_date
-				SimpleDateFormat sdfDate = new SimpleDateFormat(
-						"yyyy/MM/dd HH:mm:ss");// dd/MM/yyyy
-				Date now = new Date();
-				ucm_conf.setDate_modified(sdfDate.format(now));
-
-				// update UCM to database
-				// update to UCM_configuration table
-				ucm_conf.updateToDatabase();
 			}
+
+			// if there is something was updated
+			if (!ucmConfigurations.isEmpty()) {
+				ucmUpdate.getUcmConfigurationForm().setUcmConfigurations(
+						ucmConfigurations);
+				model.addAttribute("message", ucmConfigurations.size()
+						+ " UCMs were updated");
+			}
+			// if nothing was updated
+			else {
+				model.addAttribute("message", "Nothing was updated");
+			}
+
+			// create security group options
+			SecurityGroupForm securityGroupForm = new SecurityGroupForm();
+			securityGroupForm.getListSecurityGroupForm();
+			model.addAttribute("securityGroupForm", securityGroupForm);
+
+			return "UCMUpdateResult";
 		}
-		
-		// if there is something was updated
-		if(!ucmConfigurations.isEmpty()){
-			ucmUpdate.getUcmConfigurationForm().setUcmConfigurations(
-					ucmConfigurations);
-			model.addAttribute("message",ucmConfigurations.size()
-					+ " UCMs were updated");
-		}
-		// if nothing was updated
-		else{
-			model.addAttribute("message", "Nothing was updated");
-		}
-		
-		// create security group options
-		SecurityGroupForm securityGroupForm = new SecurityGroupForm();
-		securityGroupForm.getListSecurityGroupForm();
-		model.addAttribute("securityGroupForm", securityGroupForm);
-	
-		return "UCMUpdateResult";
+
 	}
 
-	// the user wants to comeback to the main menu
+	// the user wants to back to the main menu
 	@RequestMapping(value = "/submitUpdatedUCM", method = RequestMethod.POST, params = { "deny" })
 	public String submitUCMDeny(Model model) {
 		return getUcmUpdate(model);
 	}
-	
+
 	/*
 	 * @RequestMapping(value = "/UCMUpdate", method = RequestMethod.POST) public
 	 * String searchUCM(

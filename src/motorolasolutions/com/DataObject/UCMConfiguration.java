@@ -60,6 +60,9 @@ public class UCMConfiguration implements UpdateData {
 	private int backup_core_access_point_name_id;
 	private int primary_core_access_point_name_id;
 	private boolean updated;
+	private String interconnect_subsystem;
+	private String talkgroup_alias;
+	private String radio_capabilities_profile_id;
 
 	// getter and setter methods
 	public String getEmergency_alarm_comments() {
@@ -201,6 +204,31 @@ public class UCMConfiguration implements UpdateData {
 	public void setPrimary_core_access_point_name_id(
 			int primary_core_access_point_name_id) {
 		this.primary_core_access_point_name_id = primary_core_access_point_name_id;
+	}
+
+	public String getInterconnect_subsystem() {
+		return interconnect_subsystem;
+	}
+
+	public void setInterconnect_subsystem(String interconnect_subsystem) {
+		this.interconnect_subsystem = interconnect_subsystem;
+	}
+
+	public String getTalkgroup_alias() {
+		return talkgroup_alias;
+	}
+
+	public void setTalkgroup_alias(String talkgroup_alias) {
+		this.talkgroup_alias = talkgroup_alias;
+	}
+
+	public String getRadio_capabilities_profile_id() {
+		return radio_capabilities_profile_id;
+	}
+
+	public void setRadio_capabilities_profile_id(
+			String radio_capabilities_profile_id) {
+		this.radio_capabilities_profile_id = radio_capabilities_profile_id;
 	}
 
 	public String getSub_entity() {
@@ -450,9 +478,13 @@ public class UCMConfiguration implements UpdateData {
 	}
 
 	public void setSerialNoAndDate() {
-		if (radio_modulation_type_id == 3) {
-			radio_serial_number = "P" + radio_serial_number;
-		}
+		// not a good practice if we add P as the prefix as default for P25
+		// Radio. Instead of that, the user should be responsible for that when
+		// typing inputs
+		/*
+		 * if (radio_modulation_type_id == 3) { radio_serial_number = "P" +
+		 * radio_serial_number; }
+		 */
 		SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");// dd/MM/yyyy
 		Date now = new Date();
 		id_issued_date = sdfDate.format(now);
@@ -538,7 +570,7 @@ public class UCMConfiguration implements UpdateData {
 		notes = "N/A";
 		data_agency_group = "N/A";
 		interconnect_secure_key_reference = "N/A";
-		primary_core_access_point_name_id =1;
+		primary_core_access_point_name_id = 1;
 
 		// get softID
 		soft_id = getSoftID();
@@ -560,34 +592,29 @@ public class UCMConfiguration implements UpdateData {
 				+ generate_icmp_message + "','" + source_address_checking
 				+ "'," + ready_timer + ",'" + data_agency_group + "','" + notes
 				+ "','" + id_issued_date + "','" + date_modified + "','" + ucp
-				+ "','" + soft_id + "','" + radio_type + "'," + security_group_id
-				+ "," + radio_site_access_profile_id + ",'" + remedy_id + "',"
-				+ radio_user_interconnect_profile_id + ","
+				+ "','" + soft_id + "','" + radio_type + "',"
+				+ security_group_id + "," + radio_site_access_profile_id + ",'"
+				+ remedy_id + "'," + radio_user_interconnect_profile_id + ","
 				+ backup_core_access_point_name_id + ","
 				+ primary_core_access_point_name_id + ")";
 		return s;
 	}
-	
+
 	// print CSV to export
 	public String getCSV() {
-		// TODO Auto-generated method stub
+		DAOFactory ucmDAOFactory = DAOFactory
+				.getDAOFactory(DAOFactory.UCMCONFIGURATION);
+		DBManipulationDAO dBManipulationDAO = ucmDAOFactory
+				.getDBManipulationDAO();
+		dBManipulationDAO.getCSVObject(this);
 		String s;
-		s = ucm_id + "," + radio_user_data_type + "," + activation_status + ","
-				+ radio_id + "," + radio_serial_number + "," + radio_user_alias
-				+ "," + voice_enabled + "," + interconnect_enabled + ","
-				+ emergency_alarm_comments + "," + secure_comms_mode + ","
-				+ data_capabilities + "," + direct_dial_number + ","
-				+ secure_land_to_mobile_start_mode + ","
-				+ interconnect_secure_key_reference + ","
-				+ ip_address_assignment + "," + ip_address + ","
-				+ generate_icmp_message + "," + source_address_checking + ","
-				+ ready_timer + "," + data_agency_group + "," + notes + ","
-				+ id_issued_date + "," + date_modified + "," + ucp + ","
-				+ soft_id + "," + radio_type + "," + security_group_id + ","
-				+ radio_site_access_profile_id + "," + remedy_id + ","
-				+ radio_user_interconnect_profile_id + ","
-				+ backup_core_access_point_name_id + ","
-				+ primary_core_access_point_name_id;
+		s = radio_id+","+radio_serial_number+","+radio_user_alias+","+security_group_id+","
+				+radio_capabilities_profile_id+","+radio_site_access_profile_id+","+talkgroup_alias+","
+				+voice_enabled+","+interconnect_enabled+","+emergency_alarm_comments+","+secure_comms_mode+","
+				+data_capabilities+","+direct_dial_number+","+secure_land_to_mobile_start_mode+","+interconnect_subsystem+","
+				+radio_user_interconnect_profile_id+","+interconnect_secure_key_reference+","+ip_address_assignment+","
+				+ip_address+","+generate_icmp_message+","+source_address_checking+","+ready_timer+","+data_agency_group+","
+				+primary_core_access_point_name_id+","+backup_core_access_point_name_id+","+notes+","+date_modified;
 		return s;
 	}
 
@@ -620,6 +647,8 @@ public class UCMConfiguration implements UpdateData {
 	private String getSoftID() {
 		String s;
 		int linked_radio_id;
+		int ucm_id_temp = this.ucm_id;
+		this.ucm_id=0;
 		if (radio_modulation_type_id == 3) {
 			radio_serial_number = radio_serial_number.substring(1,
 					radio_serial_number.length());
@@ -632,14 +661,38 @@ public class UCMConfiguration implements UpdateData {
 					radio_serial_number.length());
 		}
 		s = "SAGRN.VRID." + linked_radio_id;
+		// update the soft id of the linked ucm data
+		if(linked_radio_id!=0){
+			updateSoftID(this);
+		}
+		this.ucm_id = ucm_id_temp;
 		return s;
+	}
+
+	private int updateSoftID(UCMConfiguration ucm_conf) {
+		int flag;
+		DAOFactory UCMDAOFactory = DAOFactory
+				.getDAOFactory(DAOFactory.UCMCONFIGURATION);
+		DBValidationDAO dbvalidationDAO = UCMDAOFactory.getDBValidationDAO();
+		if (radio_modulation_type_id == 3) {
+			radio_serial_number = radio_serial_number.substring(1,
+					radio_serial_number.length());
+			flag=dbvalidationDAO.checkDuplicate4(ucm_conf);	
+			radio_serial_number = "P" + radio_serial_number;
+		} else {
+			radio_serial_number = "P" + radio_serial_number;
+			flag=dbvalidationDAO.checkDuplicate4(ucm_conf);	
+			radio_serial_number = radio_serial_number.substring(1,
+					radio_serial_number.length());
+		}
+		return flag;
 	}
 
 	// to creat then insert a remedy export to the database
 	public int insertRemedyExport() {
 		RemedyExport remedyExport = new RemedyExport(radio_id, radio_type,
 				ucm_id);
-		System.out.println(remedyExport);
+		// System.out.println(remedyExport);
 		return (remedyExport.insertToDatabase());
 	}
 
@@ -663,7 +716,7 @@ public class UCMConfiguration implements UpdateData {
 
 	@Override
 	public int removeFromDatabase() {
-		throw new UnsupportedOperationException("Not supported yet."); 
+		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
 	// search for a record of UCM configuration data. return null if there is no

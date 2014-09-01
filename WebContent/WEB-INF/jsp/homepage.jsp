@@ -62,7 +62,7 @@
 						<section class="top-bar-section">
 							<!-- Left Nav Section -->
 							<ul class="left">
-								<li class="active"><a href="home.html">Home</a></li>
+								<li class="active"><a href="home.html">Dashboard</a></li>
 								<li><a href="UCMGenerator.html">Generate UCM</a></li>
 								<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
 								<li><a href="UCMUpdate.html">Update UCM</a></li>
@@ -86,69 +86,79 @@
 	<!-- CONTENT AREA -->
 	<div class="full-width content-area">
 		<div class="row">
-			<div class="large-12 columns">
-				<div class="row">
-					<div class="large-12 columns">
-						<div class="row">
-							<div>
-								<input type="button" value="SmartZone"
-									onclick="drawSmartZone();" />
-							</div>
-							<div>
-								<input type="button" value="P25" onclick="drawP25();" />
-							</div>
-							<div>
-								<input type="button" value="All" onclick="drawSummaryAll();" />
-							</div>
+			<div class="large-12 medium-12 columns">
+				<fieldset>
+					<legend>Radio Usage Summary per Entity</legend>
+					<div class="row">
+						<div class="large-12 medium-12 columns">
+							<canvas id="entitySummaryChart" height="1024" width="1024"></canvas>
 						</div>
-						<div class="row">
-							<div class="large-8 medium-8 columns">
-								<canvas id="smartZoneStackedBar" height="600" width="600"></canvas>
-							</div>
-							<div class="large-4 medium-4 columns">
-								<div class="row">
-									<div class="large-12 columns">
-										<canvas id="smartZone1" height="300" width="450"></canvas>
-									</div>
+					</div>
+					<div class="row">
+						<div class="large-12 medium-12 columns">
+							<form:form method="post" action="exportdashboard.html">
+								<input id="exportButton1" disabled class="tiny button"
+									type="submit" name="entity" value="Export CSV" />
+							</form:form>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+		<div class="row">
+			<div class="large-12 medium-12 columns">
+				<fieldset>
+					<legend>Radio Usage Summary per Zone</legend>
+					<div class="row">
+						<div class="large-12 medium-12 columns">
+							<div class="row">
+								<div class="large-8 medium-8 columns">
+									<canvas id="smartZoneStackedBar" height="600" width="600"></canvas>
 								</div>
-								<div class="row">
-									<div class="large-12 columns">
-										<canvas id="smartZone2" height="300" width="450"></canvas>
+								<div class="large-4 medium-4 columns">
+									<div class="row">
+										<div class="large-12 columns">
+											<canvas id="smartZone1" height="300" width="450"></canvas>
+										</div>
 									</div>
-								</div>
-								<div class="row">
-									<div class="large-12 columns">
-										<canvas id="smartZone3" height="300" width="450"></canvas>
+									<div class="row">
+										<div class="large-12 columns">
+											<canvas id="smartZone2" height="300" width="450"></canvas>
+										</div>
+									</div>
+									<div class="row">
+										<div class="large-12 columns">
+											<canvas id="smartZone3" height="300" width="450"></canvas>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="large-12 medium-12 columns">
-						<div class="row">
-							<div class="large-12 medium-12 columns">
-								<canvas id="entitySummaryChart" height="1024" width="1024"></canvas>
+					<div class="row">
+						<div class="large-12 medium-12 columns">
+							<div class="row">
+								<div class="large-4 medium-4 columns">
+									<canvas id="p25Zone1" height="300" width="450"></canvas>
+								</div>
+								<div class="large-4 medium-4 columns">
+									<canvas id="p25Zone2" height="300" width="450"></canvas>
+								</div>
+								<div class="large-4 medium-4 columns">
+									<canvas id="p25Zone3" height="300" width="450"></canvas>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="large-12 medium-12 columns">
-						<div class="row">
-							<div class="large-4 medium-4 columns">
-								<canvas id="p25Zone1" height="300" width="450"></canvas>
-							</div>
-							<div class="large-4 medium-4 columns">
-								<canvas id="p25Zone2" height="300" width="450"></canvas>
-							</div>
-							<div class="large-4 medium-4 columns">
-								<canvas id="p25Zone3" height="300" width="450"></canvas>
-							</div>
+					<div class="row">
+						<div class="large-12 columns">
+							<form:form method="post" action="exportdashboard.html">
+								<input id="exportButton2" disabled class="tiny button"
+									type="submit" name="zone" value="Export CSV" />
+							</form:form>
 						</div>
 					</div>
-				</div>
+				</fieldset>
 			</div>
 		</div>
 	</div>
@@ -170,6 +180,11 @@
 		src="<c:url value="/resources/js/foundation.min.js" />"></script>
 	<script>
 		$(document).foundation();
+		window.onload = function() {
+			drawSmartZone();
+			drawP25(0,disableButton2);
+			drawSummaryAll(0,disableButton1);
+		}
 	</script>
 </body>
 </html>

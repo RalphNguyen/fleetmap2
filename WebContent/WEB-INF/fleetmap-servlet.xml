@@ -29,6 +29,9 @@
 		class="motorolasolutions.com.Validator.UCMGeneratorInputValidator" />
 	<bean id="UCMListInputValidator"
 		class="motorolasolutions.com.Validator.UCMGeneratorListInputValidator" />
+	
+	<bean id="UCMUpdateValidator"
+		class="motorolasolutions.com.Validator.UCMUpdateValidator" />
 		
 	<bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">

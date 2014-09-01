@@ -27,6 +27,12 @@ public class RadioValidationDAO implements DBValidationDAO{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+	@Override
+	public int checkDuplicate4(Object obj) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 
 

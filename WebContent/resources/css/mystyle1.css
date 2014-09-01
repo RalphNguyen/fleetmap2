@@ -43,72 +43,15 @@ h2 {
 	margin-bottom: 0;
 }
 
-.top-bar-section
-
- 
-
-li
-
- 
-
-a
-
-
-:not
-
- 
-
-(
-.button
-
- 
-
-)
-{
-background
-
-
-:
-
- 
-
-none
-
- 
-
-!
-important
-
-
-;
-color
-
-
-:
-
- 
-
-white
-
-
-;
-line-height
-
-
-:
-
- 
-
-58
-px
-
-
-;
+.top-bar-section li a:not(.button){
+	background: none !important;
+	color: white;
+	line-height: 58px ;
 }
 
 /** Changes background color of in-active top-bar section hover **/
-.top-bar-section li a:not (.button ):hover {
-	background: #2d465c !important;
+.top-bar-section li a:not(.button):hover {
+    background: #2d465c !important; 
 }
 
 .top-bar-section ul li.active>a {
@@ -156,10 +99,12 @@ fieldset legend {
 
 canvas {
 	width: 100% !important;
-	max-width: 600px;
+	max-width: 1024px;
 	height: auto !important;
-	padding-left: 0; padding-right : 0; margin-left : auto; margin-right :
-	auto;
+	padding-left: 0;
+	padding-right: 0;
+	margin-left: auto;
+	margin-right: auto;
 	display: block;
 	padding-right: 0;
 	margin-left: auto;

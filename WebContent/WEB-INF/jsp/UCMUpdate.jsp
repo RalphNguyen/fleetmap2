@@ -58,7 +58,7 @@
 
 							<!-- Left Nav Section -->
 							<ul class="left">
-								<li><a href="home.html">Home</a></li>
+								<li><a href="home.html">Dashboard</a></li>
 								<li><a href="UCMGenerator.html">Generate UCM</a></li>
 								<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
 								<li class="active"><a href="UCMUpdate.html">Update UCM</a></li>
@@ -112,12 +112,14 @@
 												<div class="row">
 													<div class="large-12 columns">
 														<label><form:checkbox
+																id="radioUserAliasUpdateSearchCheckBox"
 																path="ucmUpdateSearchInput.searchByRadioUserAlias" />
 															Radio User Alias</label>
 													</div>
 													<div class="row">
 														<div class="large-12 columns">
-															<form:input path="ucmUpdateSearchInput.radio_user_alias" />
+															<form:input id="radioUserAliasUpdateSearchInput"
+																path="ucmUpdateSearchInput.radio_user_alias" />
 														</div>
 													</div>
 												</div>
@@ -126,12 +128,13 @@
 												<div class="row">
 													<div class="large-12 columns">
 														<label><form:checkbox
+																id="radioSerialNumberUpdateSearchCheckBox"
 																path="ucmUpdateSearchInput.searchByRadioSerialNumber" />
 															Radio Serial Number</label>
 													</div>
 													<div class="row">
 														<div class="large-12 columns">
-															<form:input
+															<form:input id="radioSerialNumberUpdateSearchInput"
 																path="ucmUpdateSearchInput.radio_serial_number" />
 														</div>
 													</div>
@@ -141,11 +144,13 @@
 												<div class="row">
 													<div class="large-12 columns">
 														<label><form:checkbox
+																id="radioIDUpdateSearchCheckBox"
 																path="ucmUpdateSearchInput.searchByRadioID" /> Radio ID</label>
 													</div>
 													<div class="row">
 														<div class="large-12 columns">
-															<form:input path="ucmUpdateSearchInput.radio_id" />
+															<form:input id="radioIDUpdateSearchInput"
+																path="ucmUpdateSearchInput.radio_id" />
 														</div>
 													</div>
 												</div>
@@ -154,13 +159,11 @@
 									</fieldset>
 									<div class="row">
 										<div class="large-8 columns">
-											<input class="button radius round" type="submit"
-												value="Search UCM" />
+											<input id="updateSearchButton" disabled
+												class="small button" type="submit" value="Search UCM" />
 										</div>
 									</div>
-
 								</form:form>
-
 							</div>
 						</div>
 					</div>
@@ -185,6 +188,25 @@
 		src="<c:url value="/resources/js/foundation.min.js" />"></script>
 	<script>
 		$(document).foundation();
+		$("#radioIDUpdateSearchInput").change(function() {
+			if (isNaN($(this).val())) {
+				alert("Radio ID needed to be an integer");
+				$(this).val("0");
+				$("#updateSearchButton").attr("disabled", "true");
+				$("#radioIDUpdateSearchCheckBox").prop('checked', false);
+			} else {
+				$("#radioIDUpdateSearchCheckBox").prop('checked', true);
+				$("#updateSearchButton").removeAttr("disabled");
+			}
+		});
+		$("#radioSerialNumberUpdateSearchInput").change(function() {
+			$("#radioSerialNumberUpdateSearchCheckBox").prop('checked', true);
+			$("#updateSearchButton").removeAttr("disabled");
+		});
+		$("#radioUserAliasUpdateSearchInput").change(function() {
+			$("#radioUserAliasUpdateSearchCheckBox").prop('checked', true);
+			$("#updateSearchButton").removeAttr("disabled");
+		});
 	</script>
 </body>
 </html>

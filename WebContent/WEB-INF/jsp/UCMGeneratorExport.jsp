@@ -50,7 +50,7 @@
 						<section class="top-bar-section">
 							<!-- Left Nav Section -->
 							<ul class="left">
-								<li><a href="home.html">Home</a></li>
+								<li><a href="home.html">Dashboard</a></li>
 								<li class="active"><a href="UCMGenerator.html">Generate
 										UCM</a></li>
 								<li><a href="UCMGeneratorList.html">Generate UCM List</a></li>
@@ -176,12 +176,12 @@
 					</fieldset>
 					<div class="row">
 						<div class="large-12 columns">
-							<ul class="button-group radius round">
-								<li><input class="button secondary alert success"
+							<ul class="button-group">
+								<li><input class="small button secondary alert success"
 									type="submit" name="ucm" value="Export UCM" /></li>
-								<li><input class="button secondary alert success"
+								<li><input class="small button secondary alert success"
 									type="submit" name="remedy" value="Export Remedy" /></li>
-								<li><input class="button radius round" type="submit"
+								<li><input class="small button" type="submit"
 									name="back" value="Generate UCM again!" /></li>
 							</ul>
 						</div>

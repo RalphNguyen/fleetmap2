@@ -28,29 +28,42 @@ public class UCMExportDAOSearch implements DBSearchDAO {
 		ExportSearchInput exportSearchInput = (ExportSearchInput) obj;
 		String startDate = exportSearchInput.getStartDate() + " 00:00:00";
 		String endDate = exportSearchInput.getEndDate() + " 23:59:59";
-		String query = "SELECT * FROM ucm_configuration AS t1 INNER JOIN "
-				+ "entity as t2 ON t1.security_group_id=t2.security_group_id INNER JOIN "
-				+ "radio as t3 ON t1.radio_id = t3.radio_id WHERE ";
+		String query;
+		if (exportSearchInput.isSearchByEntity()) {
+			query = "SELECT * FROM ucm_configuration AS t1 INNER JOIN "
+					+ "entity as t2 ON t1.security_group_id=t2.security_group_id INNER JOIN "
+					+ "radio as t3 ON t1.radio_id = t3.radio_id WHERE t2.entity_name=\""
+					+ exportSearchInput.getEntity_name() + "\" AND ";
+		} else {
+			query = "SELECT * FROM ucm_configuration AS t1 INNER JOIN "
+					+ "radio as t3 ON t1.radio_id = t3.radio_id WHERE ";
+		}
+
 		if (exportSearchInput.isSearchByIdIssuedDate()) {
-			query+="t1.id_issued_date>='"+startDate+"' AND t1.id_issued_date<='"+endDate+"' ";
+			query += "t1.id_issued_date>='" + startDate
+					+ "' AND t1.id_issued_date<='" + endDate + "' ";
+		} else {
+			query += "t1.id_issued_date>='1800/01/01'";
 		}
-		else{
-			query+="t1.id_issued_date>='1900/01/01'";
+
+		if (exportSearchInput.isSearchByRadioId()) {
+			query += "AND t1.radio_id=" + exportSearchInput.getRadio_id() + " ";
 		}
-		if(exportSearchInput.isSearchByEntity()){
-			query+="AND t2.entity_name=\""+exportSearchInput.getEntity_name()+"\" ";
+		if (exportSearchInput.isSearchByRadioSerialNumber()) {
+			query += "AND t1.radio_serial_number='"
+					+ exportSearchInput.getRadio_serial_number() + "' ";
 		}
-		if(exportSearchInput.isSearchByRadioId()){
-			query+="AND t1.radio_id="+exportSearchInput.getRadio_id()+" ";
+		if (exportSearchInput.isSearchByStatus()) {
+			query += "AND t1.activation_status='"
+					+ exportSearchInput.getActivation_status() + "' ";
 		}
-		if(exportSearchInput.isSearchByRadioSerialNumber()){
-			query+="AND t1.radio_serial_number='"+exportSearchInput.getRadio_serial_number()+"' ";
+		if (exportSearchInput.isSearchByZoneId()) {
+			query += "AND t3.zone_id=" + exportSearchInput.getZone_id() + " ";
 		}
-		if(exportSearchInput.isSearchByStatus()){
-			query+="AND t1.activation_status='"+exportSearchInput.getActivation_status()+"' ";
-		}
-		if(exportSearchInput.isSearchByZoneId()){
-			query+="AND t3.zone_id="+exportSearchInput.getZone_id()+" ";
+
+		if (exportSearchInput.isSearchByRadioModulationType()) {
+			query += "AND t3.radio_modulation_type_id="
+					+ exportSearchInput.getRadio_modulation_type_id() + " ";
 		}
 		// String query =
 		// "SELECT * FROM ucm_configuration WHERE id_issued_date>='"+startDate+"' AND id_issued_date<='"+endDate+"'";

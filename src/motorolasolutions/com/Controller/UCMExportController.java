@@ -41,7 +41,7 @@ public class UCMExportController {
 	@RequestMapping(value = "/UCMExport", method = RequestMethod.POST)
 	public String searchUCMExport(@ModelAttribute("UCMExport") ExportData exportData,
 			Model model) {
-		System.out.println("Search Input: \n"+exportData.getExportSearchInput());
+		//System.out.println("Search Input: \n"+exportData.getExportSearchInput());
 		UCMExportForm ucmExportForm = new UCMExportForm();
 		
 		// get a list of UCM export from the search input

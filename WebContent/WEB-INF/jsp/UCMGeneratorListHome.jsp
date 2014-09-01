@@ -52,7 +52,7 @@
 
 							<!-- Left Nav Section -->
 							<ul class="left">
-								<li><a href="home.html">Home</a></li>
+								<li><a href="home.html">Dashboard</a></li>
 								<li><a href="UCMGenerator.html">Generate UCM</a></li>
 								<li class="active"><a href="UCMGeneratorList.html">Generate
 										UCM List</a></li>
@@ -104,7 +104,7 @@
 							</fieldset>
 							<div class="row">
 								<div class="large-4 columns">
-									<input class="button radius round" type="submit"
+									<input class="small button" type="submit"
 										value="Upload">
 								</div>
 							</div>

@@ -7,6 +7,7 @@
 package motorolasolutions.com.DAO;
 
 import motorolasolutions.com.DataObject.UCMConfiguration;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,6 +37,7 @@ public class UCMValidationDAO implements DBValidationDAO {
 				+ ucm_conf.getRadio_serial_number()
 				+ "'"
 				+ " ORDER BY id_issued_date,ucm_id DESC";
+		//System.out.println(query);
 		ResultSet rs = null;
 		try {
 			connection = ConnectionFactory.getConnection();
@@ -137,7 +139,7 @@ public class UCMValidationDAO implements DBValidationDAO {
 					+ start_id
 					+ " AND radio_id<="
 					+ end_id
-					+ " AND used_flag!='Yes' AND used_flag!='No'";
+					+ " AND used_flag!='Yes' AND used_flag!='No' AND used_flag!='Temp'";
 			rs = null;
 			try {
 				connection = ConnectionFactory.getConnection();
@@ -183,6 +185,28 @@ public class UCMValidationDAO implements DBValidationDAO {
 				DbUtil.close(connection);
 			}
 			break;
+		}
+		return flag;
+	}
+
+	@Override
+	public int checkDuplicate4(Object obj) {
+		int flag = 0;
+		UCMConfiguration ucm_conf = (UCMConfiguration) obj;
+		String query = "UPDATE ucm_configuration SET soft_id=\"SAGRN.VRID."
+				+ ucm_conf.getRadio_id() + "\" where radio_serial_number=\""
+				+ ucm_conf.getRadio_serial_number() + "\"";
+		//System.out.println(query);
+		try {
+			connection = ConnectionFactory.getConnection();
+			statement = connection.createStatement();
+			flag = statement.executeUpdate(query);
+		} catch (SQLException ex) {
+			Logger.getLogger(EntityDAO.class.getName()).log(Level.SEVERE, null,
+					ex);
+		} finally {
+			DbUtil.close(statement);
+			DbUtil.close(connection);
 		}
 		return flag;
 	}

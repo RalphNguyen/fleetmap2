@@ -20,4 +20,5 @@ public interface DBManipulationDAO {
   public Object selectObject(Object obj);
   public Collection selectObjectList();  
   public Collection searchObjectList(String type,Object obj);
+  public Object getCSVObject(Object obj);
 }

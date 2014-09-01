@@ -1,6 +1,44 @@
+// to save png image of the charts
+function download_image() {
+	// Canvas2Image.saveAsPNG(canvas);
+	var canvas = document.getElementById("entitySummaryChart");
+	var image = canvas.toDataURL("image/png").replace("image/png",
+			"image/octet-stream"); // here is the most important part because
+	// if you dont replace you will get a DOM 18
+	// exception.
+	window.location.href = image;
+}
+
+// to get exported data for entity
+function exportDashboardEntity() {
+	$.ajax({
+		type : "Get",
+		url : "exportdashboard.html",
+		contentType : "text/csv; charset=utf-8",
+		data : {
+			"type" : "entity"
+		},
+		success : function() {
+		},
+		error : function(e) {
+			alert('Error: ' + e +' \n Click OK to return');
+		}
+	});
+}
+
+function disableButton1() {
+	//alert("I am cool");
+	$("#exportButton1").removeAttr("disabled")
+}
+
+function disableButton2() {
+	//alert("I am cool");
+	$("#exportButton2").removeAttr("disabled")
+}
+
+// to draw smartZone Radio Usage chart
 function drawSmartZone() {
-	$
-			.ajax({
+	$.ajax({
 				type : "Get",
 				url : "drawSmartZone.html",
 				contentType : "application/json",
@@ -23,28 +61,27 @@ function drawSmartZone() {
 							+ smartZone3[2];
 
 					var smartZoneStackedBarData = {
-						labels : [ "Zone1-Analog", "Zone1-Digital",
-								"Zone2-Analog", "Zone2-Digital",
-								"Zone3-Analog", "Zone3-Digital" ],
+						labels : [ "Z1-Analog", "Z1-Digital", "Z2-Analog",
+								"Z2-Digital", "Z3-Analog", "Z3-Digital" ],
 						datasets : [ {
 							fillColor : "#ffbf6b",
-							strokeColor : "rgba(151,187,205,1)",
-							pointColor : "green",
-							pointstrokeColor : "yellow",
+							strokeColor : "#ffbf6b",
+							pointColor : "#ffbf6b",
+							pointstrokeColor : "#ffbf6b",
 							data : noOfSmartZoneDeactivatedRadio,
 							title : "Deacvivated Radios"
 						}, {
 							fillColor : "#d92543",
-							strokeColor : "rgba(220,220,220,1)",
-							pointColor : "rgba(220,220,220,1)",
-							pointstrokeColor : "yellow",
+							strokeColor : "#d92543",
+							pointColor : "#d92543",
+							pointstrokeColor : "#d92543",
 							data : noOfSmartZoneActivatedRadio,
 							title : "Acvivated Radios"
 						}, {
 							fillColor : "#53cc2e",
-							strokeColor : "rgba(151,187,205,1)",
-							pointColor : "green",
-							pointstrokeColor : "yellow",
+							strokeColor : "#53cc2e",
+							pointColor : "#53cc2e",
+							pointstrokeColor : "#53cc2e",
 							data : noOfSmartZoneUnassignedRadio,
 							title : "Unassigned Radios"
 						} ]
@@ -58,17 +95,19 @@ function drawSmartZone() {
 						animationStartWithDataset : startWithDataset,
 						animationStartWithData : startWithData,
 						animationSteps : 80,
-						graphTitle : "SmartZone Radio Usage",
-						graphTitleFontSize : 30,
 						legend : true,
 						legendBlockSize : 30,
 						inGraphDataShow : true,
 						inGraphDataXPosition : 2,
 						inGraphDataYPosition : 3,
 						inGraphDataFontColor : "#000000",
-						inGraphDataFontSize : 12,
+						inGraphDataFontSize : 10,
 						annotateDisplay : true,
-						responsive : true
+						responsive : true,
+						scaleOverride : true,
+						scaleStartValue : 0,
+						scaleSteps : 6,
+						scaleStepWidth : 5000
 					}
 
 					var ctx = document.getElementById("smartZoneStackedBar")
@@ -178,12 +217,14 @@ function drawSmartZone() {
 							smartZone3Crosstxt);
 				},
 				error : function(e) {
-					alert('Error: ' + e);
+					alert('Error: ' + e + ' \n Click OK to return');
 				}
 			});
+
 }
 
-function drawP25() {
+// to draw P25 radio usage pie charts
+function drawP25(pID,callback) {
 	$.ajax({
 		type : "Get",
 		url : "drawP25.html",
@@ -244,48 +285,60 @@ function drawP25() {
 			} ];
 
 			var p25Zone1Crosstxt = {
-				crossText : [ "P25 Zone 1\n" + sumP25Zone1 ],
+				crossText : [ "Total:" + sumP25Zone1 + "\nActivated:"
+						+ p25Zone1[0] + "\nDeactivated:" + p25Zone1[1]
+						+ "\nAvailable:" + p25Zone1[2] ],
 				crossTextIter : [ "all" ],
 				crossTextOverlay : [ true ],
-				crossTextFontSize : [ 18 ],
-				crossTextFontColor : [ "black" ],
+				crossTextFontSize : [ 14 ],
+				crossTextFontColor : [ "#000000" ],
 				crossTextRelativePosX : [ 2 ],
 				crossTextRelativePosY : [ 2 ],
 				crossTextAlign : [ "center" ],
 				crossTextBaseline : [ "middle" ],
-				inGraphDataShow : true,
-				inGraphDataFontSize : 14,
-				inGraphDataFontColor : "#000000"
+				inGraphDataShow : false,
+				inGraphDataFontSize : 10,
+				inGraphDataFontColor : "#000000",
+				footNote : "P25 Zone-1",
+				footNoteFontSize : 20
 			}
 
 			var p25Zone2Crosstxt = {
-				crossText : [ "P25 Zone 2\n" + sumP25Zone2 ],
+				crossText : [ "Total:" + sumP25Zone2 + "\nActivated:"
+						+ p25Zone2[0] + "\nDeactivated:" + p25Zone2[1]
+						+ "\nAvailable:" + p25Zone2[2] ],
 				crossTextIter : [ "all" ],
 				crossTextOverlay : [ true ],
-				crossTextFontSize : [ 18 ],
-				crossTextFontColor : [ "black" ],
+				crossTextFontSize : [ 14 ],
+				crossTextFontColor : [ "#000000" ],
 				crossTextRelativePosX : [ 2 ],
 				crossTextRelativePosY : [ 2 ],
 				crossTextAlign : [ "center" ],
 				crossTextBaseline : [ "middle" ],
-				inGraphDataShow : true,
+				inGraphDataShow : false,
 				inGraphDataFontSize : 14,
-				inGraphDataFontColor : "#000000"
+				inGraphDataFontColor : "#000000",
+				footNote : "P25 Zone-2",
+				footNoteFontSize : 20
 			}
 
 			var p25Zone3Crosstxt = {
-				crossText : [ "P25 Zone 3\n" + sumP25Zone3 ],
+				crossText : [ "Total:" + sumP25Zone3 + "\nActivated:"
+						+ p25Zone3[0] + "\nDeactivated:" + p25Zone3[1]
+						+ "\nAvailable:" + p25Zone3[2] ],
 				crossTextIter : [ "all" ],
 				crossTextOverlay : [ true ],
-				crossTextFontSize : [ 18 ],
-				crossTextFontColor : [ "black" ],
+				crossTextFontSize : [ 14 ],
+				crossTextFontColor : [ "#000000" ],
 				crossTextRelativePosX : [ 2 ],
 				crossTextRelativePosY : [ 2 ],
 				crossTextAlign : [ "center" ],
 				crossTextBaseline : [ "middle" ],
-				inGraphDataShow : true,
+				inGraphDataShow : false,
 				inGraphDataFontSize : 14,
-				inGraphDataFontColor : "#000000"
+				inGraphDataFontColor : "#000000",
+				footNote : "P25 Zone-3",
+				footNoteFontSize : 20
 			}
 
 			var ctx = document.getElementById("p25Zone1").getContext("2d");
@@ -297,15 +350,16 @@ function drawP25() {
 			var ctx = document.getElementById("p25Zone3").getContext("2d");
 			var myBarChart = new Chart(ctx).Doughnut(p25Zone3Data,
 					p25Zone3Crosstxt);
-
+			callback.call();
 		},
 		error : function(e) {
-			alert('Error: ' + e);
+			alert('Error: ' + e +' \n Click OK to return');
 		}
 	});
 }
 
-function drawSummaryAll() {
+// to draw entity radio usage
+function drawSummaryAll(pID,callback) {
 	$.ajax({
 		type : "Get",
 		url : "drawSummaryAll.html",
@@ -320,56 +374,56 @@ function drawSummaryAll() {
 			var entitySummaryStackedBarData = {
 				labels : lable,
 				datasets : [ {
-					fillColor : "#ffbf6b",
-					strokeColor : "rgba(151,187,205,1)",
-					pointColor : "green",
-					pointstrokeColor : "yellow",
+					fillColor : "#3498db",
+					strokeColor : "#3498db",
+					pointColor : "#3498db",
+					pointstrokeColor : "#3498db",
 					data : analogRadios,
-					title : "Analog Radios"
+					title : "Analog"
 				}, {
-					fillColor : "#d92543",
-					strokeColor : "rgba(220,220,220,1)",
-					pointColor : "rgba(220,220,220,1)",
-					pointstrokeColor : "yellow",
+					fillColor : "#3fff38",
+					strokeColor : "#3fff38",
+					pointColor : "#3fff38",
+					pointstrokeColor : "#3fff38",
 					data : digitalRadios,
-					title : "Digital Radios"
+					title : "Digital"
 				}, {
-					fillColor : "#53cc2e",
-					strokeColor : "rgba(151,187,205,1)",
-					pointColor : "green",
-					pointstrokeColor : "yellow",
+					fillColor : "#ff0000",
+					strokeColor : "#ff0000",
+					pointColor : "#ff0000",
+					pointstrokeColor : "#ff0000",
 					data : p25Radios,
-					title : "P25 Radios"
+					title : "P25"
 				} ]
 			}
 
 			var startWithDataset = 1;
 			var startWithData = 1;
 
-			var entitySummaryStackedBarOpt = {
+			var entitySummaryBarOpt = {
 				scaleFontColor : "#000000",
 				animationStartWithDataset : startWithDataset,
 				animationStartWithData : startWithData,
 				animationSteps : 80,
-				graphTitle : "Entity Radio Usage",
-				graphTitleFontSize : 30,
 				legend : true,
 				legendBlockSize : 30,
 				inGraphDataShow : true,
-				inGraphDataXPosition : 2,
-				inGraphDataYPosition : 3,
 				inGraphDataFontColor : "#000000",
-				inGraphDataFontSize : 12,
+				inGraphDataFontSize : 8.5,
 				annotateDisplay : true,
-				responsive : true
+				barValueSpacing : 10,
+				responsive : true,
+				savePng : true,
+				savePngOutput : "Save"
 			}
 			var ctx = document.getElementById("entitySummaryChart").getContext(
 					"2d");
-			var myBarChart = new Chart(ctx).Bar(
-					entitySummaryStackedBarData, entitySummaryStackedBarOpt);
+			var myBarChart = new Chart(ctx).HorizontalBar(
+					entitySummaryStackedBarData, entitySummaryBarOpt);
+			callback.call();
 		},
 		error : function(e) {
-			alert('Error: ' + e);
+			alert('Error: ' + e +' \n Click OK to return');
 		}
 	});
 }

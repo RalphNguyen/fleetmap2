@@ -113,4 +113,9 @@ public class Entity {
         return s;
     }
     
+    // return a string of entity export
+    public String getCSV(){
+    	return entity_id + ","+entity_name +"," +analogRadioNo+"," + digitalRadioNo+"," + p25RadioNo;
+    }
+    
 }

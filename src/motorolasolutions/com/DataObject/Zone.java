@@ -14,14 +14,18 @@ public class Zone {
 	private int zone_id;
 	private String zone_name;
 	private String zone_description;
-	
-	public Zone(){
-		
+	private int activatedRadios;
+	private int deactivatedRadios;
+	private int unassignedRadios;
+
+	public Zone() {
 	}
-	public Zone(int zone_id){
+
+	public Zone(int zone_id) {
 		this.zone_id = zone_id;
 	}
 
+	// getters & setters
 	public int getZone_id() {
 		return zone_id;
 	}
@@ -46,4 +50,33 @@ public class Zone {
 		this.zone_description = zone_description;
 	}
 
+	public int getActivatedRadios() {
+		return activatedRadios;
+	}
+
+	public void setActivatedRadios(int activatedRadios) {
+		this.activatedRadios = activatedRadios;
+	}
+
+	public int getDeactivatedRadios() {
+		return deactivatedRadios;
+	}
+
+	public void setDeactivatedRadios(int deactivatedRadios) {
+		this.deactivatedRadios = deactivatedRadios;
+	}
+
+	public int getUnassignedRadios() {
+		return unassignedRadios;
+	}
+
+	public void setUnassignedRadios(int unassignedRadios) {
+		this.unassignedRadios = unassignedRadios;
+	}
+
+	// return a string to export from Dashboard
+	public String getCSV() {
+		return zone_name + "," + activatedRadios + "," + deactivatedRadios
+				+ "," + unassignedRadios;
+	}
 }
